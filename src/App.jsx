@@ -7,7 +7,7 @@ import CanvasArea from "./Component/CanvasArea"
 import EditorArea from "./Component/EditorArea"
 
 export default function App() {
-    var [data, setData] = React.useState({text: "Text", font: "Poppins", fontSize: 10, color: "#000000", stopped: false, speed: 10, pattern: "Left to right"})
+    var [data, setData] = React.useState({text: "Text", font: "Poppins", fontSize: 10, color: "#000000", stopped: false, speed: 10, pattern: "Links-Rechts"})
     
     return (
         <div className="App">

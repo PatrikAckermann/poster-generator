@@ -24,11 +24,9 @@ function calculateHeight(index, heightMultiplicator) {
     }
     return height*/
 
-    var height = texts[0].fontSize * heightMultiplicator
-    if (index !== 0) {
-        for(var i = 0; i < index; i++) {
-            height = height + (texts[i].fontSize * heightMultiplicator)
-        }
+    var height = 0
+    for (var i = 0; i <= index; i++) {
+        height += texts[i].fontSize * heightMultiplicator
     }
     return height
 }
@@ -67,7 +65,10 @@ export default function CanvasArea(props) {
 }
 
 
-/* PATTERNS */
+/* PATTERNS 
+Ideas:
+ - DVD Logo
+*/
 
 function leftToRight(x, frame, props) {
     texts.forEach((y, index) => {
@@ -80,6 +81,7 @@ function leftToRight(x, frame, props) {
 
 function bounce(x, frame, props) {
     texts.forEach((y, index) => {
+        x.fillStyle = `rgba(0, 0, 0, ${Math.sin(frame * 0.05 % x.canvas.width)})`
         x.font = `${y.fontSize * props.data.fontSize * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)}px ${props.data.font}`
         x.fillText(props.data.text, y.x-x.measureText(props.data.text).width, calculateHeight(index, props.data.fontSize * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)))
         if (y.x > x.canvas.width + x.measureText(props.data.text).width) {y.x = 0}
@@ -88,9 +90,11 @@ function bounce(x, frame, props) {
 }
 
 function testpattern(x, frame, props) {
-    x.font = "100px Arial"
-    x.fillText("Test", 200, 200)
-    x.moveTo(200, 100)
-    x.lineTo(200, 200)
-    x.stroke()
+    x.fillStyle = "rgba(0, 0, 0, 0.5)"
+    x.font = "200px Poppins"
+    x.fillText("Test", 200, 150)
+    x.font = "150px Poppins"
+    x.fillText("Test", 200, 300)
+    x.font = "20px Poppins"
+    x.fillText("Test", 200, 320)
 }
