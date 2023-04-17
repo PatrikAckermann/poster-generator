@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/poster-generator/static/css/main.735dffef.css",
+    "main.js": "/poster-generator/static/js/main.dc65d7f4.js",
+    "index.html": "/poster-generator/index.html",
+    "main.735dffef.css.map": "/poster-generator/static/css/main.735dffef.css.map",
+    "main.dc65d7f4.js.map": "/poster-generator/static/js/main.dc65d7f4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.735dffef.css",
+    "static/js/main.dc65d7f4.js"
+  ]
+}
