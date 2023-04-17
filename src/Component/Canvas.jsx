@@ -14,7 +14,7 @@ var Canvas = props => {
             props.draw(context, frameCount)
             animationFrameId = window.requestAnimationFrame(render)
         }
-        render()
+        if (!props.data.stopped) { render() }
 
         return () => {
             window.cancelAnimationFrame(animationFrameId)

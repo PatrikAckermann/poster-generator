@@ -7,15 +7,15 @@ import CanvasArea from "./Component/CanvasArea"
 import EditorArea from "./Component/EditorArea"
 
 export default function App() {
-    var [data, setData] = React.useState()
+    var [data, setData] = React.useState({text: "Text", font: "Poppins", fontSize: 10, color: "", stopped: false, speed: 10})
     
     return (
         <div className="App">
             <Header />
             <div className="MainContent">
                 <Split direction="horizontal" className="split">
-                    <CanvasArea />
-                    <EditorArea />
+                    <CanvasArea data={data}/>
+                    <EditorArea data={data} setData={setData}/>
                 </Split>
             </div>
         </div>

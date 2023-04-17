@@ -49,3 +49,8 @@
 .gutter.gutter-horizontal:hover {
     cursor: col-resize;
 }
+
+.EditorForm {
+    display: flex;
+    flex-direction: column;
+}
