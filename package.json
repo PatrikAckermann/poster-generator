@@ -1,15 +1,12 @@
 {
   "name": "poster-generator",
   "version": "0.1.0",
+  "homepage": "https://patrikackermann.github.io/poster-generator/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "canvas-capture": "^2.0.6",
-    "canvas-context": "^3.2.0",
-    "canvas-record": "^3.1.0",
-    "ccapture.js": "^1.1.0",
     "css-element-queries": "^1.2.3",
     "fs": "^0.0.1-security",
     "jquery": "^3.6.4",
@@ -19,11 +16,11 @@
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
-    "react-split": "^2.0.14",
-    "web-vitals": "^2.1.4",
-    "webm-writer": "^1.0.0"
+    "react-split": "^2.0.14"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
