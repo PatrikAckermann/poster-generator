@@ -9,6 +9,16 @@ var Canvas = props => {
         var frameCount = 0
         var animationFrameId
 
+        /*const stream = canvas.captureStream()
+        const recorder = new MediaRecorder(stream, {mimeType: "video/webm"})
+        recorder.start()
+        setTimeout(()=>recorder.stop(), 2000)
+        recorder.addEventListener("dataavailable", (evt) => {
+            const url = URL.createObjectURL(evt.data)
+            var hiddenElement = document.createElement('a');
+            console.log(url)
+        })*/
+
         const render = () => {
             frameCount++
             props.draw(context, frameCount)
@@ -20,6 +30,9 @@ var Canvas = props => {
             window.cancelAnimationFrame(animationFrameId)
         }
     }, [props])
+
+    
+
     return <canvas ref={canvasRef} className="Canvas" id="PosterCanvas" height="1600" width="900"/>
 }
 
