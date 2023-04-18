@@ -21,10 +21,12 @@ function calculateHeight(index, heightMultiplicator) {
 export default function CanvasArea(props) {
     function draw(x, frame) {
         x.clearRect(0, 0, x.canvas.width, x.canvas.height)
-        x.fillStyle = props.data.color
         x.beginPath()
-        
-        // DRAW CODE GOES HERE
+
+        x.fillStyle = props.data.backgroundColor
+        x.fillRect(0, 0, x.canvas.width, x.canvas.height)
+
+        x.fillStyle = props.data.color
         switch(props.data.pattern) {
             case "Links-Rechts":
                 leftToRight(x, frame, props)
@@ -34,6 +36,9 @@ export default function CanvasArea(props) {
                 break
             case "DVD":
                 dvd(x, frame, props)
+                break
+            case "Formen":
+                shapes(x, frame, props)
                 break
             case "Test":
                 testpattern(x, frame, props)
@@ -127,6 +132,36 @@ function dvd(x, frame, props) {
             break
     }
     x.fillText(props.data.text, dvdText.x, dvdText.y)
+}
+
+function drawRotatedRect(ctx, x, y, width, height, angle) {
+    angle *= Math.PI / 180
+    ctx.lineWidth = height
+    ctx.beginPath()
+    ctx.moveTo(x, y)
+    ctx.lineTo(x + width * Math.cos(angle), y + width * Math.sin(angle))
+    ctx.stroke()
+}
+
+function shapes(x, frame, props) {
+    var angle = props.data.angle * (Math.PI / 180)
+    var gradient = x.createLinearGradient(200, 200, 200 + props.data.shapeSize * Math.cos(angle), 200 + props.data.shapeSize * Math.sin(angle))
+    gradient.addColorStop(0, props.data.shapeColor)
+    gradient.addColorStop(1, props.data.shapeColor2)
+    x.fillStyle = x.strokeStyle = props.data.shapeColorSetting === "1" ? props.data.shapeColor : gradient
+
+    if(props.data.shape === "Rechteck") {
+        drawRotatedRect(x, 200, 200, props.data.shapeSize, props.data.shapeSize, props.data.angle)
+    } else if (props.data.shape === "Kreis") {
+        x.arc(200, 200, props.data.shapeSize, 1, 10)
+    }
+
+    // Gradient position: Add option to make one color larger/smaller than the other one
+    // Repeat: Add ability to make shape repeat itself
+    // Repeat distance: Add ability to set the distance between the repeated shapes. From 0, so overlapping, to far away.
+    // Text: Make text that can be repositioned
+    // Text gradient: Maybe add gradient option to all text
+    // Multiple texts: Add ability to add as many texts as the user wants
 }
 
 function testpattern(x, frame, props) {
