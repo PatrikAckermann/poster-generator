@@ -6,24 +6,11 @@ import Canvas from "./Canvas"
 Need to make the canvas keep its aspect ratio
 */
 
-var texts = [{x: 0, speed: 10, fontSize: 80}, {x: 0, speed: 5, fontSize: 120}, {x: 0, speed: 7, fontSize: 100}]
-
-for(var i=0; i < 100; i++) {
-    texts.push({x: 0, speed: randomNumber(1, 20), fontSize: randomNumber(50, 200)})
-}
-
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min
 }
 
 function calculateHeight(index, heightMultiplicator) {
-    /*
-    var height = texts[0].fontSize * heightMultiplicator
-    for(var i = 0; i < index; i++) {
-        height = height + (texts[i].fontSize * heightMultiplicator)
-    }
-    return height*/
-
     var height = 0
     for (var i = 0; i <= index; i++) {
         height += texts[i].fontSize * heightMultiplicator
@@ -45,6 +32,9 @@ export default function CanvasArea(props) {
             case "Bounce":
                 bounce(x, frame, props)
                 break
+            case "DVD":
+                dvd(x, frame, props)
+                break
             case "Test":
                 testpattern(x, frame, props)
                 break
@@ -64,6 +54,11 @@ export default function CanvasArea(props) {
     )
 }
 
+var texts = []
+
+for(var i=0; i < 200; i++) {
+    texts.push({x: 0, speed: randomNumber(1, 20), fontSize: randomNumber(50, 200)})
+}
 
 /* PATTERNS 
 Ideas:
@@ -87,6 +82,51 @@ function bounce(x, frame, props) {
         if (y.x > x.canvas.width + x.measureText(props.data.text).width) {y.x = 0}
         y.x += props.data.speed * 0.1 * y.speed
     })
+}
+
+var dvdText = {x: 0, y:0, direction: ["r", "b"]}
+function dvd(x, frame, props) {
+    x.font = `${props.data.fontSize * 10}px ${props.data.font}`
+
+
+    var leftBorder = 0
+    var rightBorder = x.canvas.width - x.measureText(props.data.text).width
+    var topBorder = 0 + (props.data.fontSize * 0.75) * 10 //0.75 because there is empty space above the fontSize
+    var bottomBorder = x.canvas.height
+
+    if (dvdText.x <= leftBorder) {
+        dvdText.direction[0] = "r"
+    } else if (dvdText.x >= rightBorder) {
+        dvdText.direction[0] = "l"
+    }
+
+    if (dvdText.y <= topBorder) {
+        dvdText.direction[1] = "b"
+    } else if (dvdText.y >= bottomBorder) {
+        dvdText.direction[1] = "t"
+    }
+
+    switch(dvdText.direction[0]) {
+        case "r":
+            dvdText.x += 0.1 * props.data.speed
+            break
+        case "l":
+            dvdText.x -= 0.1 * props.data.speed
+            break
+        default:
+            break
+    }
+    switch(dvdText.direction[1]) {
+        case "t":
+            dvdText.y -= 0.1 * props.data.speed
+            break
+        case "b":
+            dvdText.y += 0.1 * props.data.speed
+            break
+        default:
+            break
+    }
+    x.fillText(props.data.text, dvdText.x, dvdText.y)
 }
 
 function testpattern(x, frame, props) {

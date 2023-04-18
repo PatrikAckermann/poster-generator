@@ -1,5 +1,16 @@
 import React from "react"
 
+/* 
+Features to add:
+ - Range setting for the randomized font size
+ - Length setting for video download
+ - Maybe a better dropdown for pattern and font selection. Currently you can enter whatever you want
+
+Custom settings area:
+ - For animations that need more options
+ - Gets loaded when the animation is selected
+*/
+
 export default function EditorArea(props) {
 
     function handleChange(e) {
@@ -53,8 +64,6 @@ export default function EditorArea(props) {
         setTimeout(() => mediaRecorder.stop(), 2000)
     }
 
-    /**/
-
     return (
         <div className="EditorArea">
             <form className="EditorForm">
@@ -87,6 +96,7 @@ export default function EditorArea(props) {
                 <datalist id="pattern-list">
                     <option value="Links-Rechts"/>
                     <option value="Bounce"/>
+                    <option value="DVD"/>
                 </datalist>
             </form>
         </div>
