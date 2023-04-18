@@ -144,17 +144,26 @@ function drawRotatedRect(ctx, x, y, width, height, angle) {
 }
 
 function shapes(x, frame, props) {
-    var angle = props.data.angle * (Math.PI / 180)
-    var gradient = x.createLinearGradient(200, 200, 200 + props.data.shapeSize * Math.cos(angle), 200 + props.data.shapeSize * Math.sin(angle))
-    gradient.addColorStop(0, props.data.shapeColor)
-    gradient.addColorStop(1, props.data.shapeColor2)
-    x.fillStyle = x.strokeStyle = props.data.shapeColorSetting === "1" ? props.data.shapeColor : gradient
+    if (props.data.shapePositionHeight && props.data.shapePositionWidth) {
+        var angle = props.data.angle * (Math.PI / 180)
+        var gradient = x.createLinearGradient(parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), parseInt(props.data.shapePositionWidth) + props.data.shapeSize * Math.cos(angle), parseInt(props.data.shapePositionHeight) + props.data.shapeSize * Math.sin(angle)) //Math.sin(angle)
+        gradient.addColorStop(0, props.data.shapeColor)
+        gradient.addColorStop(1, props.data.shapeColor2)
+        x.fillStyle = x.strokeStyle = props.data.shapeColorSetting === "1" ? props.data.shapeColor : gradient
 
-    if(props.data.shape === "Rechteck") {
-        drawRotatedRect(x, 200, 200, props.data.shapeSize, props.data.shapeSize, props.data.angle)
-    } else if (props.data.shape === "Kreis") {
-        x.arc(200, 200, props.data.shapeSize, 1, 10)
+        if(props.data.shape === "Rechteck") {
+            drawRotatedRect(x, parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), props.data.shapeSize, props.data.shapeSize, props.data.angle)
+        } else if (props.data.shape === "Kreis") {
+            x.arc(parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), props.data.shapeSize, 1, 10)
+        }
     }
+
+    x.fill()
+    x.closePath()
+    x.beginPath()
+    x.fillStyle = props.data.color
+    x.font = `${props.data.fontSize}px ${props.data.font}`
+    x.fillText(props.data.text, props.data.textPositionWidth, props.data.textPositionHeight)
 
     // Gradient position: Add option to make one color larger/smaller than the other one
     // Repeat: Add ability to make shape repeat itself

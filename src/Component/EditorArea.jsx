@@ -112,6 +112,10 @@ function ShapeEditor(props) {
         <div style={{display: "flex", flexDirection: "column"}}>
             <label htmlFor="shape">Form: </label>
             <input type="text" list="shape-list" id="shape" name="shape" onChange={props.onChange} value={props.data.shape}/>
+            <label htmlFor="shapePositionHeight">Formhöhe: </label>
+            <input type="number" id="shapePositionHeight" name="shapePositionHeight" onChange={props.onChange} value={props.data.shapePositionHeight}/>
+            <label htmlFor="shapePositionWidth">Formbreite: </label>
+            <input type="number" id="shapePositionWidth" name="shapePositionWidth" onChange={props.onChange} value={props.data.shapePositionWidth}/>
             <label htmlFor="shapeSize">Formgrösse: </label>
             <input type="number" id="shapeSize" name="shapeSize" onChange={props.onChange} value={props.data.shapeSize}/>
             <label htmlFor="angle">Formwinkel: </label>
@@ -123,9 +127,13 @@ function ShapeEditor(props) {
                 <input type="radio" id="shapeColorGradient" name="shapeColorSetting" value="gradient" onChange={props.onChange} checked={props.data.shapeColorSetting === "gradient"}/>
                 <label htmlFor="shapeColorGradient">Farbverlauf</label>
             </div>
-
             <input type="color" id="shapeColor" name="shapeColor" onChange={props.onChange} value={props.data.shapeColor}/>
             {props.data.shapeColorSetting === "gradient" && <input type="color" id="shapeColor2" name="shapeColor2" onChange={props.onChange} value={props.data.shapeColor2}/>}
+
+            <label htmlFor="textPositionHeight">Texthöhe: </label>
+            <input type="number" id="textPositionHeight" name="textPositionHeight" onChange={props.onChange} value={props.data.textPositionHeight}/>
+            <label htmlFor="textPositionWidth">Textbreite: </label>
+            <input type="number" id="textPositionWidth" name="textPositionWidth" onChange={props.onChange} value={props.data.textPositionWidth}/>
 
             <datalist id="shape-list">
                 <option value="Rechteck"/>
