@@ -89,6 +89,15 @@ function bounce(x, frame, props) {
     texts.forEach((y, index) => {
         x.fillStyle = `rgba(0, 0, 0, ${Math.sin(frame * 0.05 % x.canvas.width)})`
         x.font = `${y.fontSize * props.data.fontSize * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)}px ${props.data.font}`
+
+        if (props.data.textColorSetting === "gradient") {
+            var angle = props.data.textColorAngle * Math.PI / 180
+            var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
+            gradient.addColorStop(0, props.data.textColor)
+            gradient.addColorStop(1, props.data.textColor2)
+            x.fillStyle = gradient
+        }
+
         x.fillText(props.data.text, y.x-x.measureText(props.data.text).width, calculateHeight(index, props.data.fontSize * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)))
         if (y.x > x.canvas.width + x.measureText(props.data.text).width) {y.x = 0}
         y.x += props.data.speed * 0.1 * y.speed
@@ -137,6 +146,14 @@ function dvd(x, frame, props) {
         default:
             break
     }
+
+    if (props.data.textColorSetting === "gradient") {
+        var angle = props.data.textColorAngle * Math.PI / 180
+        var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
+        gradient.addColorStop(0, props.data.textColor)
+        gradient.addColorStop(1, props.data.textColor2)
+        x.fillStyle = gradient
+    }
     x.fillText(props.data.text, dvdText.x, dvdText.y)
 }
 
@@ -184,8 +201,17 @@ function shapes(x, frame, props) {
     x.fill()
     x.closePath()
     x.beginPath()
-    x.fillStyle = props.data.color
+    x.fillStyle = x.strokeStyle = props.data.textColor
     x.font = `${props.data.fontSize * 10}px ${props.data.font}`
+
+    /*if (props.data.textColorSetting === "gradient") {
+        var textAngle = props.data.textColorAngle * Math.PI / 180
+        var textGradient = x.createLinearGradient(x.measureText(props.data.text) / 2 + Math.cos(textAngle) * x.measureText(props.data.text) * 0.5, props.data.fontSize / 2 + Math.sin(textAngle) * x.measureText(props.data.text) * 0.5, x.measureText(props.data.text) / 2 - Math.cos(textAngle) * x.measureText(props.data.text) * 0.5, props.data.fontSize / 2 - Math.sin(textAngle) * x.measureText(props.data.text) * 0.5)
+        textGradient.addColorStop(0, props.data.textColor)
+        textGradient.addColorStop(1, props.data.textColor2)
+        x.fillStyle = textGradient
+    }*/
+
     x.fillText(props.data.text, props.data.textPositionWidth, props.data.textPositionHeight)
     // Multiple shapes: Add ability to add as many shapes as the user wants
     // Multiple texts: Add ability to add as many texts as the user wants
