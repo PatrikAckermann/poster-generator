@@ -28,7 +28,7 @@ export default function CanvasArea(props) {
         }
         x.fillRect(0, 0, x.canvas.width, x.canvas.height)
 
-        x.fillStyle = props.data.color
+        x.fillStyle = props.data.textColor
         switch(props.data.pattern) {
             case "Links-Rechts":
                 leftToRight(x, frame, props)
@@ -70,6 +70,15 @@ for(var i=0; i < 200; i++) {
 function leftToRight(x, frame, props) {
     texts.forEach((y, index) => {
         x.font = `${y.fontSize * props.data.fontSize * 0.1}px ${props.data.font}`
+
+        if (props.data.textColorSetting === "gradient") {
+            var angle = props.data.textColorAngle * Math.PI / 180
+            var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
+            gradient.addColorStop(0, props.data.textColor)
+            gradient.addColorStop(1, props.data.textColor2)
+            x.fillStyle = gradient
+        }
+
         x.fillText(props.data.text, y.x-x.measureText(props.data.text).width, calculateHeight(index, props.data.fontSize * 0.1))
         if (y.x > x.canvas.width + x.measureText(props.data.text).width) {y.x = 0}
         y.x += props.data.speed * 0.1 * y.speed
@@ -170,8 +179,6 @@ function shapes(x, frame, props) {
                 }
             })
         })
-
-        console.log(8 % frame)
     }
 
     x.fill()
@@ -180,12 +187,7 @@ function shapes(x, frame, props) {
     x.fillStyle = props.data.color
     x.font = `${props.data.fontSize * 10}px ${props.data.font}`
     x.fillText(props.data.text, props.data.textPositionWidth, props.data.textPositionHeight)
-
-    // Gradient position: Add option to make one color larger/smaller than the other one
-    // Repeat: Add ability to make shape repeat itself
-    // Repeat distance: Add ability to set the distance between the repeated shapes. From 0, so overlapping, to far away.
-    // Text: Make text that can be repositioned
-    // Text gradient: Maybe add gradient option to all text
+    // Multiple shapes: Add ability to add as many shapes as the user wants
     // Multiple texts: Add ability to add as many texts as the user wants
 }
 

@@ -81,10 +81,9 @@ export default function EditorArea(props) {
                 <input type="number" id="speed" name="speed" onChange={handleChange} value={props.data.speed}/>
 
                 <label htmlFor="color">Textfarbe: </label>
-                <input type="color" id="color" name="color" onChange={handleChange} value={props.data.color}/>
+                <ColorPicker name="text" onChange={handleChange} data={props.data} colorSetting={props.data.textColorSetting}/>
 
                 <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
-                {/*<input type="color" id="backgroundColor" name="backgroundColor" onChange={handleChange} value={props.data.backgroundColor}/>}*/}
                 <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.backgroundColorSetting}/>
 
                 {props.data.pattern === "Formen" && <ShapeEditor onChange={handleChange} data={props.data}/>}
