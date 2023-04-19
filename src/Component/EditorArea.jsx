@@ -84,7 +84,8 @@ export default function EditorArea(props) {
                 <input type="color" id="color" name="color" onChange={handleChange} value={props.data.color}/>
 
                 <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
-                <input type="color" id="backgroundColor" name="backgroundColor" onChange={handleChange} value={props.data.backgroundColor}/>
+                {/*<input type="color" id="backgroundColor" name="backgroundColor" onChange={handleChange} value={props.data.backgroundColor}/>}*/}
+                <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.backgroundColorSetting}/>
 
                 {props.data.pattern === "Formen" && <ShapeEditor onChange={handleChange} data={props.data}/>}
 
@@ -120,6 +121,12 @@ function ShapeEditor(props) {
             <input type="number" id="shapeSize" name="shapeSize" onChange={props.onChange} value={props.data.shapeSize}/>
             <label htmlFor="angle">Formwinkel: </label>
             <input type="number" id="angle" name="angle" onChange={props.onChange} value={props.data.angle}/>
+            <label htmlFor="rowRepeat">Reihe wiederholen: </label>
+            <input type="number" id="rowRepeat" name="rowRepeat" onChange={props.onChange} value={props.data.rowRepeat}/>
+            <label htmlFor="columnRepeat">Spalte wiederholen: </label>
+            <input type="number" id="columnRepeat" name="columnRepeat" onChange={props.onChange} value={props.data.columnRepeat}/>
+            <label htmlFor="repeatDistance">Wiederholdistanz: </label>
+            <input type="number" id="repeatDistance" name="repeatDistance" onChange={props.onChange} value={props.data.repeatDistance}/>
 
             <div>
                 <input type="radio" id="shapeColor1" name="shapeColorSetting" value="1" onChange={props.onChange} checked={props.data.shapeColorSetting === "1"} />
@@ -141,4 +148,18 @@ function ShapeEditor(props) {
             </datalist>
         </div>
     )
+}
+
+function ColorPicker(props) {
+    return <div>
+            <div>
+                <input type="radio" id={props.name + "Color1"} name={props.name + "ColorSetting"} value="1" onChange={props.onChange} checked={props.colorSetting === "1"} />
+                <label htmlFor={props.name + "Color1"}>1 Farbe</label>
+                <input type="radio" id={props.name + "ColorGradient"} name={props.name + "ColorSetting"} value="gradient" onChange={props.onChange} checked={props.colorSetting === "gradient"}/>
+                <label htmlFor={props.name + "ColorGradient"}>Farbverlauf</label>
+            </div>
+            <input type="color" id={props.name + "Color"} name={props.name + "Color"} onChange={props.onChange} value={eval(`props.data.${props.name}Color`)}/>
+            {props.colorSetting === "gradient" && <input type="color" id={props.name + "Color2"} name={props.name + "Color2"} onChange={props.onChange} value={eval(`props.data.${props.name}Color2`)}/>}
+            {props.colorSetting === "gradient" && <input type="number" id={props.name + "ColorAngle"} name={props.name + "ColorAngle"} onChange={props.onChange} value={eval(`props.data.${props.name}ColorAngle`)}/>} 
+        </div>
 }

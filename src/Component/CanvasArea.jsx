@@ -1,10 +1,5 @@
 import React from "react"
 import Canvas from "./Canvas"
-//import { bounce } from "../patterns"
-
-/*
-Need to make the canvas keep its aspect ratio
-*/
 
 function randomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min
@@ -24,6 +19,13 @@ export default function CanvasArea(props) {
         x.beginPath()
 
         x.fillStyle = props.data.backgroundColor
+        if (props.data.backgroundColorSetting === "gradient") {
+            var angle = props.data.backgroundColorAngle * Math.PI / 180
+            var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
+            gradient.addColorStop(0, props.data.backgroundColor)
+            gradient.addColorStop(1, props.data.backgroundColor2)
+            x.fillStyle = gradient
+        }
         x.fillRect(0, 0, x.canvas.width, x.canvas.height)
 
         x.fillStyle = props.data.color
@@ -64,11 +66,6 @@ var texts = []
 for(var i=0; i < 200; i++) {
     texts.push({x: 0, speed: randomNumber(1, 20), fontSize: randomNumber(50, 200)})
 }
-
-/* PATTERNS 
-Ideas:
- - DVD Logo
-*/
 
 function leftToRight(x, frame, props) {
     texts.forEach((y, index) => {
@@ -143,26 +140,45 @@ function drawRotatedRect(ctx, x, y, width, height, angle) {
     ctx.stroke()
 }
 
+//template: {x, y}
+var shape = []
 function shapes(x, frame, props) {
     if (props.data.shapePositionHeight && props.data.shapePositionWidth) {
         var angle = props.data.angle * (Math.PI / 180)
-        var gradient = x.createLinearGradient(parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), parseInt(props.data.shapePositionWidth) + props.data.shapeSize * Math.cos(angle), parseInt(props.data.shapePositionHeight) + props.data.shapeSize * Math.sin(angle)) //Math.sin(angle)
+        var gradient = x.createLinearGradient(parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), parseInt(props.data.shapePositionWidth) + props.data.shapeSize * props.data.columnRepeat * Math.cos(angle), parseInt(props.data.shapePositionHeight) + props.data.shapeSize * props.data.rowRepeat * Math.sin(angle)) //Math.sin(angle)
         gradient.addColorStop(0, props.data.shapeColor)
         gradient.addColorStop(1, props.data.shapeColor2)
         x.fillStyle = x.strokeStyle = props.data.shapeColorSetting === "1" ? props.data.shapeColor : gradient
 
-        if(props.data.shape === "Rechteck") {
-            drawRotatedRect(x, parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), props.data.shapeSize, props.data.shapeSize, props.data.angle)
-        } else if (props.data.shape === "Kreis") {
-            x.arc(parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), props.data.shapeSize, 1, 10)
+        if (frame === 1) {
+            shape = []
+            for (var i = 0; i < props.data.columnRepeat; i++) {
+                shape.push([])
+                for (var j = 0; j < props.data.rowRepeat; j++) {
+                    shape[i].push({x: parseInt(props.data.shapePositionWidth) + props.data.repeatDistance * i, y: parseInt(props.data.shapePositionHeight) + props.data.repeatDistance * j})
+                }
+            } 
         }
+
+        shape.forEach(y => {
+            y.forEach(z => {
+                if (props.data.shape === "Rechteck") {
+                    drawRotatedRect(x, z.x, z.y, props.data.shapeSize, props.data.shapeSize, props.data.angle)
+                } else if (props.data.shape === "Kreis") {
+                    x.moveTo(z.x, z.y) // To avoid the weird lines between circles
+                    x.arc(z.x, z.y, props.data.shapeSize, 0, 10)
+                }
+            })
+        })
+
+        console.log(8 % frame)
     }
 
     x.fill()
     x.closePath()
     x.beginPath()
     x.fillStyle = props.data.color
-    x.font = `${props.data.fontSize}px ${props.data.font}`
+    x.font = `${props.data.fontSize * 10}px ${props.data.font}`
     x.fillText(props.data.text, props.data.textPositionWidth, props.data.textPositionHeight)
 
     // Gradient position: Add option to make one color larger/smaller than the other one
