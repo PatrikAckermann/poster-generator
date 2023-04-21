@@ -12,12 +12,12 @@ The design is unfinished too. It consists only of a rough layout and some simple
 
 **Planned features**
 - Downloads:
--- There will be an option to change the clip length.
--- There will be an option to download images as png or jpg.
--- There might be an option to download it with appropriate ppi for printing.
+- - There will be an option to change the clip length.
+- - There will be an option to download images as png or jpg.
+- - There might be an option to download it with appropriate ppi for printing.
 - Animation modes:
--- Shapes: Some customization options are not available or finished yet.
--- There currently are no more new animation modes planned. Other features have priority.
+- - Shapes: Some customization options are not available or finished yet.
+- - There currently are no more new animation modes planned. Other features have priority.
 
 ## Animation modes
 The Formen (Shapes) mode is the main animation mode of this website. The other ones were created to learn the usage of HTML Canvas.

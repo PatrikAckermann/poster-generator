@@ -11,12 +11,12 @@ Die Seite ist noch nicht fertig. Einige Funktionen könnten noch nicht richtig f
 
 **Geplante Funktionen**
 - Downloads:
--- Es wird eine Funktion zum ändern der Cliplänge geben
--- Poster können auch als Bild in Form eines png oder jpg heruntergeladen werden.
--- Möglicherweise wird es auch die Funktion geben Poster mit dem richtigen Format zum ausdrucken zu erstellen.
+- - Es wird eine Funktion zum ändern der Cliplänge geben
+- - Poster können auch als Bild in Form eines png oder jpg heruntergeladen werden.
+- - Möglicherweise wird es auch die Funktion geben Poster mit dem richtigen Format zum ausdrucken zu erstellen.
 - Animationsmodis:
--- Formen: Einige Optionen sind noch unfertig oder gar nicht eingebaut.
--- Momentan sind keine neuen Animationen geplant. Das Erstellen anderer Funktionen hat Vorrang.
+- - Formen: Einige Optionen sind noch unfertig oder gar nicht eingebaut.
+- - Momentan sind keine neuen Animationen geplant. Das Erstellen anderer Funktionen hat Vorrang.
 
 ## Animationsmodis
 Der Formen Modus ist der Hauptmodus der Webseite. Die anderen wurden erstellt, um die Programmierung mit HTML Canvas zu lernen.
