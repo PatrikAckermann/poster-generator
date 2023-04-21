@@ -202,22 +202,27 @@ function shapes(x, frame, props) {
 
     shapeList.forEach((repeatedShapes) => {
         repeatedShapes.forEach((shape) => {
-            var angle = shape.angle * (Math.PI / 180)
+            x.save()
+            x.translate(shape.x, shape.y)
+            x.rotate(shape.angle * (Math.PI / 180))
+
+            var colorAngle = shape.colorAngle * (Math.PI / 180)
             x.fillStyle = x.strokeStyle = shape.color
             if (shape.colorSetting === "gradient") {
-                var gradient = x.createLinearGradient(shape.x, shape.y + 50, shape.x + shape.size * Math.cos(angle), shape.y + 50 + shape.size * Math.sin(angle)) // WORKS FOR SHAPE ANGLE BUT NOT FOR COLOR ANGLE
+                var gradient = x.createLinearGradient(0, 0, 0 + shape.size * Math.cos(colorAngle), 0 + shape.size * Math.sin(colorAngle))
                 gradient.addColorStop(0, shape.color)
                 gradient.addColorStop(1, shape.color2)
                 x.fillStyle = x.strokeStyle = gradient
             }
 
-            if (shape.shape === "Rechteck") {
-                drawRotatedRect(x, shape.x, shape.y, shape.size, shape.size, shape.angle)
+            if (shape.shape === "Quadrat") {
+                x.fillRect(0, 0, shape.size, shape.size)
             } else if (shape.shape === "Kreis") {
                 x.moveTo(shape.x, shape.y) // To avoid the weird lines between circles
                 x.arc(shape.x, shape.y, shape.size, 0, 10)
             }
 
+            x.restore()
             x.fill()
             x.closePath()
             x.beginPath()

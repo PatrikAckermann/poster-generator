@@ -38,7 +38,7 @@ export default function App() {
         shapes: [
             {
                 name: "Name",
-                shape: "Rechteck",
+                shape: "Quadrat",
                 x: 100,
                 y: 100,
                 angle: 0,

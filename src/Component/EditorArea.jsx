@@ -9,8 +9,17 @@ Features to add:
 */
 
 export default function EditorArea(props) {
+    function addText(speedX=0) {
+        props.setData(x => {
+            x.texts.push({text: "Text",x: 100,y: 100,angle: 0,size: 10,font: "Poppins",colorSetting: "1",color: "#000000",color2: "#000000",colorAngle: 0,speedX: speedX,speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            return {...x}
+        })
+    }
 
     function handleChange(e) {
+        if (e.target.name === "pattern" && props.data.texts.length === 0) {
+            addText(10)
+        }
         props.setData(x => {
             return {...x, [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
         })
@@ -68,7 +77,7 @@ export default function EditorArea(props) {
                 <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
 
                 {["Links-Rechts", "Bounce", "DVD"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
-                {props.data.pattern === "Formen" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
+                {props.data.pattern === "Formen" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
                 <button onClick={(e) => changeStopped(e, false)}>Start</button>
                 <button onClick={(e) => changeStopped(e, true)}>Stop</button>
@@ -134,39 +143,77 @@ function ShapesEditor(props) {
         div === "texts" ? setDisplayTexts(x => !x) : setDisplayShapes(x => !x)
     }
 
-    function addText(e) {
-        props.setData(x => {
-            x.texts.push({text: "Text",x: 100,y: 100,angle: 0,size: 10,font: "Poppins",colorSetting: "1",color: "#000000",color2: "#000000",colorAngle: 0,speedX: 0,speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
-            return {...x}
-        })
-    }
-
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({name: "Name", shape: "Rechteck", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({name: "Name", shape: "Quadrat", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
 
+    function removeText(id) {
+        if (currentlyEditing.id === id && currentlyEditing.type === "text") {
+            var newId = 0
+            if (newId !== id && newId < props.data.texts.length) {
+                setCurrentlyEditing({type: "text", id: 0})
+            } else if (props.data.shapes.length >= 1){
+                setCurrentlyEditing({type: "shape", id: 0})
+            } else {
+                setCurrentlyEditing({type: "none", id: 0})
+            }
+        }
+        
+        props.setData(x => {
+            x.texts.splice(id, 1) 
+            return {...x}
+        })
+    }
+
+    function removeShape(id) {
+        if (currentlyEditing.id === id && currentlyEditing.type === "shape") {
+            var newId = 0
+            if (newId !== id && newId < props.data.shapes.length) {
+                setCurrentlyEditing({type: "shape", id: 0})
+            } else if (props.data.texts.length >= 1) {
+                setCurrentlyEditing({type: "text", id: 0})
+            } else {
+                setCurrentlyEditing({type: "none", id: 0})
+            }
+        }
+        
+        props.setData(x => {
+            x.shapes.splice(id, 1) 
+            return {...x}
+        })
+    }
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
             {currentlyEditing.type === "text" && <TextEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
             {currentlyEditing.type === "shape" && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
 
-            <button onClick={addText}>Text hinzufügen</button>
+            <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
             <div className="TextsDiv" style={{display: displayTexts === true ? "flex" : "none"}}>
-                {props.data.texts.map((x, index)=> <div className="TextListElement" key={index}>
-                    <div style={{display: "flex"}}><p>{x.text}</p><button onClick={() => setCurrentlyEditing(x => {return {type: "text", id: index}})}>Editieren</button><button>Löschen</button></div>
-                </div>)}
+                {props.data.texts.map((x, index)=> 
+                    <div className="TextListElement" key={index}>
+                        <div style={{display: "flex"}}>
+                            <p>{x.text}</p>
+                            <button onClick={() => setCurrentlyEditing(x => {return {type: "text", id: index}})}>Editieren</button>
+                            <button onClick={() => removeText(index)}>Löschen</button>
+                        </div>
+                    </div>)}
             </div>
             <button onClick={addShape}>Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")}>Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
             <div className="ShapesDiv" style={{display: displayShapes === true ? "flex" : "none", "flexDirection": "column"}}>
-                {props.data.shapes.map((x, index)=> <div className="ShapeListElement" key={index}>
-                    <div style={{display: "flex"}}><p>{x.name}, {x.shape}</p><button onClick={() => setCurrentlyEditing(x => {return {type: "shape", id: index}})}>Editieren</button><button>Löschen</button></div>
-                </div>)}
+                {props.data.shapes.map((x, index) => 
+                    <div className="ShapeListElement" key={index}>
+                        <div style={{display: "flex"}}>
+                            <p>{x.name}, {x.shape}</p>
+                            <button onClick={() => setCurrentlyEditing(x => {return {type: "shape", id: index}})}>Editieren</button>
+                            <button onClick={() => removeShape(index)}>Löschen</button>
+                        </div>
+                    </div>)}
             </div>
         </div>
     )
@@ -247,7 +294,7 @@ function ShapeEditor(props) {
             <label htmlFor="a">Farbe: (Verlaufswinkel kann aktuell nicht angepasst werden)</label>
             <ColorPicker onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
             <datalist id="shape-list">
-                <option value="Rechteck"/>
+                <option value="Quadrat"/>
                 <option value="Kreis"/>
             </datalist>
         </div>
