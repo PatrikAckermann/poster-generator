@@ -23,15 +23,19 @@ The design is unfinished too. It consists only of a rough layout and some simple
 The Formen (Shapes) mode is the main animation mode of this website. The other ones were created to learn the usage of HTML Canvas.
 
 **"Formen" (Shapes)**
+
 In this mode you can create texts and shapes. They can be freely placed and customized on the poster. The customization includes fonts, colors, sizes, render repetition, and even animations.
 
 **"Links-Rechts" (Left-Right)**
+
 A user specified text moves from left to right with randomized size and speed attributes. The user can set a size and speed multiplicator that gets applied to every text. The user can also change things like fonts.
 
 **"Bounce"**
+
 This is a modified version of the left-right animation. Additionally to the left-right movement it also bounces in and back out of the canvas.
 
 **"DVD"**
+
 This animation replicates the screensaver that is played on DVD players.
 
 ## Downloads

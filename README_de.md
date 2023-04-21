@@ -22,15 +22,19 @@ Die Seite ist noch nicht fertig. Einige Funktionen könnten noch nicht richtig f
 Der Formen Modus ist der Hauptmodus der Webseite. Die anderen wurden erstellt, um die Programmierung mit HTML Canvas zu lernen.
 
 **Formen**
+
 In diesem Modus können Texte und Formen erstellt werden. Diese können frei platziert und angepasst werden. Die Anpassung beinhaltet Schriften, Grössen, Farben, Animationen, usw.
 
 **Links-Rechts**
+
 Viele Texte bewegen sich von Links nach Rechts mit zufälliger Grösse und Geschwindigkeit. Der Nutzer kann einen Grössen- und Geschwindigkeitsmultiplikator setzen, der bei jedem Text angewendet wird. Auch hier kann Schrift, Farbe, etc. gewechselt werden.
 
 **"Bounce"**
+
 Dies ist eine angepasste Version der Links-Rechts Animation. Zusätslich zur Links nach Rechts Bewegung "bounced" der Text in diesem Modus aus dem Poster rein und wieder raus.
 
 **"DVD"**
+
 Diese Animation repliziert den bekannten Bildschirmschoner von DVD-Spielern.
 
 ## Downloads
