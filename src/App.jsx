@@ -7,7 +7,55 @@ import CanvasArea from "./Component/CanvasArea"
 import EditorArea from "./Component/EditorArea"
 
 export default function App() {
-    var [data, setData] = React.useState({text: "Text", textPositionHeight: 500, textPositionWidth: 350, font: "Poppins", fontSize: 10, textColor: "#000000", textColor2: "#000000", textColorSetting: "1", textColorAngle: 0, backgroundColorSetting: "1", backgroundColor: "#ffffff", backgroundColor2: "#ffffff", backgroundColorAngle: 0, stopped: false, speed: 10, pattern: "Links-Rechts", shape: "Rechteck", shapePositionHeight: 300, shapePositionWidth: 400, angle: 0, shapeColorSetting: "1", shapeColor: "#000000", shapeColor2: "#000000", shapeSize: 100, repeatDistance: 1, rowRepeat: 1, columnRepeat: 1})
+    var [data, setData] = React.useState({
+        colorSetting: "1", 
+        color: "#ffffff", 
+        color2: "#ffffff", 
+        colorAngle: 0, 
+        stopped: false, 
+        speed: 10,
+        pattern: "Links-Rechts", 
+        texts: [
+            {
+                text: "Test Text",
+                x: 0,
+                y: 0,
+                angle: 0,
+                size: 10,
+                font: "Poppins",
+                colorSetting: "1",
+                color: "#000000",
+                color2: "#000000",
+                colorAngle: 0,
+                speedX: 10,
+                speedY: 0,
+                repeatDistanceX: 0,
+                repeatDistanceY: 0, 
+                rowRepeat: 1, 
+                columnRepeat: 1
+            }
+        ],
+        shapes: [
+            {
+                name: "Name",
+                shape: "Rechteck",
+                x: 100,
+                y: 100,
+                angle: 0,
+                size: 100,
+                colorSetting: "1",
+                color: "#000000",
+                color2: "#000000",
+                colorAngle: 0,
+                repeatDistanceX: 0,
+                repeatDistanceY: 0,  
+                rowRepeat: 1, 
+                columnRepeat: 1,
+                speedX: 0,
+                speedY: 0
+            }
+        ]
+    })
     
     return (
         <div className="App">

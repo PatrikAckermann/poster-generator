@@ -18,17 +18,17 @@ export default function CanvasArea(props) {
         x.clearRect(0, 0, x.canvas.width, x.canvas.height)
         x.beginPath()
 
-        x.fillStyle = props.data.backgroundColor
-        if (props.data.backgroundColorSetting === "gradient") {
-            var angle = props.data.backgroundColorAngle * Math.PI / 180
+        x.fillStyle = props.data.color
+        if (props.data.colorSetting === "gradient") {
+            var angle = props.data.colorAngle * Math.PI / 180
             var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
-            gradient.addColorStop(0, props.data.backgroundColor)
-            gradient.addColorStop(1, props.data.backgroundColor2)
+            gradient.addColorStop(0, props.data.color)
+            gradient.addColorStop(1, props.data.color2)
             x.fillStyle = gradient
         }
         x.fillRect(0, 0, x.canvas.width, x.canvas.height)
 
-        x.fillStyle = props.data.textColor
+        x.fillStyle = "#000000"
         switch(props.data.pattern) {
             case "Links-Rechts":
                 leftToRight(x, frame, props)
@@ -68,50 +68,54 @@ for(var i=0; i < 200; i++) {
 }
 
 function leftToRight(x, frame, props) {
+    var text = props.data.texts[0]
     texts.forEach((y, index) => {
-        x.font = `${y.fontSize * props.data.fontSize * 0.1}px ${props.data.font}`
+        x.font = `${y.fontSize * text.size * 0.1}px ${text.font}`
+        x.fillStyle = text.color
 
-        if (props.data.textColorSetting === "gradient") {
-            var angle = props.data.textColorAngle * Math.PI / 180
+        if (text.colorSetting === "gradient") {
+            var angle = text.colorAngle * Math.PI / 180
             var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
-            gradient.addColorStop(0, props.data.textColor)
-            gradient.addColorStop(1, props.data.textColor2)
+            gradient.addColorStop(0, text.color)
+            gradient.addColorStop(1, text.color2)
             x.fillStyle = gradient
         }
 
-        x.fillText(props.data.text, y.x-x.measureText(props.data.text).width, calculateHeight(index, props.data.fontSize * 0.1))
-        if (y.x > x.canvas.width + x.measureText(props.data.text).width) {y.x = 0}
-        y.x += props.data.speed * 0.1 * y.speed
+        x.fillText(text.text, y.x-x.measureText(text.text).width, calculateHeight(index, text.size * 0.1))
+        if (y.x > x.canvas.width + x.measureText(text.text).width) {y.x = 0}
+        y.x += parseInt(text.speedX) * 0.1 * y.speed
     })
 }
 
 function bounce(x, frame, props) {
+    var text = props.data.texts[0]
     texts.forEach((y, index) => {
         x.fillStyle = `rgba(0, 0, 0, ${Math.sin(frame * 0.05 % x.canvas.width)})`
-        x.font = `${y.fontSize * props.data.fontSize * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)}px ${props.data.font}`
+        x.font = `${y.fontSize * text.size * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)}px ${text.font}`
 
-        if (props.data.textColorSetting === "gradient") {
-            var angle = props.data.textColorAngle * Math.PI / 180
+        if (text.colorSetting === "gradient") {
+            var angle = text.colorAngle * Math.PI / 180
             var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
-            gradient.addColorStop(0, props.data.textColor)
-            gradient.addColorStop(1, props.data.textColor2)
+            gradient.addColorStop(0, text.color)
+            gradient.addColorStop(1, text.color2)
             x.fillStyle = gradient
         }
 
-        x.fillText(props.data.text, y.x-x.measureText(props.data.text).width, calculateHeight(index, props.data.fontSize * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)))
-        if (y.x > x.canvas.width + x.measureText(props.data.text).width) {y.x = 0}
-        y.x += props.data.speed * 0.1 * y.speed
+        x.fillText(text.text, y.x-x.measureText(text.text).width, calculateHeight(index, text.size * 0.1 * Math.sin(frame * 0.05 % x.canvas.width)))
+        if (y.x > x.canvas.width + x.measureText(text.text).width) {y.x = 0}
+        y.x += text.speedX * 0.1 * y.speed
     })
 }
 
 var dvdText = {x: 0, y:0, direction: ["r", "b"]}
 function dvd(x, frame, props) {
-    x.font = `${props.data.fontSize * 10}px ${props.data.font}`
+    var text = props.data.texts[0]
+    x.font = `${text.size * 10}px ${text.font}`
 
 
     var leftBorder = 0
-    var rightBorder = x.canvas.width - x.measureText(props.data.text).width
-    var topBorder = 0 + (props.data.fontSize * 0.75) * 10 //0.75 because there is empty space above the fontSize
+    var rightBorder = x.canvas.width - x.measureText(text.text).width
+    var topBorder = 0 + (text.size * 0.75) * 10 //0.75 because there is empty space above the fontSize
     var bottomBorder = x.canvas.height
 
     if (dvdText.x <= leftBorder) {
@@ -128,93 +132,126 @@ function dvd(x, frame, props) {
 
     switch(dvdText.direction[0]) {
         case "r":
-            dvdText.x += 0.1 * props.data.speed
+            dvdText.x += 0.1 * text.speedX
             break
         case "l":
-            dvdText.x -= 0.1 * props.data.speed
+            dvdText.x -= 0.1 * text.speedX
             break
         default:
             break
     }
     switch(dvdText.direction[1]) {
         case "t":
-            dvdText.y -= 0.1 * props.data.speed
+            dvdText.y -= 0.1 * text.speedX
             break
         case "b":
-            dvdText.y += 0.1 * props.data.speed
+            dvdText.y += 0.1 * text.speedX
             break
         default:
             break
     }
 
-    if (props.data.textColorSetting === "gradient") {
-        var angle = props.data.textColorAngle * Math.PI / 180
+    x.fillStyle = text.color
+    if (text.colorSetting === "gradient") {
+        var angle = text.colorAngle * Math.PI / 180
         var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
-        gradient.addColorStop(0, props.data.textColor)
-        gradient.addColorStop(1, props.data.textColor2)
+        gradient.addColorStop(0, text.color)
+        gradient.addColorStop(1, text.color2)
         x.fillStyle = gradient
     }
-    x.fillText(props.data.text, dvdText.x, dvdText.y)
+    x.fillText(text.text, dvdText.x, dvdText.y)
 }
 
 function drawRotatedRect(ctx, x, y, width, height, angle) {
     angle *= Math.PI / 180
     ctx.lineWidth = height
     ctx.beginPath()
-    ctx.moveTo(x, y)
-    ctx.lineTo(x + width * Math.cos(angle), y + width * Math.sin(angle))
+    ctx.moveTo(x, y + 50)
+    ctx.lineTo(x + width * Math.cos(angle), y + 50 + width * Math.sin(angle))
     ctx.stroke()
 }
 
-//template: {x, y}
-var shape = []
+var textList = []
+var shapeList = []
 function shapes(x, frame, props) {
-    if (props.data.shapePositionHeight && props.data.shapePositionWidth) {
-        var angle = props.data.angle * (Math.PI / 180)
-        var gradient = x.createLinearGradient(parseInt(props.data.shapePositionWidth), parseInt(props.data.shapePositionHeight), parseInt(props.data.shapePositionWidth) + props.data.shapeSize * props.data.columnRepeat * Math.cos(angle), parseInt(props.data.shapePositionHeight) + props.data.shapeSize * props.data.rowRepeat * Math.sin(angle)) //Math.sin(angle)
-        gradient.addColorStop(0, props.data.shapeColor)
-        gradient.addColorStop(1, props.data.shapeColor2)
-        x.fillStyle = x.strokeStyle = props.data.shapeColorSetting === "1" ? props.data.shapeColor : gradient
-
-        if (frame === 1) {
-            shape = []
-            for (var i = 0; i < props.data.columnRepeat; i++) {
-                shape.push([])
-                for (var j = 0; j < props.data.rowRepeat; j++) {
-                    shape[i].push({x: parseInt(props.data.shapePositionWidth) + props.data.repeatDistance * i, y: parseInt(props.data.shapePositionHeight) + props.data.repeatDistance * j})
+    if (frame === 1) {
+        shapeList = []
+        props.data.shapes.forEach((shape, shapeIndex) => {
+            if (shape.y && shape.x) {
+                for (var i = 0; i < shape.columnRepeat; i++) {
+                    shapeList.push([])
+                    for (var j = 0; j < shape.rowRepeat; j++) {
+                        shapeList[shapeIndex].push({...shape, x: parseInt(shape.x) + shape.repeatDistanceX * i, y: parseInt(shape.y) + shape.repeatDistanceY * j})
+                    }
                 }
-            } 
-        }
+            }
+        })
 
-        shape.forEach(y => {
-            y.forEach(z => {
-                if (props.data.shape === "Rechteck") {
-                    drawRotatedRect(x, z.x, z.y, props.data.shapeSize, props.data.shapeSize, props.data.angle)
-                } else if (props.data.shape === "Kreis") {
-                    x.moveTo(z.x, z.y) // To avoid the weird lines between circles
-                    x.arc(z.x, z.y, props.data.shapeSize, 0, 10)
+        textList = []
+        props.data.texts.forEach((text, textIndex) => {
+            if (text.y && text.x) {
+                for (var i = 0; i < text.columnRepeat; i++) {
+                    textList.push([])
+                    for (var j = 0; j < text.rowRepeat; j++) {
+                        textList[textIndex].push({...text, x: parseInt(text.x) + text.repeatDistanceX * i, y: parseInt(text.y) + text.repeatDistanceY * j})
+                    }
                 }
-            })
+            }
         })
     }
 
-    x.fill()
-    x.closePath()
-    x.beginPath()
-    x.fillStyle = x.strokeStyle = props.data.textColor
-    x.font = `${props.data.fontSize * 10}px ${props.data.font}`
+    shapeList.forEach((repeatedShapes) => {
+        repeatedShapes.forEach((shape) => {
+            var angle = shape.angle * (Math.PI / 180)
+            x.fillStyle = x.strokeStyle = shape.color
+            if (shape.colorSetting === "gradient") {
+                var gradient = x.createLinearGradient(shape.x, shape.y + 50, shape.x + shape.size * Math.cos(angle), shape.y + 50 + shape.size * Math.sin(angle)) // WORKS FOR SHAPE ANGLE BUT NOT FOR COLOR ANGLE
+                gradient.addColorStop(0, shape.color)
+                gradient.addColorStop(1, shape.color2)
+                x.fillStyle = x.strokeStyle = gradient
+            }
 
-    /*if (props.data.textColorSetting === "gradient") {
-        var textAngle = props.data.textColorAngle * Math.PI / 180
-        var textGradient = x.createLinearGradient(x.measureText(props.data.text) / 2 + Math.cos(textAngle) * x.measureText(props.data.text) * 0.5, props.data.fontSize / 2 + Math.sin(textAngle) * x.measureText(props.data.text) * 0.5, x.measureText(props.data.text) / 2 - Math.cos(textAngle) * x.measureText(props.data.text) * 0.5, props.data.fontSize / 2 - Math.sin(textAngle) * x.measureText(props.data.text) * 0.5)
-        textGradient.addColorStop(0, props.data.textColor)
-        textGradient.addColorStop(1, props.data.textColor2)
-        x.fillStyle = textGradient
-    }*/
+            if (shape.shape === "Rechteck") {
+                drawRotatedRect(x, shape.x, shape.y, shape.size, shape.size, shape.angle)
+            } else if (shape.shape === "Kreis") {
+                x.moveTo(shape.x, shape.y) // To avoid the weird lines between circles
+                x.arc(shape.x, shape.y, shape.size, 0, 10)
+            }
 
-    x.fillText(props.data.text, props.data.textPositionWidth, props.data.textPositionHeight)
-    // Multiple shapes: Add ability to add as many shapes as the user wants
-    // Multiple texts: Add ability to add as many texts as the user wants
+            x.fill()
+            x.closePath()
+            x.beginPath()
+        })
+    })
+
+    textList.forEach((repeatedText) => {
+        repeatedText.forEach((text) => {
+            x.save()
+            x.translate(text.x, text.y)
+            x.rotate(text.angle * (Math.PI / 180))
+
+            x.fillStyle = x.strokeStyle = text.color
+
+            var colorAangle = text.colorAngle * Math.PI / 180
+            var angle = text.angle * Math.PI / 180
+            if (text.colorSetting === "gradient") {
+                var textGradient = x.createLinearGradient(0, 0, 0 + x.measureText(text.text).width, 0 + text.size)
+                //var textGradient = x.createLinearGradient(text.x, text.y, text.x + x.measureText(text.text).width * Math.cos(colorAngle), text.y + text.size * Math.sin(colorAngle))
+                textGradient.addColorStop(0, text.color)
+                textGradient.addColorStop(1, text.color2)
+                x.fillStyle = x.strokeStyle = textGradient
+            }
+
+            x.font = `${text.size * 5}px ${text.font}`
+            
+            x.fillText(text.text, 0, 0)
+            
+            x.restore()
+            x.fill()
+            x.closePath()
+            x.beginPath()
+        })
+    })
 }
 
 function testpattern(x, frame, props) {
