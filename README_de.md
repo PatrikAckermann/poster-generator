@@ -33,8 +33,8 @@ Dies ist eine angepasste Version der Links-Rechts Animation. Zusätslich zur Lin
 **"DVD"**
 Diese Animation repliziert den bekannten Bildschirmschoner von DVD-Spielern.
 
-##Downloads
+## Downloads
 Die Animationen können mit dem Download Knopf heruntergeladen werden.
 
-##Beispiele
+## Beispiele
 Beispiele werden zu einem späteren Zeitpunkt hinzugefügt.

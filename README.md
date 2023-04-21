@@ -34,8 +34,8 @@ This is a modified version of the left-right animation. Additionally to the left
 **"DVD"**
 This animation replicates the screensaver that is played on DVD players.
 
-##Downloads
+## Downloads
 You can download the generated animations with the download button.
 
-##Examples
+## Examples
 Examples will be added later on in development.
