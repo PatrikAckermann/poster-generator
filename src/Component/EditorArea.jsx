@@ -237,10 +237,10 @@ function TextEditor(props) {
         <input type="text" list="" id="font" name="font" onChange={editText} value={texts.font}/>
         <label htmlFor="size">Schriftgrösse:</label>
         <input type="number" id="size" name="size" onChange={editText} value={texts.size}/>
-        <label htmlFor="y">Höhe:</label>
-        <input type="number" id="y" name="y" onChange={editText} value={texts.y}/>
-        <label htmlFor="x">Breite:</label>
+        <label htmlFor="x">Position (Breite):</label>
         <input type="number" id="x" name="x" onChange={editText} value={texts.x}/>
+        <label htmlFor="y">Position (Höhe):</label>
+        <input type="number" id="y" name="y" onChange={editText} value={texts.y}/>
         <label htmlFor="rowRepeat">Reihe wiederholen: </label>
         <input type="number" id="rowRepeat" name="rowRepeat" onChange={editText} value={texts.rowRepeat}/>
         <label htmlFor="columnRepeat">Spalte wiederholen: </label>
@@ -275,10 +275,10 @@ function ShapeEditor(props) {
             <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].name}/>
             <label htmlFor="shape">Form: </label>
             <input type="text" list="shape-list" id="shape" name="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].shape}/>
-            <label htmlFor="shapePositionHeight">Höhe: </label>
-            <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].y}/>
-            <label htmlFor="shapePositionWidth">Breite: </label>
+            <label htmlFor="shapePositionWidth">Position (Breite): </label>
             <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].x}/>
+            <label htmlFor="shapePositionHeight">Position (Höhe): </label>
+            <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].y}/>
             <label htmlFor="shapeSize">Grösse: </label>
             <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].size}/>
             <label htmlFor="angle">Winkel: </label>
