@@ -17,7 +17,11 @@ export default function EditorArea(props) {
 
     function handleChange(e) {
         if (e.target.name === "pattern" && props.data.texts.length === 0) {
-            addText(10)
+            addText(e, 10)
+        } else if (e.target.name === "pattern" && e.target.value === "shapes") {
+            props.setData(x => {
+                return {...x, texts: []}
+            })
         }
         props.setData(x => {
             return {...x, [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
@@ -133,7 +137,7 @@ function DefaultEditor(props) {
 function ShapesEditor(props) {
     var [displayTexts, setDisplayTexts] = React.useState(true)
     var [displayShapes, setDisplayShapes] = React.useState(true)
-    var [currentlyEditing, setCurrentlyEditing] = React.useState({type: "text", id: 0})
+    var [currentlyEditing, setCurrentlyEditing] = React.useState({type: "none", id: 0})
 
     function toggleButton(e, div) {
         e.preventDefault()

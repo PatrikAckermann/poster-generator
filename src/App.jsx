@@ -14,47 +14,9 @@ export default function App() {
         colorAngle: 0, 
         stopped: false, 
         speed: 10,
-        pattern: "Formen", 
-        texts: [
-            {
-                text: "Text",
-                x: 100,
-                y: 100,
-                angle: 0,
-                size: 10,
-                font: "Poppins",
-                colorSetting: "1",
-                color: "#000000",
-                color2: "#000000",
-                colorAngle: 0,
-                speedX: 10,
-                speedY: 0,
-                repeatDistanceX: 0,
-                repeatDistanceY: 0, 
-                rowRepeat: 1, 
-                columnRepeat: 1
-            }
-        ],
-        shapes: [
-            {
-                name: "Name",
-                shape: "Quadrat",
-                x: 100,
-                y: 100,
-                angle: 0,
-                size: 100,
-                colorSetting: "1",
-                color: "#000000",
-                color2: "#000000",
-                colorAngle: 0,
-                repeatDistanceX: 0,
-                repeatDistanceY: 0,  
-                rowRepeat: 1, 
-                columnRepeat: 1,
-                speedX: 0,
-                speedY: 0
-            }
-        ]
+        pattern: "shapes", 
+        texts: [],
+        shapes: []
     })
     
     return (
