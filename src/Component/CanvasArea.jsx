@@ -162,13 +162,24 @@ function dvd(x, frame, props) {
     x.fillText(text.text, dvdText.x, dvdText.y)
 }
 
-function drawRotatedRect(ctx, x, y, width, height, angle) {
-    angle *= Math.PI / 180
-    ctx.lineWidth = height
-    ctx.beginPath()
-    ctx.moveTo(x, y + 50)
-    ctx.lineTo(x + width * Math.cos(angle), y + 50 + width * Math.sin(angle))
-    ctx.stroke()
+function getExtraLength(shape, a) {
+    var angle = a
+    var negative = false
+    while (true) {
+        if (angle > 45) {
+            negative = !negative
+            angle -= 45
+            continue
+        }
+        if (angle < 0) {
+            negative = !negative
+            angle -= 45
+            continue
+        }
+        break
+    }
+    var n = (Math.sqrt(shape.size * shape.size * 2) - shape.size) / 45 * angle
+    return negative ? Math.sqrt(shape.size * shape.size * 2) - shape.size - n : n
 }
 
 var textList = []
@@ -203,68 +214,104 @@ function shapes(x, frame, props) {
     shapeList.forEach((repeatedShapes) => {
         repeatedShapes.forEach((shape) => {
             x.save()
-            x.translate(shape.x, shape.y)
+            x.translate(shape.x + shape.size/2, shape.y + shape.size/2)
             x.rotate(shape.angle * (Math.PI / 180))
 
             var colorAngle = shape.colorAngle * (Math.PI / 180)
             x.fillStyle = x.strokeStyle = shape.color
             if (shape.colorSetting === "gradient") {
-                var gradient = x.createLinearGradient(0, 0, 0 + shape.size * Math.cos(colorAngle), 0 + shape.size * Math.sin(colorAngle))
+                var fullShapeSize = shape.size + getExtraLength(shape, shape.colorAngle)
+                var gradient = x.createLinearGradient(-fullShapeSize/2 * Math.cos(colorAngle), -fullShapeSize/2 * Math.sin(colorAngle), fullShapeSize/2 * Math.cos(colorAngle), fullShapeSize/2 * Math.sin(colorAngle))
                 gradient.addColorStop(0, shape.color)
                 gradient.addColorStop(1, shape.color2)
                 x.fillStyle = x.strokeStyle = gradient
             }
 
             if (shape.shape === "Quadrat") {
-                x.fillRect(0, 0, shape.size, shape.size)
+                x.fillRect(-(shape.size/2), -(shape.size/2), shape.size, shape.size)
             } else if (shape.shape === "Kreis") {
                 x.moveTo(shape.x, shape.y) // To avoid the weird lines between circles
-                x.arc(shape.x, shape.y, shape.size, 0, 10)
+                x.arc(0, 0, shape.size/2, 0, 2 * Math.PI)
             }
 
-            x.restore()
             x.fill()
+            x.restore()
             x.closePath()
             x.beginPath()
+
+            var newPos = shape
+            var fullShapeSize = newPos.size + getExtraLength(newPos, shape.angle)
+
+            if(newPos.x > x.canvas.width + fullShapeSize/2) {
+                newPos.x = 0 - fullShapeSize
+            } 
+            if (newPos.x < 0 - fullShapeSize) {
+                newPos.x = x.canvas.width + fullShapeSize/2
+            }
+            if (newPos.y > x.canvas.height + fullShapeSize/2) {
+                newPos.y = 0 - fullShapeSize
+            } 
+            if (newPos.y < 0 - fullShapeSize) {
+                newPos.y = x.canvas.height + fullShapeSize/2
+            }
+            newPos.x += parseInt(shape.speedX)
+            newPos.y += parseInt(shape.speedY)
+            return newPos
         })
     })
 
     textList.forEach((repeatedText) => {
         repeatedText.forEach((text) => {
             x.save()
-            x.translate(text.x, text.y)
+            x.font = `${text.size * 5}px ${text.font}`
+            x.translate(text.x + x.measureText(text.text).width/2, text.y + text.size/2)
             x.rotate(text.angle * (Math.PI / 180))
 
             x.fillStyle = x.strokeStyle = text.color
 
-            var colorAangle = text.colorAngle * Math.PI / 180
-            var angle = text.angle * Math.PI / 180
+            var colorAngle = text.colorAngle * Math.PI / 180
             if (text.colorSetting === "gradient") {
-                var textGradient = x.createLinearGradient(0, 0, 0 + x.measureText(text.text).width, 0 + text.size)
-                //var textGradient = x.createLinearGradient(text.x, text.y, text.x + x.measureText(text.text).width * Math.cos(colorAngle), text.y + text.size * Math.sin(colorAngle))
+                var textGradient = x.createLinearGradient(-x.measureText(text.text).width/2 * Math.cos(colorAngle), -text.size/2 * Math.sin(colorAngle), x.measureText(text.text).width/2 * Math.cos(colorAngle), text.size/2 * Math.sin(colorAngle))
                 textGradient.addColorStop(0, text.color)
                 textGradient.addColorStop(1, text.color2)
                 x.fillStyle = x.strokeStyle = textGradient
             }
-
-            x.font = `${text.size * 5}px ${text.font}`
             
-            x.fillText(text.text, 0, 0)
+            x.fillText(text.text, -x.measureText(text.text).width/2, text.size/2)
             
             x.restore()
             x.fill()
             x.closePath()
             x.beginPath()
+
+            var newPos = text
+            x.font = `${text.size * 5}px ${text.font}`
+
+            if(newPos.x > x.canvas.width + x.measureText(text.text).width) {
+                newPos.x = 0 - x.measureText(text.text).width
+            } 
+            if (newPos.x < 0 - x.measureText(text.text).width) {
+                newPos.x = x.canvas.width
+            }
+            if (newPos.y > x.canvas.height + parseInt(text.size) * 5) {
+                newPos.y = 0 - text.size
+            } 
+            if (newPos.y < 0 - parseInt(text.size)) {
+                newPos.y = x.canvas.height + text.size * 5
+            }
+            newPos.x += parseInt(text.speedX)
+            newPos.y += parseInt(text.speedY)
+            return newPos
         })
     })
 }
 
+var angle = 0
 function testpattern(x, frame, props) {
-    x.fillStyle = "rgba(0, 0, 0, 0.5)"
-    x.font = "200px Poppins"
-    x.fillText("Test", 200, 150)
-    x.font = "150px Poppins"
-    x.fillText("Test", 200, 300)
-    x.font = "20px Poppins"
-    x.fillText("Test", 200, 320)
+    var pos = {x: 200, y: 200}
+    x.save()
+    x.translate(pos.x, pos.y)
+    x.rotate(Math.PI / 180 * (angle += 1))
+    x.rect(-50, -50, 100, 100)
+    x.restore()
 }

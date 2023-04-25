@@ -14,12 +14,12 @@ export default function App() {
         colorAngle: 0, 
         stopped: false, 
         speed: 10,
-        pattern: "Links-Rechts", 
+        pattern: "Formen", 
         texts: [
             {
-                text: "Test Text",
-                x: 0,
-                y: 0,
+                text: "Text",
+                x: 100,
+                y: 100,
                 angle: 0,
                 size: 10,
                 font: "Poppins",

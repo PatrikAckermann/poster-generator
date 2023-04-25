@@ -2,16 +2,15 @@ import React from "react"
 
 /* 
 Features to add:
- - Range setting for the randomized font size
  - Length setting for video download
  - Image download
  - Better dropdown for pattern and font selection. Currently you can enter whatever you want
 */
 
 export default function EditorArea(props) {
-    function addText(speedX=0) {
+    function addText(e, speedX=0) {
         props.setData(x => {
-            x.texts.push({text: "Text",x: 100,y: 100,angle: 0,size: 10,font: "Poppins",colorSetting: "1",color: "#000000",color2: "#000000",colorAngle: 0,speedX: speedX,speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            x.texts.push({text: "Text", x: 100, y: 100, angle: 0, size: 10, font: "Poppins", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
             return {...x}
         })
     }
@@ -92,6 +91,10 @@ export default function EditorArea(props) {
                     <option value="Bounce"/>
                     <option value="DVD"/>
                     <option value="Formen"/>
+                </datalist>
+                <datalist id="shape-list">
+                    <option value="Quadrat"/>
+                    <option value="Kreis"/>
                 </datalist>
             </div>
         </div>
@@ -193,7 +196,7 @@ function ShapesEditor(props) {
 
             <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
-            <div className="TextsDiv" style={{display: displayTexts === true ? "flex" : "none"}}>
+            <div className="TextsDiv" style={{display: displayTexts === true ? "flex" : "none", flexDirection: "column"}}>
                 {props.data.texts.map((x, index)=> 
                     <div className="TextListElement" key={index}>
                         <div style={{display: "flex"}}>
@@ -237,6 +240,8 @@ function TextEditor(props) {
         <input type="text" list="" id="font" name="font" onChange={editText} value={texts.font}/>
         <label htmlFor="size">Schriftgrösse:</label>
         <input type="number" id="size" name="size" onChange={editText} value={texts.size}/>
+        <label htmlFor="angle">Winkel: </label>
+        <input type="number" id="angle" name="angle" onChange={editText} value={texts.angle}/>
         <label htmlFor="x">Position (Breite):</label>
         <input type="number" id="x" name="x" onChange={editText} value={texts.x}/>
         <label htmlFor="y">Position (Höhe):</label>
@@ -245,17 +250,15 @@ function TextEditor(props) {
         <input type="number" id="rowRepeat" name="rowRepeat" onChange={editText} value={texts.rowRepeat}/>
         <label htmlFor="columnRepeat">Spalte wiederholen: </label>
         <input type="number" id="columnRepeat" name="columnRepeat" onChange={editText} value={texts.columnRepeat}/>
-        <label htmlFor="repeatDistanceX">Wiederholdistanz Reihe: </label>
-        <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editText} value={texts.repeatDistanceX}/>
-        <label htmlFor="repeatDistanceY">Wiederholdistanz Spalte: </label>
+        <label htmlFor="repeatDistanceY">Wiederholdistanz Reihe: </label>
         <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editText} value={texts.repeatDistanceY}/>
-        <label htmlFor="angle">Winkel: </label>
-        <input type="number" id="angle" name="angle" onChange={editText}/>
+        <label htmlFor="repeatDistanceX">Wiederholdistanz Spalte: </label>
+        <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editText} value={texts.repeatDistanceX}/>
         <label htmlFor="speedX">Geschwindigkeit Breite: </label>
-        <input type="number" id="speedX" name="speedX" onChange={editText}/>
+        <input type="number" id="speedX" name="speedX" onChange={editText} value={texts.speedX}/>
         <label htmlFor="speedY">Geschwindigkeit Höhe: </label>
-        <input type="number" id="speedY" name="speedY" onChange={editText}/>
-        <label htmlFor="a">Farbe: (Verlaufswinkel kann aktuell nicht angepasst werden)</label>
+        <input type="number" id="speedY" name="speedY" onChange={editText} value={texts.speedY}/>
+        <label htmlFor="a">Farbe:</label>
         <ColorPicker onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
 
         <input type="text" id="text" name="text"/>
@@ -282,21 +285,21 @@ function ShapeEditor(props) {
             <label htmlFor="shapeSize">Grösse: </label>
             <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].size}/>
             <label htmlFor="angle">Winkel: </label>
-            <input type="number" id="angle" name="angle" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].angle}/>
+            <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing.id].angle}/>
             <label htmlFor="rowRepeat">Reihe wiederholen: </label>
             <input type="number" id="rowRepeat" name="rowRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].rowRepeat}/>
             <label htmlFor="columnRepeat">Spalte wiederholen: </label>
             <input type="number" id="columnRepeat" name="columnRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].columnRepeat}/>
-            <label htmlFor="repeatDistanceX">Wiederholdistanz Reihe: </label>
-            <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceX}/>
-            <label htmlFor="repeatDistanceY">Wiederholdistanz Spalte: </label>
+            <label htmlFor="repeatDistanceY">Wiederholdistanz Reihe: </label>
             <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceY}/>
-            <label htmlFor="a">Farbe: (Verlaufswinkel kann aktuell nicht angepasst werden)</label>
+            <label htmlFor="repeatDistanceX">Wiederholdistanz Spalte: </label>
+            <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceX}/>
+            <label htmlFor="speedX">Geschwindigkeit (Breite): </label>
+            <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedX}/>
+            <label htmlFor="speedY">Geschwindigkeit (Höhe): </label>
+            <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedY}/>
+            <label htmlFor="a">Farbe:</label>
             <ColorPicker onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
-            <datalist id="shape-list">
-                <option value="Quadrat"/>
-                <option value="Kreis"/>
-            </datalist>
         </div>
 )}
 
