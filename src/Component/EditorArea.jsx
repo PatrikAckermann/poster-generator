@@ -70,28 +70,22 @@ export default function EditorArea(props) {
     return (
         <div className="EditorArea">
             <div className="EditorForm">
-                <label htmlFor="pattern">Animation: </label>
-                <input type="text" list="pattern-list" id="pattern" name="pattern" onChange={handleChange} value={props.data.pattern}/>
+                <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
+                    <option value="shapes">Formen</option>
+                    <option value="left-right">Links-Rechts</option>
+                    <option value="bounce">Bounce</option>
+                    <option value="dvd">DVD</option>
+                </select>
                 <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
                 <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
 
-                {["Links-Rechts", "Bounce", "DVD"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
-                {props.data.pattern === "Formen" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
+                {["left-right", "bounce", "dvd"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
+                {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
                 <button onClick={(e) => changeStopped(e, false)}>Start</button>
                 <button onClick={(e) => changeStopped(e, true)}>Stop</button>
                 <button onClick={record}>Download</button>
 
-                <datalist id="font-list">
-                    <option value="Arial"/>
-                    <option value="Poppins"/>
-                </datalist>
-                <datalist id="pattern-list">
-                    <option value="Links-Rechts"/>
-                    <option value="Bounce"/>
-                    <option value="DVD"/>
-                    <option value="Formen"/>
-                </datalist>
                 <datalist id="shape-list">
                     <option value="Quadrat"/>
                     <option value="Kreis"/>
@@ -120,7 +114,7 @@ function DefaultEditor(props) {
                 <input type="text" id="text" name="text" onChange={handleChange} value={props.data.texts[0].text}/>
 
                 <label htmlFor="font">Schrift: </label>
-                <input type="text" list="font-list" id="font" name="font" onChange={handleChange} value={props.data.texts[0].font}/>
+                <FontSelector fontVar={props.data.texts[0].font} onChange={handleChange}/>
 
                 <label htmlFor="fontSize">Schriftgrösse: </label>
                 <input type="number" id="size" name="size" onChange={handleChange} value={props.data.texts[0].size}/>
@@ -237,7 +231,7 @@ function TextEditor(props) {
         <label htmlFor="text">Text:</label>
         <input type="text" id="text" name="text" onChange={editText} value={texts.text}/>
         <label htmlFor="font">Schriftart:</label>
-        <input type="text" list="" id="font" name="font" onChange={editText} value={texts.font}/>
+        <FontSelector fontVar={texts.font} onChange={editText}/>
         <label htmlFor="size">Schriftgrösse:</label>
         <input type="number" id="size" name="size" onChange={editText} value={texts.size}/>
         <label htmlFor="angle">Winkel: </label>
@@ -277,7 +271,10 @@ function ShapeEditor(props) {
             <label htmlFor="name">Name: </label>
             <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].name}/>
             <label htmlFor="shape">Form: </label>
-            <input type="text" list="shape-list" id="shape" name="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].shape}/>
+            <select name="shape" id="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].shape}>
+                <option value="square">Quadrat</option>
+                <option value="circle">Kreis</option>
+            </select>
             <label htmlFor="shapePositionWidth">Position (Breite): </label>
             <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].x}/>
             <label htmlFor="shapePositionHeight">Position (Höhe): </label>
@@ -315,4 +312,15 @@ function ColorPicker(props) {
             {props.data.colorSetting === "gradient" && <input type="color" id="color2" name="color2" onChange={props.onChange} value={props.color2}/>}
             {props.data.colorSetting === "gradient" && <input type="number" id="colorAngle" name="colorAngle" onChange={props.onChange} value={props.data.colorAngle}/>} 
         </div>
+}
+
+function FontSelector(props) {
+    return (
+        <div>
+            <select name="font" id="font" onChange={props.onChange} value={props.fontVar}>
+                <option value="Arial">Arial</option>
+                <option value="Poppins">Poppins</option>
+            </select>
+        </div>
+    )
 }

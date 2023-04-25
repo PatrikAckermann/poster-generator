@@ -30,16 +30,16 @@ export default function CanvasArea(props) {
 
         x.fillStyle = "#000000"
         switch(props.data.pattern) {
-            case "Links-Rechts":
+            case "left-right":
                 leftToRight(x, frame, props)
                 break
-            case "Bounce":
+            case "bounce":
                 bounce(x, frame, props)
                 break
-            case "DVD":
+            case "dvd":
                 dvd(x, frame, props)
                 break
-            case "Formen":
+            case "shapes":
                 shapes(x, frame, props)
                 break
             case "Test":
@@ -227,9 +227,9 @@ function shapes(x, frame, props) {
                 x.fillStyle = x.strokeStyle = gradient
             }
 
-            if (shape.shape === "Quadrat") {
+            if (shape.shape === "square") {
                 x.fillRect(-(shape.size/2), -(shape.size/2), shape.size, shape.size)
-            } else if (shape.shape === "Kreis") {
+            } else if (shape.shape === "circle") {
                 x.moveTo(shape.x, shape.y) // To avoid the weird lines between circles
                 x.arc(0, 0, shape.size/2, 0, 2 * Math.PI)
             }
