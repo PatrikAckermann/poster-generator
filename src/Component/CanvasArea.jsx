@@ -19,6 +19,7 @@ export default function CanvasArea(props) {
         x.beginPath()
 
         x.fillStyle = props.data.color
+        
         if (props.data.colorSetting === "gradient") {
             var angle = props.data.colorAngle * Math.PI / 180
             var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)

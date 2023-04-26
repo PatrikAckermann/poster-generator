@@ -1,4 +1,5 @@
 import React from "react"
+import { getFonts } from "./FontDetector"
 
 /* 
 Features to add:
@@ -317,14 +318,24 @@ function ColorPicker(props) {
             {props.data.colorSetting === "gradient" && <input type="number" id="colorAngle" name="colorAngle" onChange={props.onChange} value={props.data.colorAngle}/>} 
         </div>
 }
+var fontList = getFonts()
+    .then(x => x.map(y => <option value={y} key={y}>{y}</option>))
 
 function FontSelector(props) {
+    var [fontOptions, setFontOptions] = React.useState(["Arial", "Poppins"])
+    React.useEffect(() => {
+        var fontList = getFonts()
+            .then(x => {
+                console.log(x)
+                setFontOptions(x)
+            })
+    }, [])
     return (
         <div>
             <select name="font" id="font" onChange={props.onChange} value={props.fontVar}>
-                <option value="Arial">Arial</option>
-                <option value="Poppins">Poppins</option>
+                {fontOptions.map(x => <option value={x} key={x}>{x}</option>)}
             </select>
+            {typeof queryLocalFonts == "undefined" && <p>In deinem Browser können nicht alle Schriftarten erkannt werden. Ein Chromium-basierter Browser wird empfohlen.</p>}
         </div>
     )
 }

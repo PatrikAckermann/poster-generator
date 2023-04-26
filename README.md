@@ -14,7 +14,7 @@ The design is unfinished too. It consists only of a rough layout and some simple
 - Downloads:
 - - There will be an option to change the clip length.
 - - There will be an option to download images as png or jpg.
-- - There might be an option to download it with appropriate ppi for printing.
+- - There might be an option to download it with the correct ppi for printing.
 - Animation modes:
 - - Shapes: Some customization options are not available or finished yet.
 - - There currently are no more new animation modes planned. Other features have priority.
