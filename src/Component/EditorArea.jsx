@@ -98,7 +98,6 @@ export default function EditorArea(props) {
                         <option value={JSON.stringify({x: 11.7, y: 16.5})}>A3</option>
                         <option value={JSON.stringify({x: 8.3, y: 11.7})}>A4</option>
                         <option value={JSON.stringify({x: 5.8, y: 8.3})}>A5</option>
-                        <option value={JSON.stringify({x: 10, y: 10})}>Quadrat</option>
                     </select>
                     <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
                 </div>}

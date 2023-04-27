@@ -28,8 +28,7 @@ var Canvas = props => {
         size.y = size.y * props.data.canvasPpi
     }
     var aspectRatio = size.x / size.y
-    console.log(size)
-    return <canvas ref={canvasRef} className="Canvas" id="PosterCanvas" height={size.x} width={size.y} style={{aspectRatio: aspectRatio}}/>
+    return <canvas ref={canvasRef} className="Canvas" id="PosterCanvas" height={size.y} width={size.x} style={{aspectRatio: aspectRatio}}/>
 }
 
 export default Canvas

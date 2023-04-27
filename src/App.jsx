@@ -8,10 +8,11 @@ import EditorArea from "./Component/EditorArea"
 
 export default function App() {
     var [data, setData] = React.useState({
-        canvasSize: '{"x":500,"y":500}',
+        canvasSize: '{"x":11.7,"y":16.5}',
+        canvasMode: "pixels",
         canvasPpi: 72,
-        x: 900,
-        y: 1600,
+        x: 1170,
+        y: 1650,
         colorSetting: "1", 
         color: "#ffffff", 
         color2: "#ffffff", 
