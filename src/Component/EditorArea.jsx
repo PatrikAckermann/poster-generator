@@ -24,6 +24,11 @@ export default function EditorArea(props) {
                 return {...x, texts: []}
             })
         }
+        if (e.target.name === "canvasPreset") {
+            props.setData(x => {
+                return {...x, canvasSize: {x: 0, y: 0}}
+            })
+        }
         props.setData(x => {
             return {...x, [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
         })
@@ -74,6 +79,30 @@ export default function EditorArea(props) {
     return (
         <div className="EditorArea">
             <div className="EditorForm">
+                <div style={{display: "flex"}}>
+                    <input type="radio" name="sizeMode" id="sizeModePixels" colorname="sizeMode" onChange={handleChange} value={"pixels"}/>
+                    <label htmlFor="sizeModePixels">Pixel</label>
+                </div>
+                <div style={{display: "flex"}}>
+                    <input type="radio" name="sizeMode" id="sizeModePrinting" colorname="sizeMode" onChange={handleChange} value={"printing"}/>
+                    <label htmlFor="sizeModePrinting">Drucken</label>
+                </div>
+                {props.data.sizeMode === "pixels" && <div>
+                    <label htmlFor="x">Canvasgrösse (Breite):</label>
+                    <input type="number" name="x" id="x" onChange={handleChange} value={props.data.x}/>
+                    <label htmlFor="y">Canvasgrösse (Höhe):</label>
+                    <input type="number" name="y" id="y" onChange={handleChange} value={props.data.y}/>
+                </div>}
+                {props.data.sizeMode === "printing" && <div>
+                    <select name="canvasSize" id="canvasSize" onChange={handleChange} value={props.data.canvasSize}>
+                        <option value={JSON.stringify({x: 11.7, y: 16.5})}>A3</option>
+                        <option value={JSON.stringify({x: 8.3, y: 11.7})}>A4</option>
+                        <option value={JSON.stringify({x: 5.8, y: 8.3})}>A5</option>
+                        <option value={JSON.stringify({x: 10, y: 10})}>Quadrat</option>
+                    </select>
+                    <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
+                </div>}
+                <label htmlFor="pattern">Animation: </label>
                 <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
                     <option value="shapes">Formen</option>
                     <option value="left-right">Links-Rechts</option>
