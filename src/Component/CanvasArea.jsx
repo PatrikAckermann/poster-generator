@@ -221,7 +221,7 @@ function shapes(x, frame, props) {
             var colorAngle = shape.colorAngle * (Math.PI / 180)
             x.fillStyle = x.strokeStyle = shape.color
             if (shape.colorSetting === "gradient") {
-                var fullShapeSize = shape.size + getExtraLength(shape, shape.colorAngle)
+                var fullShapeSize = parseInt(shape.size) + parseInt(getExtraLength(shape, shape.colorAngle))
                 var gradient = x.createLinearGradient(-fullShapeSize/2 * Math.cos(colorAngle), -fullShapeSize/2 * Math.sin(colorAngle), fullShapeSize/2 * Math.cos(colorAngle), fullShapeSize/2 * Math.sin(colorAngle))
                 gradient.addColorStop(0, shape.color)
                 gradient.addColorStop(1, shape.color2)
@@ -241,7 +241,7 @@ function shapes(x, frame, props) {
             x.beginPath()
 
             var newPos = shape
-            var fullShapeSize = newPos.size + getExtraLength(newPos, shape.angle)
+            var fullShapeSize = parseInt(newPos.size) + parseInt(getExtraLength(newPos, shape.angle))
 
             if(newPos.x > x.canvas.width + fullShapeSize/2) {
                 newPos.x = 0 - fullShapeSize

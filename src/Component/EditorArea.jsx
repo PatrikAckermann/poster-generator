@@ -11,7 +11,7 @@ Features to add:
 export default function EditorArea(props) {
     function addText(e, speedX=0) {
         props.setData(x => {
-            x.texts.push({text: "Text", x: 100, y: 100, angle: 0, size: 10, font: "Poppins", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            x.texts.push({text: "Text", x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
             return {...x}
         })
     }
@@ -58,7 +58,6 @@ export default function EditorArea(props) {
         }
 
         mediaRecorder.onstop = function(e) {
-            console.log(chunks)
             var blob = new Blob(chunks, {"type": "video/webm; codecs=vp9"})
             chunks = []
             var videoURL = URL.createObjectURL(blob)
@@ -147,7 +146,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({name: "Name", shape: "Quadrat", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
@@ -326,7 +325,6 @@ function FontSelector(props) {
     React.useEffect(() => {
         var fontList = getFonts()
             .then(x => {
-                console.log(x)
                 setFontOptions(x)
             })
     }, [])
