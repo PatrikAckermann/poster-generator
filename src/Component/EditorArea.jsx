@@ -80,12 +80,12 @@ export default function EditorArea(props) {
         <div className="EditorArea">
             <div className="EditorForm">
                 <div style={{display: "flex"}}>
-                    <input type="radio" name="sizeMode" id="sizeModePixels" colorname="sizeMode" onChange={handleChange} value={"pixels"}/>
+                    <input type="radio" name="sizeMode" id="sizeModePixels" colorname="sizeMode" onChange={handleChange} value="pixels" checked={props.data.sizeMode === "pixels"}/>
                     <label htmlFor="sizeModePixels">Pixel</label>
                 </div>
                 <div style={{display: "flex"}}>
-                    <input type="radio" name="sizeMode" id="sizeModePrinting" colorname="sizeMode" onChange={handleChange} value={"printing"}/>
-                    <label htmlFor="sizeModePrinting">Drucken</label>
+                    <input type="radio" name="sizeMode" id="sizeModePrinting" colorname="sizeMode" onChange={handleChange} value="printing" checked={props.data.sizeMode === "printing"}/>
+                    <label htmlFor="sizeModePrinting">Druckformat</label>
                 </div>
                 {props.data.sizeMode === "pixels" && <div>
                     <label htmlFor="x">Canvasgrösse (Breite):</label>
@@ -345,13 +345,11 @@ function ColorPicker(props) {
             {props.data.colorSetting === "gradient" && <input type="number" id="colorAngle" name="colorAngle" onChange={props.onChange} value={props.data.colorAngle}/>} 
         </div>
 }
-var fontList = getFonts()
-    .then(x => x.map(y => <option value={y} key={y}>{y}</option>))
 
 function FontSelector(props) {
     var [fontOptions, setFontOptions] = React.useState(["Arial", "Poppins"])
     React.useEffect(() => {
-        var fontList = getFonts()
+        getFonts()
             .then(x => {
                 setFontOptions(x)
             })
