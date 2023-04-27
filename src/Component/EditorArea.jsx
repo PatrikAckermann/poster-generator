@@ -16,7 +16,7 @@ var shapeAmount = 0
 export default function EditorArea(props) {
     function addText(e, speedX=0) {
         props.setData(x => {
-            x.texts.push({id: textAmount += 1,text: "Text", x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            x.texts.push({id: textAmount += 1,text: "Text", offsetRangeX: 0, offsetRangeY: 0, x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
             return {...x}
         })
     }
@@ -179,7 +179,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({id: shapeAmount += 1,name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({id: shapeAmount += 1, offsetRangeX: 0, offsetRangeY: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
@@ -281,6 +281,10 @@ function TextEditor(props) {
         <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editText} value={texts.repeatDistanceY}/>
         <label htmlFor="repeatDistanceX">Wiederholdistanz Spalte: </label>
         <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editText} value={texts.repeatDistanceX}/>
+        <label htmlFor="offsetRangeX">Random Offset (Breite): </label>
+        <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editText} value={texts.offsetRangeX}/>
+        <label htmlFor="offsetRangeY">Random Offset (Höhe): </label>
+        <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editText} value={texts.offsetRangeY}/>
         <label htmlFor="speedX">Geschwindigkeit Breite: </label>
         <input type="number" id="speedX" name="speedX" onChange={editText} value={texts.speedX}/>
         <label htmlFor="speedY">Geschwindigkeit Höhe: </label>
@@ -324,6 +328,10 @@ function ShapeEditor(props) {
             <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceY}/>
             <label htmlFor="repeatDistanceX">Wiederholdistanz Spalte: </label>
             <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceX}/>
+            <label htmlFor="offsetRangeX">Random Offset (Breite): </label>
+            <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeX}/>
+            <label htmlFor="offsetRangeY">Random Offset (Höhe): </label>
+            <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeY}/>
             <label htmlFor="speedX">Geschwindigkeit (Breite): </label>
             <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedX}/>
             <label htmlFor="speedY">Geschwindigkeit (Höhe): </label>

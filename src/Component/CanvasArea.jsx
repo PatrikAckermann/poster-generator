@@ -193,11 +193,13 @@ function shapes(x, frame, props) {
         var texts = [...props.data.texts]
         texts.reverse()
         shapes.forEach((shape, shapeIndex) => {
+            var offsetRangeX = parseInt(shape.offsetRangeX)
+            var offsetRangeY = parseInt(shape.offsetRangeY)
             if (shape.y && shape.x) {
                 for (var i = 0; i < shape.columnRepeat; i++) {
                     shapeList.push([])
                     for (var j = 0; j < shape.rowRepeat; j++) {
-                        shapeList[shapeIndex].push({...shape, x: parseInt(shape.x) + shape.repeatDistanceX * i, y: parseInt(shape.y) + shape.repeatDistanceY * j})
+                        shapeList[shapeIndex].push({...shape, x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -206,10 +208,12 @@ function shapes(x, frame, props) {
         textList = []
         texts.forEach((text, textIndex) => {
             if (text.y && text.x) {
+                var offsetRangeX = parseInt(text.offsetRangeX)
+                var offsetRangeY = parseInt(text.offsetRangeY)
                 for (var i = 0; i < text.columnRepeat; i++) {
                     textList.push([])
                     for (var j = 0; j < text.rowRepeat; j++) {
-                        textList[textIndex].push({...text, x: parseInt(text.x) + text.repeatDistanceX * i, y: parseInt(text.y) + text.repeatDistanceY * j})
+                        textList[textIndex].push({...text, x: parseInt(text.x) + text.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(text.y) + text.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
