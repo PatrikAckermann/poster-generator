@@ -3,13 +3,6 @@ import { getFonts } from "./FontDetector"
 import SortableList from "./SortableList"
 import "../CSS/index.css"
 
-/* 
-Features to add:
- - Length setting for video download
- - Image download
- - Better dropdown for pattern and font selection. Currently you can enter whatever you want
-*/
-
 var textAmount = 0
 var shapeAmount = 0
 
@@ -87,7 +80,7 @@ export default function EditorArea(props) {
         }
 
         mediaRecorder.start()
-        setTimeout(() => mediaRecorder.stop(), 2000)
+        setTimeout(() => mediaRecorder.stop(), props.data.videoLength * 1000)
     }
 
     return (
@@ -130,8 +123,10 @@ export default function EditorArea(props) {
 
                 <button onClick={(e) => changeStopped(e, false)}>Start</button>
                 <button onClick={(e) => changeStopped(e, true)}>Stop</button>
-                <button onClick={saveImage}>Download image</button>
-                <button onClick={record}>Download video</button>
+                <button onClick={saveImage}>Bild herunterladen</button>
+                <label htmlFor="videoLength">Videolänge in Sekunden:</label>
+                <input type="number" name="videoLength" id="videoLength" onChange={handleChange} value={props.data.videoLength} />
+                <button onClick={record}>Video herunterladen</button>
 
                 <datalist id="shape-list">
                     <option value="Quadrat"/>
