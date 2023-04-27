@@ -54,6 +54,15 @@ export default function EditorArea(props) {
         link.click();
     }
 
+    function saveImage(e) {
+        e.preventDefault()
+
+        var canvas = document.querySelector("canvas")
+        var image = canvas.toDataURL("image/png")
+
+        download(image, "image.png")
+    }
+
     async function record(e) {
         e.preventDefault()
 
@@ -121,7 +130,8 @@ export default function EditorArea(props) {
 
                 <button onClick={(e) => changeStopped(e, false)}>Start</button>
                 <button onClick={(e) => changeStopped(e, true)}>Stop</button>
-                <button onClick={record}>Download</button>
+                <button onClick={saveImage}>Download image</button>
+                <button onClick={record}>Download video</button>
 
                 <datalist id="shape-list">
                     <option value="Quadrat"/>
