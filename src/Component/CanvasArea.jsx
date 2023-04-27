@@ -188,7 +188,11 @@ var shapeList = []
 function shapes(x, frame, props) {
     if (frame === 1) {
         shapeList = []
-        props.data.shapes.forEach((shape, shapeIndex) => {
+        var shapes = [...props.data.shapes]
+        shapes.reverse()
+        var texts = [...props.data.texts]
+        texts.reverse()
+        shapes.forEach((shape, shapeIndex) => {
             if (shape.y && shape.x) {
                 for (var i = 0; i < shape.columnRepeat; i++) {
                     shapeList.push([])
@@ -200,7 +204,7 @@ function shapes(x, frame, props) {
         })
 
         textList = []
-        props.data.texts.forEach((text, textIndex) => {
+        texts.forEach((text, textIndex) => {
             if (text.y && text.x) {
                 for (var i = 0; i < text.columnRepeat; i++) {
                     textList.push([])

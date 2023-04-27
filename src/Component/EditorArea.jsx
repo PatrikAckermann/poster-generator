@@ -1,8 +1,7 @@
 import React from "react"
 import { getFonts } from "./FontDetector"
-import { SortableElement } from "react-sortable-hoc"
-import { arrayMoveImmutable, arrayMoveMutable } from "array-move"
 import SortableList from "./SortableList"
+import "../CSS/index.css"
 
 /* 
 Features to add:
@@ -242,29 +241,9 @@ function ShapesEditor(props) {
 
             <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
-            {/*<div className="TextsDiv" style={{display: displayTexts === true ? "flex" : "none", flexDirection: "column"}}>
-                {props.data.texts.map((x, index)=> 
-                    <div className="TextListElement" key={index}>
-                        <div style={{display: "flex"}}>
-                            <p>{x.text}</p>
-                            <button onClick={() => setCurrentlyEditing(x => {return {type: "text", id: index}})}>Editieren</button>
-                            <button onClick={() => removeText(index)}>Löschen</button>
-                        </div>
-                    </div>)}
-                </div>*/}
             <SortableList type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>
             <button onClick={addShape}>Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")}>Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
-            {/*<div className="ShapesDiv" style={{display: displayShapes === true ? "flex" : "none", "flexDirection": "column"}}>
-                {props.data.shapes.map((x, index) => 
-                    <div className="ShapeListElement" key={index}>
-                        <div style={{display: "flex"}}>
-                            <p>{x.name}, {x.shape}</p>
-                            <button onClick={() => setCurrentlyEditing(x => {return {type: "shape", id: index}})}>Editieren</button>
-                            <button onClick={() => removeShape(index)}>Löschen</button>
-                        </div>
-                    </div>)}
-                </div>*/}
             <SortableList type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>
         </div>
     )

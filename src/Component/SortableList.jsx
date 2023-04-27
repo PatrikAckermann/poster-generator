@@ -1,5 +1,6 @@
 import { SortableContainer } from "react-sortable-hoc"
 import SortableItem from "./SortableItem"
+import "../CSS/index.css"
 
 function SortableList(props) {
     return (
