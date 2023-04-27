@@ -9,15 +9,6 @@ Du kannst die Seite [hier](https://patrikackermann.github.io/poster-generator/) 
 ## **WORK IN PROGRESS**
 Die Seite ist noch nicht fertig. Einige Funktionen könnten noch nicht richtig funktionieren oder sogar fehlen. Das Design ist auch nicht fertig. Es besteht erst aus einem groben Layout und leichtem Styling.
 
-**Geplante Funktionen**
-- Downloads:
-- - Es wird eine Funktion zum ändern der Cliplänge geben
-- - Poster können auch als Bild in Form eines png oder jpg heruntergeladen werden.
-- - Möglicherweise wird es auch die Funktion geben Poster mit dem richtigen Format zum ausdrucken zu erstellen.
-- Animationsmodis:
-- - Formen: Einige Optionen sind noch unfertig oder gar nicht eingebaut.
-- - Momentan sind keine neuen Animationen geplant. Das Erstellen anderer Funktionen hat Vorrang.
-
 ## Animationsmodis
 Der Formen Modus ist der Hauptmodus der Webseite. Die anderen wurden erstellt, um die Programmierung mit HTML Canvas zu lernen.
 
