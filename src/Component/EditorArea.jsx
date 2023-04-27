@@ -1,5 +1,8 @@
 import React from "react"
 import { getFonts } from "./FontDetector"
+import { SortableElement } from "react-sortable-hoc"
+import { arrayMoveImmutable, arrayMoveMutable } from "array-move"
+import SortableList from "./SortableList"
 
 /* 
 Features to add:
@@ -8,10 +11,13 @@ Features to add:
  - Better dropdown for pattern and font selection. Currently you can enter whatever you want
 */
 
+var textAmount = 0
+var shapeAmount = 0
+
 export default function EditorArea(props) {
     function addText(e, speedX=0) {
         props.setData(x => {
-            x.texts.push({text: "Text", x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            x.texts.push({id: textAmount += 1,text: "Text", x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
             return {...x}
         })
     }
@@ -174,7 +180,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({id: shapeAmount += 1,name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
@@ -215,6 +221,20 @@ function ShapesEditor(props) {
         })
     }
 
+    const onSortEnd = (oldIndex, newIndex, type) => {
+        props.setData(x => {
+            if (type === "text") {
+                var oldText = x.texts.splice(oldIndex, 1)
+                x.texts.splice(newIndex, 0, oldText[0])
+            }
+            if (type === "shape") {
+                var oldShape = x.shapes.splice(oldIndex, 1)
+                x.shapes.splice(newIndex, 0, oldShape[0])
+            }
+            return {...x}
+        })
+    }
+
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
             {currentlyEditing.type === "text" && <TextEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
@@ -222,7 +242,7 @@ function ShapesEditor(props) {
 
             <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
-            <div className="TextsDiv" style={{display: displayTexts === true ? "flex" : "none", flexDirection: "column"}}>
+            {/*<div className="TextsDiv" style={{display: displayTexts === true ? "flex" : "none", flexDirection: "column"}}>
                 {props.data.texts.map((x, index)=> 
                     <div className="TextListElement" key={index}>
                         <div style={{display: "flex"}}>
@@ -231,10 +251,11 @@ function ShapesEditor(props) {
                             <button onClick={() => removeText(index)}>Löschen</button>
                         </div>
                     </div>)}
-            </div>
+                </div>*/}
+            <SortableList type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>
             <button onClick={addShape}>Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")}>Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
-            <div className="ShapesDiv" style={{display: displayShapes === true ? "flex" : "none", "flexDirection": "column"}}>
+            {/*<div className="ShapesDiv" style={{display: displayShapes === true ? "flex" : "none", "flexDirection": "column"}}>
                 {props.data.shapes.map((x, index) => 
                     <div className="ShapeListElement" key={index}>
                         <div style={{display: "flex"}}>
@@ -243,11 +264,12 @@ function ShapesEditor(props) {
                             <button onClick={() => removeShape(index)}>Löschen</button>
                         </div>
                     </div>)}
-            </div>
+                </div>*/}
+            <SortableList type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>
         </div>
     )
 }
-
+ 
 function TextEditor(props) {
     function editText(e) {
         props.setData(x => {
