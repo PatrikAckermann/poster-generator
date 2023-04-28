@@ -4,7 +4,7 @@ Andere Sprachen: [Englisch](https://github.com/PatrikAckermann/poster-generator/
 
 Der Poster Generator nimmt Benutzereingaben um ein Poster in einem HTML Canvas zu erstellen. Dieses kann animiert oder ein Bild sein. Mit bearbeitbaren Texten und Formen können verschiedene Designs erstellt werden.
 
-Du kannst die Seite [hier](https://patrikackermann.github.io/poster-generator/) besuchen.
+Du kannst die Seite [hier](https://patrikackermann.github.io/poster-generator/) besuchen. Ein Chromium basierter Browser wird empfohlen.
 
 ## **WORK IN PROGRESS**
 Die Seite ist noch nicht fertig. Einige Funktionen könnten noch nicht richtig funktionieren oder sogar fehlen. Das Design ist auch nicht fertig. Es besteht erst aus einem groben Layout und leichtem Styling.

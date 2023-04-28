@@ -4,7 +4,7 @@ Other languages: [German/Deutsch](https://github.com/PatrikAckermann/poster-gene
 
 The poster generator takes user input to create posters in a HTML canvas. The poster can be an animation or a still image. Using editable text and shapes the Poster-Generator can make many different designs.
 
-You can visit the page [here](https://patrikackermann.github.io/poster-generator/).
+You can visit the page [here](https://patrikackermann.github.io/poster-generator/). Using a Chromium based browser is recommended.
 
 ## **WORK IN PROGRESS**
 This site is not finished yet. Some features may not work correctly as they are still being worked on. 
