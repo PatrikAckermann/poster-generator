@@ -199,7 +199,7 @@ function shapes(x, frame, props) {
                 for (var i = 0; i < shape.columnRepeat; i++) {
                     shapeList.push([])
                     for (var j = 0; j < shape.rowRepeat; j++) {
-                        shapeList[shapeIndex].push({...shape, x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        shapeList[shapeIndex].push({...shape, angle: shape.angle + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -213,7 +213,7 @@ function shapes(x, frame, props) {
                 for (var i = 0; i < text.columnRepeat; i++) {
                     textList.push([])
                     for (var j = 0; j < text.rowRepeat; j++) {
-                        textList[textIndex].push({...text, x: parseInt(text.x) + text.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(text.y) + text.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        textList[textIndex].push({...text, angle: text.angle + randomNumber(-text.angleOffset, text.angleOffset),x: parseInt(text.x) + text.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(text.y) + text.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -265,6 +265,7 @@ function shapes(x, frame, props) {
             }
             newPos.x += parseInt(shape.speedX)
             newPos.y += parseInt(shape.speedY)
+            newPos.angle += parseInt(shape.spinSpeed) / 10
             return newPos
         })
     })
@@ -310,6 +311,7 @@ function shapes(x, frame, props) {
             }
             newPos.x += parseInt(text.speedX)
             newPos.y += parseInt(text.speedY)
+            newPos.angle += parseInt(text.spinSpeed) / 10
             return newPos
         })
     })

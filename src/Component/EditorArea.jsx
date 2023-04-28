@@ -9,7 +9,7 @@ var shapeAmount = 0
 export default function EditorArea(props) {
     function addText(e, speedX=0) {
         props.setData(x => {
-            x.texts.push({id: textAmount += 1,text: "Text", offsetRangeX: 0, offsetRangeY: 0, x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            x.texts.push({id: textAmount += 1,text: "Text", spinSpeed: 0, offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
             return {...x}
         })
     }
@@ -184,7 +184,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({id: shapeAmount += 1, offsetRangeX: 0, offsetRangeY: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({id: shapeAmount += 1, spinSpeed: 0, offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
@@ -290,10 +290,14 @@ function TextEditor(props) {
         <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editText} value={texts.offsetRangeX}/>
         <label htmlFor="offsetRangeY">Random Offset (Höhe): </label>
         <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editText} value={texts.offsetRangeY}/>
+        <label htmlFor="offsetRangeX">Winkel Offset: </label>
+        <input type="number" id="angleOffset" name="angleOffset" onChange={editText} value={texts.angleOffset}/>
         <label htmlFor="speedX">Geschwindigkeit Breite: </label>
         <input type="number" id="speedX" name="speedX" onChange={editText} value={texts.speedX}/>
         <label htmlFor="speedY">Geschwindigkeit Höhe: </label>
         <input type="number" id="speedY" name="speedY" onChange={editText} value={texts.speedY}/>
+        <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
+        <input type="number" id="spinSpeed" name="spinSpeed" onChange={editText} value={texts.spinSpeed}/>
         <label htmlFor="a">Farbe:</label>
         <ColorPicker onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
 
@@ -337,10 +341,14 @@ function ShapeEditor(props) {
             <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeX}/>
             <label htmlFor="offsetRangeY">Random Offset (Höhe): </label>
             <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeY}/>
+            <label htmlFor="offsetRangeX">Winkel Offset: </label>
+            <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].angleOffset}/>
             <label htmlFor="speedX">Geschwindigkeit (Breite): </label>
             <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedX}/>
             <label htmlFor="speedY">Geschwindigkeit (Höhe): </label>
             <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedY}/>
+            <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
+            <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].spinSpeed}/>
             <label htmlFor="a">Farbe:</label>
             <ColorPicker onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
         </div>
