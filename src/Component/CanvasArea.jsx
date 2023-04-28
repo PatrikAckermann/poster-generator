@@ -220,6 +220,16 @@ function shapes(x, frame, props) {
         })
     }
 
+    /*
+    if (props.data.colorSetting === "gradient") {
+        var angle = props.data.colorAngle * Math.PI / 180
+        var gradient = x.createLinearGradient(x.canvas.width / 2 + Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 + Math.sin(angle) * x.canvas.width * 0.5, x.canvas.width / 2 - Math.cos(angle) * x.canvas.width * 0.5, x.canvas.height / 2 - Math.sin(angle) * x.canvas.width * 0.5)
+        gradient.addColorStop(0, props.data.color)
+        gradient.addColorStop(1, props.data.color2)
+        x.fillStyle = gradient
+    }
+    */
+
     shapeList.forEach((repeatedShapes) => {
         repeatedShapes.forEach((shape) => {
             x.save()
@@ -230,9 +240,15 @@ function shapes(x, frame, props) {
             x.fillStyle = x.strokeStyle = shape.color
             var fullShapeSize = parseInt(shape.size) + parseInt(getExtraLength(shape, shape.colorAngle))
             if (shape.colorSetting === "gradient") {
-                var gradient = x.createLinearGradient(-fullShapeSize/2 * Math.cos(colorAngle), -fullShapeSize/2 * Math.sin(colorAngle), fullShapeSize/2 * Math.cos(colorAngle), fullShapeSize/2 * Math.sin(colorAngle))
-                gradient.addColorStop(0, shape.color)
-                gradient.addColorStop(1, shape.color2)
+                if(shape.gradientSetting === "element") {
+                    var gradient = x.createLinearGradient(-fullShapeSize/2 * Math.cos(colorAngle), -fullShapeSize/2 * Math.sin(colorAngle), fullShapeSize/2 * Math.cos(colorAngle), fullShapeSize/2 * Math.sin(colorAngle))
+                } else {
+                    var gradient = x.createLinearGradient((x.canvas.width - shape.x)/2 + Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - shape.y)/2 + Math.sin(colorAngle) * (x.canvas.height)/2, (x.canvas.width - shape.x)/2 - Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - shape.y)/2 - Math.sin(colorAngle) * (x.canvas.height)/2)
+                    gradient.addColorStop(0.5, shape.color) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
+                    gradient.addColorStop(0.5, shape.color2)
+                }
+                gradient.addColorStop(0, shape.color2)
+                gradient.addColorStop(1, shape.color)
                 x.fillStyle = x.strokeStyle = gradient
             }
 
@@ -281,7 +297,13 @@ function shapes(x, frame, props) {
 
             var colorAngle = text.colorAngle * Math.PI / 180
             if (text.colorSetting === "gradient") {
-                var textGradient = x.createLinearGradient(-x.measureText(text.text).width/2 * Math.cos(colorAngle), -text.size/2 * Math.sin(colorAngle), x.measureText(text.text).width/2 * Math.cos(colorAngle), text.size/2 * Math.sin(colorAngle))
+                if(text.gradientSetting === "element") {
+                    var textGradient = x.createLinearGradient(-x.measureText(text.text).width/2 * Math.cos(colorAngle), -text.size/2 * Math.sin(colorAngle), x.measureText(text.text).width/2 * Math.cos(colorAngle), text.size/2 * Math.sin(colorAngle))
+                } else {
+                    var textGradient = x.createLinearGradient((x.canvas.width - text.x)/2 + Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - text.y)/2 + Math.sin(colorAngle) * (x.canvas.height)/2, (x.canvas.width - text.x)/2 - Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - text.y)/2 - Math.sin(colorAngle) * (x.canvas.height)/2)
+                    textGradient.addColorStop(0.5, text.color2) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
+                    textGradient.addColorStop(0.5, text.color)
+                }
                 textGradient.addColorStop(0, text.color)
                 textGradient.addColorStop(1, text.color2)
                 x.fillStyle = x.strokeStyle = textGradient
