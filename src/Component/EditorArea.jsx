@@ -15,11 +15,14 @@ export default function EditorArea(props) {
     }
 
     function handleChange(e) {
-        if (e.target.name === "pattern" && props.data.texts.length === 0) {
+        if (e.target.name === "pattern" && e.target.value !== "shapes") {
+            props.setData(x => {
+                return {...x, texts: [], shapes: []}
+            })
             addText(e, 10)
         } else if (e.target.name === "pattern" && e.target.value === "shapes") {
             props.setData(x => {
-                return {...x, texts: []}
+                return {...x, texts: [], shapes: []}
             })
         }
         if (e.target.name === "canvasPreset") {
