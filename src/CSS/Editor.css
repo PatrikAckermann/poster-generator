@@ -50,6 +50,7 @@ input, button {
     background-color: #222222;
     margin-bottom: 5px;
     padding-left: 5px;
+    padding-right: 5px;
     border-radius: 5px;
     height: 25px;
 }
@@ -60,4 +61,11 @@ input:hover, input:focus, button:hover {
 
 input:active, button:active {
     background-color: #444444;
+}
+
+.ShapeListElement {
+    list-style: none;
+    display: flex;
+    cursor: move;
+    user-select: none;
 }

@@ -48,18 +48,14 @@ export default function EditorArea(props) {
         link.click();
     }
 
-    function saveImage(e) {
-        e.preventDefault()
-
+    function saveImage() {
         var canvas = document.querySelector("canvas")
         var image = canvas.toDataURL("image/png")
 
         download(image, "image.png")
     }
 
-    async function record(e) {
-        e.preventDefault()
-
+    async function record() {
         var canvas = document.querySelector("canvas")
 
         var videoStream = canvas.captureStream(30)
@@ -74,7 +70,7 @@ export default function EditorArea(props) {
             var blob = new Blob(chunks, {"type": "video/webm; codecs=vp9"})
             chunks = []
             var videoURL = URL.createObjectURL(blob)
-            download(videoURL, "video.webm")
+            download(videoURL, "poster.webm")
         }
         mediaRecorder.ondataavailable = function(e) {
             chunks.push(e.data)
@@ -82,6 +78,21 @@ export default function EditorArea(props) {
 
         mediaRecorder.start()
         setTimeout(() => mediaRecorder.stop(), props.data.videoLength * 1000)
+    }
+
+    function startDownload(e) {
+        e.preventDefault()
+        switch(props.data.fileFormat) {
+            case "png":
+                saveImage()
+                break
+            case "webm":
+                record()
+                break
+            default:
+                saveImage()
+                break
+        }
     }
 
     return (
@@ -132,17 +143,20 @@ export default function EditorArea(props) {
                 {["left-right", "bounce", "dvd"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
                 {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
+                <hr/>
                 <button onClick={(e) => changeStopped(e, false)}>Start</button>
                 <button onClick={(e) => changeStopped(e, true)}>Stop</button>
-                <button onClick={saveImage}>Bild herunterladen</button>
-                <label htmlFor="videoLength">Videolänge in Sekunden:</label>
-                <input type="number" name="videoLength" id="videoLength" onChange={handleChange} value={props.data.videoLength} />
-                <button onClick={record}>Video herunterladen</button>
-
-                <datalist id="shape-list">
-                    <option value="Quadrat"/>
-                    <option value="Kreis"/>
-                </datalist>
+                <hr/>
+                
+                <div className="SettingPair">
+                    <select name="fileFormat" id="fileFormat" onChange={handleChange} value={props.data.fileFormat}>
+                        <option value="png">png</option>
+                        <option value="webm">webm</option>
+                    </select>
+                    {["webm"].includes(props.data.fileFormat) && <label htmlFor="videoLength">Länge:</label>}
+                    {["webm"].includes(props.data.fileFormat) && <input type="number" name="videoLength" id="videoLength" onChange={handleChange} value={props.data.videoLength} />}
+                    <button onClick={startDownload}>Herunterladen</button>
+                </div>
             </div>
         </div>
     )
@@ -163,21 +177,26 @@ function DefaultEditor(props) {
     }
     return (
         <form className="DefaultEditor">
-            <label htmlFor="text">Text: </label>
+            <div className="SettingPair">
+                <label htmlFor="text">Text: </label>
                 <input type="text" id="text" name="text" onChange={handleChange} value={props.data.texts[0].text}/>
-
+            </div>
+            <div className="SettingPair">
                 <label htmlFor="font">Schrift: </label>
                 <FontSelector fontVar={props.data.texts[0].font} onChange={handleChange}/>
-
+            </div>
+            <div className="SettingPair">
                 <label htmlFor="fontSize">Schriftgrösse: </label>
                 <input type="number" id="size" name="size" onChange={handleChange} value={props.data.texts[0].size}/>
-
+            </div>
+            <div className="SettingPair">
                 <label htmlFor="speedY">Geschwindigkeit: </label>
                 <input type="number" id="speedX" name="speedX" onChange={handleChange} value={props.data.texts[0].speedX}/>
-
+            </div>
+            <div className="SettingPair">
                 <label htmlFor="color">Textfarbe: </label>
                 <ColorPicker onChange={handleChange} data={props.data.texts[0]} colorSetting={props.data.texts[0].color} color={props.data.texts[0].color} color2={props.data.texts[0].color2} name="text"/>
-
+            </div>
                 
         </form>
     )
@@ -257,10 +276,10 @@ function ShapesEditor(props) {
 
             <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
-            <SortableList type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>
+            {displayTexts && <SortableList type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>}
             <button onClick={addShape}>Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")}>Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
-            <SortableList type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>
+            {displayShapes && <SortableList type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
         </div>
     )
 }

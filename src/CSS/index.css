@@ -53,14 +53,3 @@
 .gutter.gutter-horizontal:hover {
     cursor: col-resize;
 }
-
-.ShapesDiv {
-    
-}
-
-.ShapeListElement {
-    list-style: none;
-    display: flex;
-    cursor: move;
-    align-items: center;
-}

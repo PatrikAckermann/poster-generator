@@ -10,6 +10,7 @@ export default function App() {
         canvasSize: '{"x":11.7,"y":16.5}',
         sizeMode: "pixels",
         canvasPpi: 72,
+        fileFormat: "png",
         videoLength: 5,
         x: 1170,
         y: 1650,
