@@ -1,0 +1,63 @@
+.Title {
+    font-weight: 600;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.EditorArea {
+    padding: 10px;
+    overflow-y: scroll
+}
+
+.EditorForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.EditorForm > hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.SettingPair {
+    display: flex;
+    flex-direction: row;
+}
+
+.text {
+    width: 100%;
+}
+
+.SettingPair > * {
+    margin-right: 5px;
+}
+
+.SettingPair > select {
+    margin-right: 5px;
+}
+
+.CanvasSizePixel > input {
+    width: 70px;
+}
+
+button {
+    
+}
+
+input, button {
+    cursor: pointer;
+    border: none;
+    background-color: #222222;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    border-radius: 5px;
+    height: 25px;
+}
+
+input:hover, input:focus, button:hover {
+    background-color: #333333;
+}
+
+input:active, button:active {
+    background-color: #444444;
+}

@@ -2,30 +2,35 @@
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    background-color: #111111;
+    color: #eeeeee;
 }
 
 .MainContent {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: calc(100vh - 110px); /*Should only be 100px but for some reason there is extra space at the bottom which makes the scrollbar appear*/
+    height: calc(100vh); /*Should only be 100px but for some reason there is extra space at the bottom which makes the scrollbar appear*/
 }
 
 .Canvas {
-    height: 100%;
-    width: auto;
+    max-width: 100%;
+    max-height: 100%;
     border: 1px solid black;
 }
 
 .CanvasArea {
     width: auto;
-    min-width: 35%;
     text-align: center;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .EditorArea {
     width: auto;
-    min-width: 30%;
 }
 
 .split {
@@ -36,7 +41,7 @@
 }
 
 .gutter {
-    background-color: #eee;
+    background-color: #222222;
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -47,11 +52,6 @@
 
 .gutter.gutter-horizontal:hover {
     cursor: col-resize;
-}
-
-.EditorForm {
-    display: flex;
-    flex-direction: column;
 }
 
 .ShapesDiv {

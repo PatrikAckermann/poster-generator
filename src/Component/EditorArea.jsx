@@ -1,7 +1,7 @@
 import React from "react"
 import { getFonts } from "./FontDetector"
 import SortableList from "./SortableList"
-import "../CSS/index.css"
+import "../CSS/Editor.css"
 
 var textAmount = 0
 var shapeAmount = 0
@@ -86,38 +86,48 @@ export default function EditorArea(props) {
 
     return (
         <div className="EditorArea">
+            <h1 className="Title">Poster-Generator</h1>
             <div className="EditorForm">
-                <div style={{display: "flex"}}>
+                <div className="SettingPair">
+                    <label>Postergrösse:</label>
                     <input type="radio" name="sizeMode" id="sizeModePixels" colorname="sizeMode" onChange={handleChange} value="pixels" checked={props.data.sizeMode === "pixels"}/>
                     <label htmlFor="sizeModePixels">Pixel</label>
-                </div>
-                <div style={{display: "flex"}}>
                     <input type="radio" name="sizeMode" id="sizeModePrinting" colorname="sizeMode" onChange={handleChange} value="printing" checked={props.data.sizeMode === "printing"}/>
                     <label htmlFor="sizeModePrinting">Druckformat</label>
                 </div>
-                {props.data.sizeMode === "pixels" && <div>
-                    <label htmlFor="x">Canvasgrösse (Breite):</label>
+                {props.data.sizeMode === "pixels" && <div className="CanvasSizePixel SettingPair">
+                    <label htmlFor="x">Canvasgrösse - Breite:</label>
                     <input type="number" name="x" id="x" onChange={handleChange} value={props.data.x}/>
-                    <label htmlFor="y">Canvasgrösse (Höhe):</label>
+                    <label htmlFor="y">Höhe:</label>
                     <input type="number" name="y" id="y" onChange={handleChange} value={props.data.y}/>
                 </div>}
-                {props.data.sizeMode === "printing" && <div>
+                {props.data.sizeMode === "printing" && <div className="SettingPair">
+                    <label htmlFor="canvasSize">Papierformat:</label>
                     <select name="canvasSize" id="canvasSize" onChange={handleChange} value={props.data.canvasSize}>
                         <option value={JSON.stringify({x: 11.7, y: 16.5})}>A3</option>
                         <option value={JSON.stringify({x: 8.3, y: 11.7})}>A4</option>
                         <option value={JSON.stringify({x: 5.8, y: 8.3})}>A5</option>
                     </select>
+                    <label htmlFor="canvasPpi">PPI:</label>
                     <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
                 </div>}
-                <label htmlFor="pattern">Animation: </label>
-                <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
-                    <option value="shapes">Formen</option>
-                    <option value="left-right">Links-Rechts</option>
-                    <option value="bounce">Bounce</option>
-                    <option value="dvd">DVD</option>
-                </select>
-                <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
-                <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
+                <hr/>
+                <div>
+                    <label htmlFor="pattern">Animation: </label>
+                    <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
+                        <option value="shapes">Formen</option>
+                        <option value="left-right">Links-Rechts</option>
+                        <option value="bounce">Bounce</option>
+                        <option value="dvd">DVD</option>
+                    </select>
+                </div>
+
+                <hr/>
+                <div className="SettingPair">
+                    <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
+                    <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
+                </div>
+                <hr/>
 
                 {["left-right", "bounce", "dvd"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
                 {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
@@ -267,42 +277,64 @@ function TextEditor(props) {
 
     return (
     <div style={{display: "flex", flexDirection: "column"}}>
-        <label htmlFor="text">Text:</label>
-        <input type="text" id="text" name="text" onChange={editText} value={texts.text}/>
-        <label htmlFor="font">Schriftart:</label>
-        <FontSelector fontVar={texts.font} onChange={editText}/>
-        <label htmlFor="size">Schriftgrösse:</label>
-        <input type="number" id="size" name="size" onChange={editText} value={texts.size}/>
-        <label htmlFor="angle">Winkel: </label>
-        <input type="number" id="angle" name="angle" onChange={editText} value={texts.angle}/>
-        <label htmlFor="x">Position (Breite):</label>
-        <input type="number" id="x" name="x" onChange={editText} value={texts.x}/>
-        <label htmlFor="y">Position (Höhe):</label>
-        <input type="number" id="y" name="y" onChange={editText} value={texts.y}/>
-        <label htmlFor="rowRepeat">Reihe wiederholen: </label>
-        <input type="number" id="rowRepeat" name="rowRepeat" onChange={editText} value={texts.rowRepeat}/>
-        <label htmlFor="columnRepeat">Spalte wiederholen: </label>
-        <input type="number" id="columnRepeat" name="columnRepeat" onChange={editText} value={texts.columnRepeat}/>
-        <label htmlFor="repeatDistanceY">Wiederholdistanz Reihe: </label>
-        <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editText} value={texts.repeatDistanceY}/>
-        <label htmlFor="repeatDistanceX">Wiederholdistanz Spalte: </label>
-        <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editText} value={texts.repeatDistanceX}/>
-        <label htmlFor="offsetRangeX">Random Offset (Breite): </label>
-        <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editText} value={texts.offsetRangeX}/>
-        <label htmlFor="offsetRangeY">Random Offset (Höhe): </label>
-        <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editText} value={texts.offsetRangeY}/>
-        <label htmlFor="offsetRangeX">Winkel Offset: </label>
-        <input type="number" id="angleOffset" name="angleOffset" onChange={editText} value={texts.angleOffset}/>
-        <label htmlFor="speedX">Geschwindigkeit Breite: </label>
-        <input type="number" id="speedX" name="speedX" onChange={editText} value={texts.speedX}/>
-        <label htmlFor="speedY">Geschwindigkeit Höhe: </label>
-        <input type="number" id="speedY" name="speedY" onChange={editText} value={texts.speedY}/>
-        <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
-        <input type="number" id="spinSpeed" name="spinSpeed" onChange={editText} value={texts.spinSpeed}/>
-        <label htmlFor="a">Farbe:</label>
-        <ColorPicker gradientSetting onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
-
-        <input type="text" id="text" name="text"/>
+        <div className="SettingPair">
+            <label htmlFor="text">Text:</label>
+            <input type="text" id="text" name="text" className="text" onChange={editText} value={texts.text}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="font">Schriftart:</label>
+            <FontSelector fontVar={texts.font} onChange={editText}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="size">Schriftgrösse:</label>
+            <input type="number" id="size" name="size" className="text" onChange={editText} value={texts.size}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="angle">Winkel: </label>
+            <input type="number" id="angle" name="angle" className="text" sonChange={editText} value={texts.angle}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="x">Breite:</label>
+            <input type="number" id="x" name="x" className="text" onChange={editText} value={texts.x}/>
+            <label htmlFor="y">Höhe:</label>
+            <input type="number" id="y" name="y" className="text" onChange={editText} value={texts.y}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="rowRepeat">Reihe wiederholen: </label>
+            <input type="number" id="rowRepeat" name="rowRepeat" onChange={editText} value={texts.rowRepeat}/>
+            <label htmlFor="repeatDistanceY">Distanz: </label>
+            <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editText} value={texts.repeatDistanceY}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="columnRepeat">Spalte wiederholen: </label>
+            <input type="number" id="columnRepeat" name="columnRepeat" onChange={editText} value={texts.columnRepeat}/>
+            <label htmlFor="repeatDistanceX">Distanz: </label>
+            <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editText} value={texts.repeatDistanceX}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="offsetRangeX">Random Offset - Breite: </label>
+            <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editText} value={texts.offsetRangeX}/>
+            <label htmlFor="offsetRangeY">Höhe: </label>
+            <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editText} value={texts.offsetRangeY}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="angleOffset">Winkel Offset: </label>
+            <input type="number" id="angleOffset" name="angleOffset" onChange={editText} value={texts.angleOffset}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="speedX">Geschwindigkeit - Breite: </label>
+            <input type="number" id="speedX" name="speedX" onChange={editText} value={texts.speedX}/>
+            <label htmlFor="speedY">Höhe: </label>
+            <input type="number" id="speedY" name="speedY" onChange={editText} value={texts.speedY}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
+            <input type="number" id="spinSpeed" name="spinSpeed" onChange={editText} value={texts.spinSpeed}/>
+        </div>
+        <div className="SettingPair">
+            <label htmlFor="a">Farbe:</label>
+            <ColorPicker gradientSetting onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
+        </div>
     </div>
 )}
 
@@ -315,49 +347,73 @@ function ShapeEditor(props) {
     }
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
-            <label htmlFor="name">Name: </label>
-            <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].name}/>
-            <label htmlFor="shape">Form: </label>
-            <select name="shape" id="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].shape}>
-                <option value="square">Quadrat</option>
-                <option value="circle">Kreis</option>
-            </select>
-            <label htmlFor="shapePositionWidth">Position (Breite): </label>
-            <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].x}/>
-            <label htmlFor="shapePositionHeight">Position (Höhe): </label>
-            <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].y}/>
-            <label htmlFor="shapeSize">Grösse: </label>
-            <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].size}/>
-            <label htmlFor="angle">Winkel: </label>
-            <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing.id].angle}/>
-            <label htmlFor="rowRepeat">Reihe wiederholen: </label>
-            <input type="number" id="rowRepeat" name="rowRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].rowRepeat}/>
-            <label htmlFor="columnRepeat">Spalte wiederholen: </label>
-            <input type="number" id="columnRepeat" name="columnRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].columnRepeat}/>
-            <label htmlFor="repeatDistanceY">Wiederholdistanz Reihe: </label>
-            <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceY}/>
-            <label htmlFor="repeatDistanceX">Wiederholdistanz Spalte: </label>
-            <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceX}/>
-            <label htmlFor="offsetRangeX">Random Offset (Breite): </label>
-            <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeX}/>
-            <label htmlFor="offsetRangeY">Random Offset (Höhe): </label>
-            <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeY}/>
-            <label htmlFor="offsetRangeX">Winkel Offset: </label>
-            <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].angleOffset}/>
-            <label htmlFor="speedX">Geschwindigkeit (Breite): </label>
-            <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedX}/>
-            <label htmlFor="speedY">Geschwindigkeit (Höhe): </label>
-            <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedY}/>
-            <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
-            <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].spinSpeed}/>
-            <label htmlFor="a">Farbe:</label>
-            <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
+            <div className="SettingPair">
+                <label htmlFor="name">Name: </label>
+                <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].name}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="shape">Form: </label>
+                <select name="shape" id="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].shape}>
+                    <option value="square">Quadrat</option>
+                    <option value="circle">Kreis</option>
+                </select>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="shapePositionWidth">Position - Breite: </label>
+                <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].x}/>
+                <label htmlFor="shapePositionHeight">Höhe: </label>
+                <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].y}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="shapeSize">Grösse: </label>
+                <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].size}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="angle">Winkel: </label>
+                <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing.id].angle}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="rowRepeat">Reihe wiederholen: </label>
+                <input type="number" id="rowRepeat" name="rowRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].rowRepeat}/>
+                <label htmlFor="repeatDistanceY">Distanz: </label>
+                <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceY}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="columnRepeat">Spalte wiederholen: </label>
+                <input type="number" id="columnRepeat" name="columnRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].columnRepeat}/>
+                <label htmlFor="repeatDistanceX">Distanz: </label>
+                <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceX}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="offsetRangeX">Random Offset - Breite: </label>
+                <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeX}/>
+                <label htmlFor="offsetRangeY">Höhe: </label>
+                <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeY}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="angleOffset">Winkel Offset: </label>
+                <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].angleOffset}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="speedX">Geschwindigkeit - Breite: </label>
+                <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedX}/>
+                <label htmlFor="speedY">Höhe: </label>
+                <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedY}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
+                <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].spinSpeed}/>
+            </div>
+            <div className="SettingPair">
+                <label htmlFor="a">Farbe:</label>
+                <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
+            </div>
         </div>
 )}
 
 function ColorPicker(props) {
-    return <div>
-            <div>
+    return <div style={{display: "flex"}}>
+            <div className="SettingPair">
                 <input colorname="colorSetting" type="radio" id={props.name + "color1"} name={props.name + "colorSetting"} value="1" onChange={props.onChange} checked={props.data.colorSetting === "1"} />
                 <label htmlFor={props.name + "color1"}>1 Farbe</label>
                 <input colorname="colorSetting" type="radio" id={props.name + "colorGradient"} name={props.name + "colorSetting"} value="gradient" onChange={props.onChange} checked={props.data.colorSetting === "gradient"}/>
