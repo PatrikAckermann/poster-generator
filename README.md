@@ -10,6 +10,11 @@ You can visit the page [here](https://patrikackermann.github.io/poster-generator
 This site is not finished yet. Some features may not work correctly as they are still being worked on. 
 The design is unfinished too. It consists only of a rough layout and some simple styling.
 
+## Examples
+Here are a few examples on what's possible with the poster generator.
+
+
+
 ## Animation modes
 The Formen (Shapes) mode is the main animation mode of this website. The other ones were created to learn the usage of HTML Canvas.
 

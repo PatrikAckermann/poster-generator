@@ -9,6 +9,11 @@ Du kannst die Seite [hier](https://patrikackermann.github.io/poster-generator/) 
 ## **WORK IN PROGRESS**
 Die Seite ist noch nicht fertig. Einige Funktionen könnten noch nicht richtig funktionieren oder sogar fehlen. Das Design ist auch nicht fertig. Es besteht erst aus einem groben Layout und leichtem Styling.
 
+## Beispiele
+Hier sind einige Beispiele, was mit dem Poster Generator möglich ist.
+
+
+
 ## Animationsmodis
 Der Formen Modus ist der Hauptmodus der Webseite. Die anderen wurden erstellt, um die Programmierung mit HTML Canvas zu lernen.
 
