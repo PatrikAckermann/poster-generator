@@ -52,7 +52,7 @@ export default function EditorArea(props) {
         var canvas = document.querySelector("canvas")
         var image = canvas.toDataURL("image/png")
 
-        download(image, "image.png")
+        download(image, "poster.png")
     }
 
     async function record() {
@@ -212,6 +212,20 @@ function ShapesEditor(props) {
     var [displayShapes, setDisplayShapes] = React.useState(true)
     var [currentlyEditing, setCurrentlyEditing] = React.useState({type: "none", id: 0})
 
+    function copyElement(type, id) {
+        if (type === "text") {
+            props.setData(x => {
+                x.texts.push(x.texts[id])
+                return {...x}
+            })
+        } else {
+            props.setData(x => {
+                x.shapes.push(x.shapes[id])
+                return {...x}
+            })
+        }
+    }
+
     function toggleButton(e, div) {
         e.preventDefault()
         div === "texts" ? setDisplayTexts(x => !x) : setDisplayShapes(x => !x)
@@ -281,10 +295,10 @@ function ShapesEditor(props) {
 
             <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
-            {displayTexts && <SortableList type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>}
+            {displayTexts && <SortableList copyElement={copyElement} type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>}
             <button onClick={addShape}>Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")}>Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
-            {displayShapes && <SortableList type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
+            {displayShapes && <SortableList copyElement={copyElement} type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
         </div>
     )
 }
