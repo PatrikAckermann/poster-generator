@@ -39,12 +39,7 @@
 .CanvasSizePixel > input {
     width: 70px;
 }
-
-button {
-    
-}
-
-input, button {
+input, button, select {
     cursor: pointer;
     border: none;
     background-color: #222222;
