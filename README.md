@@ -13,7 +13,8 @@ The design is unfinished too. It consists only of a rough layout and some simple
 ## Examples
 Here are a few examples on what's possible with the poster generator.
 
-[![Example 1](https://raw.githubusercontent.com/PatrikAckermann/poster-generator/master/examples/example1.webm)](https://raw.githubusercontent.com/PatrikAckermann/poster-generator/master/examples/example1.webm.mov)
+[![Example 1](https://raw.githubusercontent.com/PatrikAckermann/poster-generator/master/examples/example1.webm.mov)](https://raw.githubusercontent.com/PatrikAckermann/poster-generator/master/examples/example1.webm.mov)
+<video src='https://raw.githubusercontent.com/PatrikAckermann/poster-generator/master/examples/example1.webm.mov' width=200 />
 
 ## Animation modes
 The Formen (Shapes) mode is the main animation mode of this website. The other ones were created to learn the usage of HTML Canvas.
