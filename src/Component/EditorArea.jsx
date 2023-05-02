@@ -34,10 +34,10 @@ export default function EditorArea(props) {
         return true
     }
 
-    function changeStopped(e, stopped) {
+    function changeStopped(e) {
         e.preventDefault()
         props.setData(x => {
-            return {...x, stopped: stopped}
+            return {...x, stopped: !x.stopped}
         })
     }
 
@@ -149,9 +149,7 @@ export default function EditorArea(props) {
                 {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
                 <span className="hr"><hr/></span>
-                <button onClick={(e) => changeStopped(e, false)}>Start</button>
-                <button onClick={(e) => changeStopped(e, true)}>Stop</button>
-                <span className="hr"><hr/></span>
+                <button onClick={(e) => changeStopped(e)}>{props.data.stopped ? "Start" : "Stop"}</button>
                 
                 <div className="SettingPair">
                     <select name="fileFormat" id="fileFormat" onChange={handleChange} value={props.data.fileFormat}>
