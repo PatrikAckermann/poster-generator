@@ -122,7 +122,7 @@ export default function EditorArea(props) {
                     <label htmlFor="canvasPpi">PPI:</label>
                     <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
                 </div>}
-                <hr/>
+                <span className="hr"><hr/></span>
                 <div>
                     <label htmlFor="pattern">Animation: </label>
                     <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
@@ -133,20 +133,20 @@ export default function EditorArea(props) {
                     </select>
                 </div>
 
-                <hr/>
+                <span className="hr"><hr/></span>
                 <div className="SettingPair">
                     <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
                     <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
                 </div>
-                <hr/>
+                <span className="hr"><hr/></span>
 
                 {["left-right", "bounce", "dvd"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
                 {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
-                <hr/>
+                <span className="hr"><hr/></span>
                 <button onClick={(e) => changeStopped(e, false)}>Start</button>
                 <button onClick={(e) => changeStopped(e, true)}>Stop</button>
-                <hr/>
+                <span className="hr"><hr/></span>
                 
                 <div className="SettingPair">
                     <select name="fileFormat" id="fileFormat" onChange={handleChange} value={props.data.fileFormat}>
@@ -431,7 +431,7 @@ function ShapeEditor(props) {
 )}
 
 function ColorPicker(props) {
-    return <div style={{display: "flex"}}>
+    return <div className="SettingPair">
             <div className="SettingPair">
                 <input colorname="colorSetting" type="radio" id={props.name + "color1"} name={props.name + "colorSetting"} value="1" onChange={props.onChange} checked={props.data.colorSetting === "1"} />
                 <label htmlFor={props.name + "color1"}>1 Farbe</label>
@@ -441,7 +441,7 @@ function ColorPicker(props) {
             <input type="color" id="color" name="color" onChange={props.onChange} value={props.color}/>
             {props.data.colorSetting === "gradient" && <input type="color" id="color2" name="color2" onChange={props.onChange} value={props.color2}/>}
             {props.data.colorSetting === "gradient" && <input type="number" id="colorAngle" name="colorAngle" onChange={props.onChange} value={props.data.colorAngle}/>}
-            {props.gradientSetting && props.data.colorSetting === "gradient" && <div>
+            {props.gradientSetting && props.data.colorSetting === "gradient" && <div className="SettingPair">
                 <input colorname="gradientSetting" type="radio" id={props.name + "Element"} name={props.name + "gradientSetting"} value="element" onChange={props.onChange} checked={props.data.gradientSetting === "element"} />
                 <label htmlFor={props.name + "Element"}>Element</label>
                 <input colorname="gradientSetting" type="radio" id={props.name + "Page"} name={props.name + "gradientSetting"} value="page" onChange={props.onChange} checked={props.data.gradientSetting === "page"}/>

@@ -24,6 +24,8 @@ export default function App() {
         texts: [],
         shapes: []
     })
+
+    console.log(process.env.NODE_ENV)
     
     return (
         <div className="App">

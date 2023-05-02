@@ -9,6 +9,11 @@
     overflow-y: scroll
 }
 
+.hr {
+    margin-top: 2px;
+    margin-bottom: 5px;
+}
+
 .EditorForm {
     display: flex;
     flex-direction: column;
@@ -36,9 +41,6 @@
     margin-right: 5px;
 }
 
-.CanvasSizePixel > input {
-    width: 70px;
-}
 input, button, select {
     cursor: pointer;
     border: none;

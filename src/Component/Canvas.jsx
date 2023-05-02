@@ -2,14 +2,20 @@ import React from "react"
 
 var Canvas = props => {
     const canvasRef = React.useRef(null)
+    var oldTime = window.performance.now()
 
     React.useEffect(() => {
         const canvas = canvasRef.current
         const context = canvas.getContext("2d")
+        var fps = document.getElementById("fpsCounter")
         var frameCount = 0
         var animationFrameId
 
         const render = () => {
+            if (process.env.NODE_ENV === "development") {
+                fps.innerHTML = Math.round(1000 / (window.performance.now() - oldTime)) + " FPS"
+                oldTime = window.performance.now()
+            }
             frameCount++
             props.draw(context, frameCount)
             animationFrameId = window.requestAnimationFrame(render)

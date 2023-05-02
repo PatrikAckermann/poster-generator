@@ -57,6 +57,7 @@ export default function CanvasArea(props) {
 
     return (
         <div className="CanvasArea">
+            {process.env.NODE_ENV === "development" && <p style={{color: "green", position: "absolute", top:0, left:0}} id="fpsCounter">A</p>}
             <Canvas draw={draw} data={props.data} setData={props.setData}/>
         </div>
     )
