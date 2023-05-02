@@ -59,7 +59,8 @@ export default function EditorArea(props) {
         var canvas = document.querySelector("canvas")
 
         var videoStream = canvas.captureStream(30)
-        var mediaRecorder = new MediaRecorder(videoStream)
+        var mediaRecorder = new MediaRecorder(videoStream, {videoBitsPerSecond: 50000000})
+        console.log(mediaRecorder.videoBitsPerSecond)
 
         var chunks = []
         mediaRecorder.ondataavailable = function(e) {
@@ -76,8 +77,12 @@ export default function EditorArea(props) {
             chunks.push(e.data)
         }
 
+
         mediaRecorder.start()
-        setTimeout(() => mediaRecorder.stop(), props.data.videoLength * 1000)
+        setTimeout(() => {
+            console.log(chunks)
+            mediaRecorder.stop()
+        }, props.data.videoLength * 1000)
     }
 
     function startDownload(e) {
