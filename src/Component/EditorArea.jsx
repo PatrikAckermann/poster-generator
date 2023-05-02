@@ -296,6 +296,7 @@ function ShapesEditor(props) {
             <button onClick={props.addText}>Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")}>Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
             {displayTexts && <SortableList copyElement={copyElement} type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>}
+            <span className="hr"><hr/></span>
             <button onClick={addShape}>Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")}>Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
             {displayShapes && <SortableList copyElement={copyElement} type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
@@ -373,6 +374,7 @@ function TextEditor(props) {
             <label htmlFor="a">Farbe:</label>
             <ColorPicker gradientSetting onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
         </div>
+        <span className="hr"><hr/></span>
     </div>
 )}
 
@@ -446,6 +448,7 @@ function ShapeEditor(props) {
                 <label htmlFor="a">Farbe:</label>
                 <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
             </div>
+            <span className="hr"><hr/></span>
         </div>
 )}
 
