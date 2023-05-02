@@ -13,11 +13,7 @@ The design is unfinished too. It consists only of a rough layout and some simple
 ## Examples
 Here are a few examples on what's possible with the poster generator.
 
-
-
 https://user-images.githubusercontent.com/87939030/235651684-cf7f1b00-3553-4293-88e7-b0398edfbcb0.mp4
-
-https://raw.githubusercontent.com/PatrikAckermann/poster-generator/master/examples/example1.webm.mov
 
 ## Animation modes
 The Formen (Shapes) mode is the main animation mode of this website. The other ones were created to learn the usage of HTML Canvas.
