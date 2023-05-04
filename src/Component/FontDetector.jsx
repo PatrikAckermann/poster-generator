@@ -9,5 +9,5 @@ export async function getFonts() {
     })
     return sortedFontList //Only supported on Chromium. Won't work in firefox. The npm builder also doesn't know it
   }
-  return new Promise((res, rej) => {res(["Arial", "Poppins"])})
+  return new Promise((res, rej) => {res(["Arial", "Calibri", "Comic Sans MS", "Times New Roman"])})
 }
