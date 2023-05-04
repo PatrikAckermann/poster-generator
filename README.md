@@ -14,6 +14,7 @@ The design is unfinished too. It consists only of a rough layout and some simple
 Here are a few examples on what's possible with the poster generator.
 
 https://user-images.githubusercontent.com/87939030/235651684-cf7f1b00-3553-4293-88e7-b0398edfbcb0.mp4
+
 [poster(8).webm](https://user-images.githubusercontent.com/87939030/236162080-82673747-eda7-49d3-a784-39efee8f62ac.webm)
 
 ## Animation modes
