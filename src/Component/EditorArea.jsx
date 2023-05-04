@@ -147,7 +147,7 @@ export default function EditorArea(props) {
                 </div>
 
                 <span className="hr"><hr/></span>
-                <div className="SettingPair">
+                <div className="Input">
                     <label htmlFor="backgroundColor">Hintergrundfarbe: </label>
                     <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
                 </div>
@@ -500,26 +500,26 @@ function ShapeEditor(props) {
 
 function ColorPicker(props) {
     return <div className="ColorPicker">
-            <div className="RadioInput">
-                <input colorname="colorSetting" type="radio" id={props.name + "color1"} name={props.name + "colorSetting"} value="1" onChange={props.onChange} checked={props.data.colorSetting === "1"} />
-                <label htmlFor={props.name + "color1"}>1 Farbe</label>
-                <input colorname="colorSetting" type="radio" id={props.name + "colorGradient"} name={props.name + "colorSetting"} value="gradient" onChange={props.onChange} checked={props.data.colorSetting === "gradient"}/>
-                <label htmlFor={props.name + "colorGradient"}>Farbverlauf</label>
-            </div>
-            <input type="color" id="color" name="color" onChange={props.onChange} value={props.color}/>
-            {props.data.colorSetting === "gradient" && <input type="color" id="color2" name="color2" onChange={props.onChange} value={props.color2}/>}
-            {props.data.colorSetting === "gradient" && <input type="number" id="colorAngle" name="colorAngle" onChange={props.onChange} value={props.data.colorAngle}/>}
-            {props.gradientSetting && props.data.colorSetting === "gradient" && <div className="RadioInput">
-                <input colorname="gradientSetting" type="radio" id={props.name + "Element"} name={props.name + "gradientSetting"} value="element" onChange={props.onChange} checked={props.data.gradientSetting === "element"} />
-                <label htmlFor={props.name + "Element"}>Element</label>
-                <input colorname="gradientSetting" type="radio" id={props.name + "Page"} name={props.name + "gradientSetting"} value="page" onChange={props.onChange} checked={props.data.gradientSetting === "page"}/>
-                <label htmlFor={props.name + "Page"}>Poster</label>
-            </div>}
+        <div className="RadioInput">
+            <input colorname="colorSetting" type="radio" id={props.name + "color1"} name={props.name + "colorSetting"} value="1" onChange={props.onChange} checked={props.data.colorSetting === "1"} />
+            <label htmlFor={props.name + "color1"}>1 Farbe</label>
+            <input colorname="colorSetting" type="radio" id={props.name + "colorGradient"} name={props.name + "colorSetting"} value="gradient" onChange={props.onChange} checked={props.data.colorSetting === "gradient"}/>
+            <label htmlFor={props.name + "colorGradient"}>Farbverlauf</label>
         </div>
+        <input type="color" id="color" name="color" className="Picker" onChange={props.onChange} value={props.color}/>
+        {props.data.colorSetting === "gradient" && <input type="color" id="color2" name="color2" className="Picker" onChange={props.onChange} value={props.color2}/>}
+        {props.data.colorSetting === "gradient" && <input type="number" id="colorAngle" name="colorAngle" className="ColorAngle" onChange={props.onChange} value={props.data.colorAngle}/>}
+        {props.gradientSetting && props.data.colorSetting === "gradient" && <div className="RadioInput">
+            <input colorname="gradientSetting" type="radio" id={props.name + "Element"} name={props.name + "gradientSetting"} value="element" onChange={props.onChange} checked={props.data.gradientSetting === "element"} />
+            <label htmlFor={props.name + "Element"}>Element</label>
+            <input colorname="gradientSetting" type="radio" id={props.name + "Page"} name={props.name + "gradientSetting"} value="page" onChange={props.onChange} checked={props.data.gradientSetting === "page"}/>
+            <label htmlFor={props.name + "Page"}>Poster</label>
+        </div>}
+    </div>
 }
 
 function FontSelector(props) {
-    var [fontOptions, setFontOptions] = React.useState(["Arial", "Poppins"])
+    var [fontOptions, setFontOptions] = React.useState([])
     React.useEffect(() => {
         getFonts()
             .then(x => {

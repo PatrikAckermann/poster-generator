@@ -19,6 +19,11 @@
     flex-direction: column;
 }
 
+.DefaultEditor {
+    display: flex;
+    flex-direction: column;
+}
+
 .text {
     width: 100%;
 }
@@ -109,4 +114,20 @@ input:active, button:active {
 
 .DoubleInputPrintMode > .Format {
     width: auto;
+}
+
+.ColorPicker {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    width: 100%;
+}
+
+.ColorPicker > .ColorAngle {
+    flex: 1;
+    min-width: 50px;
+}
+
+.Picker {
+    flex: 1;
 }
