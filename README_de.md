@@ -14,7 +14,7 @@ Hier sind einige Beispiele, was mit dem Poster Generator möglich ist.
 
 https://user-images.githubusercontent.com/87939030/235651684-cf7f1b00-3553-4293-88e7-b0398edfbcb0.mp4
 
-https://user-images.githubusercontent.com/87939030/236162435-88d1b615-780e-4e1b-bae4-9ef0562ec42f.webm
+https://user-images.githubusercontent.com/87939030/236163740-6e06831d-2e17-4647-a093-b06d36e1abc7.mp4
 
 ## Animationsmodis
 Der Formen Modus ist der Hauptmodus der Webseite. Die anderen wurden erstellt, um die Programmierung mit HTML Canvas zu lernen.
