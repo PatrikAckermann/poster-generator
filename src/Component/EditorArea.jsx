@@ -59,7 +59,7 @@ export default function EditorArea(props) {
         var canvas = document.querySelector("canvas")
 
         var videoStream = canvas.captureStream(30)
-        var mediaRecorder = new MediaRecorder(videoStream, {videoBitsPerSecond: 50000000})
+        var mediaRecorder = new MediaRecorder(videoStream, {videoBitsPerSecond: 80000000})
         console.log(mediaRecorder.videoBitsPerSecond)
 
         var chunks = []
