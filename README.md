@@ -15,7 +15,7 @@ Here are a few examples on what's possible with the poster generator.
 
 https://user-images.githubusercontent.com/87939030/235651684-cf7f1b00-3553-4293-88e7-b0398edfbcb0.mp4
 
-[example2.webm](https://user-images.githubusercontent.com/87939030/236162080-82673747-eda7-49d3-a784-39efee8f62ac.webm)
+https://user-images.githubusercontent.com/87939030/236162435-88d1b615-780e-4e1b-bae4-9ef0562ec42f.webm
 
 ## Animation modes
 The Formen (Shapes) mode is the main animation mode of this website. The other ones were created to learn the usage of HTML Canvas.
