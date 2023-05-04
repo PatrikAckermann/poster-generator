@@ -100,3 +100,13 @@ input:active, button:active {
     margin-top: 2px;
     margin-bottom: 2px;
 }
+
+.DoubleInputPrintMode {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.DoubleInputPrintMode > .Format {
+    width: auto;
+}

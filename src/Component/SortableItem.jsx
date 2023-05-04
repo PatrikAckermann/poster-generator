@@ -6,7 +6,7 @@ function SortableItem(props) {
     return (
         <div className="ShapeListElement Input">
             <img src={dragIcon} alt=""/>
-            <p>{props.type === "text" ? props.item.text : props.item.name + ", " + translate(props.item.shape)}</p>
+            <label>{props.type === "text" ? props.item.text : props.item.name + ", " + translate(props.item.shape)}</label>
             <button onClick={() => props.setCurrentlyEditing(x => {return {type: props.type, id: props.id}})}>Editieren</button>
             <button onClick={() => props.copyElement(props.type, props.id)}>Kopieren</button>
             <button onClick={() => props.remove(props.id)}>Löschen</button>

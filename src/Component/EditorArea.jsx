@@ -121,15 +121,19 @@ export default function EditorArea(props) {
                         <input type="number" name="y" id="y" onChange={handleChange} value={props.data.y}/>
                     </div>
                 </div>}
-                {props.data.sizeMode === "printing" && <div className="SettingPair">
-                    <label htmlFor="canvasSize">Papierformat:</label>
-                    <select name="canvasSize" id="canvasSize" onChange={handleChange} value={props.data.canvasSize}>
-                        <option value={JSON.stringify({x: 11.7, y: 16.5})}>A3</option>
-                        <option value={JSON.stringify({x: 8.3, y: 11.7})}>A4</option>
-                        <option value={JSON.stringify({x: 5.8, y: 8.3})}>A5</option>
-                    </select>
-                    <label htmlFor="canvasPpi">PPI:</label>
-                    <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
+                {props.data.sizeMode === "printing" && <div className="DoubleInputPrintMode">
+                    <div className="Input Format">
+                        <label htmlFor="canvasSize">Papierformat:</label>
+                        <select name="canvasSize" id="canvasSize" onChange={handleChange} value={props.data.canvasSize}>
+                            <option value={JSON.stringify({x: 11.7, y: 16.5})}>A3</option>
+                            <option value={JSON.stringify({x: 8.3, y: 11.7})}>A4</option>
+                            <option value={JSON.stringify({x: 5.8, y: 8.3})}>A5</option>
+                        </select>
+                    </div>
+                    <div className="Input PPI">
+                        <label htmlFor="canvasPpi">PPI:</label>
+                        <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
+                    </div>
                 </div>}
                 <span className="hr"><hr/></span>
                 <div>
