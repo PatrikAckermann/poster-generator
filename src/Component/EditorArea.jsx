@@ -153,7 +153,7 @@ export default function EditorArea(props) {
                 {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
                 <span className="hr"><hr/></span>
-                <button onClick={(e) => changeStopped(e)}>{props.data.stopped ? "Start" : "Stop"}</button>
+                <button onClick={(e) => changeStopped(e)} className="Margin">{props.data.stopped ? "Start" : "Stop"}</button>
                 
                 <div className="Input">
                     <select name="fileFormat" id="fileFormat" onChange={handleChange} value={props.data.fileFormat}>

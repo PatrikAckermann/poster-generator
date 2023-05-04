@@ -4,7 +4,7 @@ import dragIcon from "../img/drag-indicator.svg"
 
 function SortableItem(props) {
     return (
-        <div className="ShapeListElement SettingPair">
+        <div className="ShapeListElement Input">
             <img src={dragIcon} alt=""/>
             <p>{props.type === "text" ? props.item.text : props.item.name + ", " + translate(props.item.shape)}</p>
             <button onClick={() => props.setCurrentlyEditing(x => {return {type: props.type, id: props.id}})}>Editieren</button>

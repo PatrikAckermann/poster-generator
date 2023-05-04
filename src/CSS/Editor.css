@@ -82,6 +82,10 @@ input:active, button:active {
     min-width: none;
 }
 
+.Input > label {
+    margin-right: 2px;
+}
+
 .RadioInput {
     display: flex;
     flex-direction: row;
