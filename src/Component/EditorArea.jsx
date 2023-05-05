@@ -7,6 +7,19 @@ import {randomNumber} from "./CanvasArea"
 var textAmount = 0
 var shapeAmount = 0
 
+function translateToHexadecimal(number) {
+    var hexadecimals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
+    return hexadecimals[number]
+}
+
+function randomColor() {
+    var color = "#"
+    for (var i = 0; i<6; i++) {
+        color += translateToHexadecimal(randomNumber(0, 15))
+    }
+    return color
+}
+
 export default function EditorArea(props) {
     function addText(e, speedX=0) {
         props.setData(x => {
@@ -101,6 +114,86 @@ export default function EditorArea(props) {
         }
     }
 
+    function addRandomText() {
+        var fonts = getFonts()
+        props.setData(x => {
+            x.texts.push({
+                id: textAmount += 1, 
+                gradientSetting: randomNumber(0, 1) === 1 ? "element" : "poster", 
+                text: "Text", 
+                spinSpeed: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
+                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
+                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
+                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                x: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.x : props.data.x * props.data.canvasPpi), 
+                y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
+                angle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                size: randomNumber(1, 100), 
+                font: fonts[randomNumber(0, fonts.length - 1)], 
+                colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
+                color: randomColor(), 
+                color2: randomColor(), 
+                colorAngle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                speedX: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
+                speedY: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
+                repeatDistanceX: randomNumber(0, 300), 
+                repeatDistanceY: randomNumber(0, 300), 
+                rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
+                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1
+            })
+            return {...x}
+        })
+    }
+
+    function addRandomShape() {
+        props.setData(x => {
+            x.shapes.push({
+                id: shapeAmount += 1, 
+                gradientSetting: randomNumber(0, 1) === 1 ? "element" : "poster", 
+                name: "Zufällige Form", 
+                spinSpeed: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
+                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
+                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
+                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                x: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.x : props.data.x * props.data.canvasPpi), 
+                y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
+                angle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                size: randomNumber(1, 500), 
+                shape: randomNumber(0, 1) === 1 ? "square" : "circle", 
+                colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
+                color: randomColor(), 
+                color2: randomColor(), 
+                colorAngle: randomNumber(0, 1) === 1 ? randomNumber(0, 359) : 0, 
+                speedX: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
+                speedY: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
+                repeatDistanceX: randomNumber(0, 300), 
+                repeatDistanceY: randomNumber(0, 300), 
+                rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
+                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1
+            })
+            for(var i in x.shapes[x.shapes.length - 1]) {
+                console.log(`${i}: ${x.shapes[x.shapes.length - 1][i]}`)
+            }
+            console.log("---------------------------------")
+            return {...x}
+        })
+    }
+
+    function createRandomPoster(e) {
+        e.preventDefault()
+        props.setData(x => {
+            x.texts = []
+            x.shapes = []
+            return {...x}
+        })
+        for (var i = 0; i <= randomNumber(0, 30); i++) {
+            addRandomText()
+        }
+        for (var i = 0; i <= randomNumber(0, 30); i++) {
+            addRandomShape()
+        }
+    }
+
     return (
         <div className="EditorArea">
             <h1 className="Title">Poster-Generator</h1>
@@ -137,7 +230,7 @@ export default function EditorArea(props) {
                     </div>
                 </div>}
                 <span className="hr"><hr/></span>
-                <div>
+                <div className="Input">
                     <label htmlFor="pattern">Animation: </label>
                     <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
                         <option value="shapes">Formen</option>
@@ -145,6 +238,9 @@ export default function EditorArea(props) {
                         <option value="bounce">Bounce</option>
                         <option value="dvd">DVD</option>
                     </select>
+                </div>
+                <div className="Input">
+                    {props.data.pattern === "shapes" && <button className="Margin" onClick={createRandomPoster}>Zufälliges Poster generieren</button>}
                 </div>
 
                 <span className="hr"><hr/></span>
@@ -155,7 +251,7 @@ export default function EditorArea(props) {
                 <span className="hr"><hr/></span>
 
                 {["left-right", "bounce", "dvd"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
-                {props.data.pattern === "shapes" && <ShapesEditor onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
+                {props.data.pattern === "shapes" && <ShapesEditor addRandomText={addRandomText} addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
 
                 <span className="hr"><hr/></span>
                 <button onClick={(e) => changeStopped(e)} className="Margin">{props.data.stopped ? "Start" : "Stop"}</button>
@@ -295,96 +391,18 @@ function ShapesEditor(props) {
         })
     }
 
-    function translateToHexadecimal(number) {
-        var hexadecimals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"]
-        return hexadecimals[number]
-    }
-
-    function randomColor() {
-        var color = "#"
-        for (var i = 0; i<6; i++) {
-            color += translateToHexadecimal(randomNumber(0, 15))
-        }
-        return color
-    }
-
-    function addRandomText() {
-        var fonts = getFonts()
-        props.setData(x => {
-            x.texts.push({
-                id: textAmount += 1, 
-                gradientSetting: randomNumber(0, 1) === 1 ? "element" : "poster", 
-                text: "Text", 
-                spinSpeed: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                x: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.x : props.data.x * props.data.canvasPpi), 
-                y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
-                angle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                size: randomNumber(1, 100), 
-                font: fonts[randomNumber(0, fonts.length - 1)], 
-                colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
-                color: randomColor(), 
-                color2: randomColor(), 
-                colorAngle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                speedX: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                speedY: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                repeatDistanceX: randomNumber(0, 300), 
-                repeatDistanceY: randomNumber(0, 300), 
-                rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
-                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1
-            })
-            return {...x}
-        })
-    }
-
-    function addRandomShape() {
-        props.setData(x => {
-            x.shapes.push({
-                id: shapeAmount += 1, 
-                gradientSetting: randomNumber(0, 1) === 1 ? "element" : "poster", 
-                name: "Zufällige Form", 
-                spinSpeed: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                x: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.x : props.data.x * props.data.canvasPpi), 
-                y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
-                angle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                size: randomNumber(1, 100), 
-                shape: randomNumber(0, 1) === 1 ? "square" : "circle", 
-                colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
-                color: randomColor(), 
-                color2: randomColor(), 
-                colorAngle: randomNumber(0, 1) === 1 ? randomNumber(0, 359) : 0, 
-                speedX: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                speedY: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                repeatDistanceX: randomNumber(0, 300), 
-                repeatDistanceY: randomNumber(0, 300), 
-                rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
-                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1
-            })
-            for(var i in x.shapes[x.shapes.length - 1]) {
-                console.log(`${i}: ${x.shapes[x.shapes.length - 1][i]}`)
-            }
-            console.log("---------------------------------")
-            return {...x}
-        })
-    }
-
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
             {currentlyEditing.type === "text" && <TextEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
             {currentlyEditing.type === "shape" && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
 
             <button onClick={props.addText} className="Margin">Text hinzufügen</button>
-            <button onClick={addRandomText} className="Margin">Zufälligen Text hinzufügen</button>
+            <button onClick={props.addRandomText} className="Margin">Zufälligen Text hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "texts")} className="Margin">Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
             {displayTexts && <SortableList copyElement={copyElement} type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>}
             <span className="hr"><hr/></span>
             <button onClick={addShape} className="Margin">Form hinzufügen</button>
-            <button onClick={addRandomShape} className="Margin">Zufällige Form hinzufügen</button>
+            <button onClick={props.addRandomShape} className="Margin">Zufällige Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e, "shapes")} className="Margin">Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
             {displayShapes && <SortableList copyElement={copyElement} type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
         </div>
@@ -417,7 +435,7 @@ function TextEditor(props) {
         </div>
         <div className="Input">
             <label htmlFor="angle">Winkel: </label>
-            <input type="number" id="angle" name="angle" className="text" sonChange={editText} value={texts.angle}/>
+            <input type="number" id="angle" name="angle" className="text" onChange={editText} value={texts.angle}/>
         </div>
         <div className="DoubleInput">
             <div className="Input">

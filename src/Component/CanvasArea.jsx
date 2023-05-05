@@ -200,7 +200,7 @@ function shapes(x, frame, props) {
                 for (var i = 0; i < shape.columnRepeat; i++) {
                     shapeList.push([])
                     for (var j = 0; j < shape.rowRepeat; j++) {
-                        shapeList[shapeIndex].push({...shape, angle: shape.angle + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        shapeList[shapeIndex].push({...shape, angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -214,7 +214,7 @@ function shapes(x, frame, props) {
                 for (var i = 0; i < text.columnRepeat; i++) {
                     textList.push([])
                     for (var j = 0; j < text.rowRepeat; j++) {
-                        textList[textIndex].push({...text, angle: text.angle + randomNumber(-text.angleOffset, text.angleOffset),x: parseInt(text.x) + text.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(text.y) + text.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        textList[textIndex].push({...text, angle: parseInt(text.angle) + randomNumber(-text.angleOffset, text.angleOffset),x: parseInt(text.x) + text.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(text.y) + text.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -235,7 +235,7 @@ function shapes(x, frame, props) {
         repeatedShapes.forEach((shape) => {
             x.save()
             x.translate(shape.x + shape.size/2, shape.y + shape.size/2)
-            x.rotate(shape.angle * (Math.PI / 180))
+            x.rotate(parseInt(shape.angle) * (Math.PI / 180))
 
             var colorAngle = shape.colorAngle * (Math.PI / 180)
             x.fillStyle = x.strokeStyle = shape.color
@@ -292,7 +292,7 @@ function shapes(x, frame, props) {
             x.save()
             x.font = `${text.size * 5}px ${text.font}`
             x.translate(text.x + x.measureText(text.text).width/2, text.y + text.size/2)
-            x.rotate(text.angle * (Math.PI / 180))
+            x.rotate(parseInt(text.angle) * (Math.PI / 180))
 
             x.fillStyle = x.strokeStyle = text.color
 
