@@ -267,18 +267,32 @@ function shapes(x, frame, props) {
 
             var newPos = shape
             //fullShapeSize = parseInt(newPos.size) + parseInt(getExtraLength(newPos, shape.angle))
-
-            if(newPos.x > x.canvas.width + fullShapeSize/2) {
-                newPos.x = 0 - fullShapeSize
-            } 
-            if (newPos.x < 0 - fullShapeSize) {
-                newPos.x = x.canvas.width + fullShapeSize/2
-            }
-            if (newPos.y > x.canvas.height + fullShapeSize/2) {
-                newPos.y = 0 - fullShapeSize
-            } 
-            if (newPos.y < 0 - fullShapeSize) {
-                newPos.y = x.canvas.height + fullShapeSize/2
+            if (newPos.bounce === false) {
+                if(newPos.x > x.canvas.width + fullShapeSize/2) {
+                    newPos.x = 0 - fullShapeSize
+                } 
+                if (newPos.x < 0 - fullShapeSize) {
+                    newPos.x = x.canvas.width + fullShapeSize/2
+                }
+                if (newPos.y > x.canvas.height + fullShapeSize/2) {
+                    newPos.y = 0 - fullShapeSize
+                } 
+                if (newPos.y < 0 - fullShapeSize) {
+                    newPos.y = x.canvas.height + fullShapeSize/2
+                }
+            } else {
+                if (newPos.x > x.canvas.width - fullShapeSize) {
+                    newPos.speedX = -Math.abs(newPos.speedX)
+                }
+                if (newPos.x < 0) {
+                    newPos.speedX = Math.abs(newPos.speedX)
+                }
+                if (newPos.y > x.canvas.height - fullShapeSize) {
+                    newPos.speedY = -Math.abs(newPos.speedY)
+                }
+                if (newPos.y < 0) {
+                    newPos.speedY = Math.abs(newPos.speedY)
+                }
             }
             newPos.x += parseInt(shape.speedX)
             newPos.y += parseInt(shape.speedY)
@@ -320,17 +334,32 @@ function shapes(x, frame, props) {
             var newPos = text
             x.font = `${text.size * 5}px ${text.font}`
 
-            if(newPos.x > x.canvas.width + x.measureText(text.text).width) {
-                newPos.x = 0 - x.measureText(text.text).width
-            } 
-            if (newPos.x < 0 - x.measureText(text.text).width) {
-                newPos.x = x.canvas.width
-            }
-            if (newPos.y > x.canvas.height + parseInt(text.size) * 5) {
-                newPos.y = 0 - text.size
-            } 
-            if (newPos.y < 0 - parseInt(text.size)) {
-                newPos.y = x.canvas.height + text.size * 5
+            if (newPos.bounce === false) {
+                if(newPos.x > x.canvas.width + x.measureText(text.text).width) {
+                    newPos.x = 0 - x.measureText(text.text).width
+                } 
+                if (newPos.x < 0 - x.measureText(text.text).width) {
+                    newPos.x = x.canvas.width
+                }
+                if (newPos.y > x.canvas.height + parseInt(text.size) * 5) {
+                    newPos.y = 0 - text.size
+                } 
+                if (newPos.y < 0 - parseInt(text.size)) {
+                    newPos.y = x.canvas.height + text.size * 5
+                }
+            } else {
+                if(newPos.x >= x.canvas.width - x.measureText(newPos.text).width) {
+                    newPos.speedX = -Math.abs(newPos.speedX)
+                }
+                if(newPos.x <= 0) {
+                    newPos.speedX = Math.abs(newPos.speedX)
+                }
+                if(newPos.y >= x.canvas.height - newPos.size) {
+                    newPos.speedY = -Math.abs(newPos.speedX)
+                }
+                if(newPos.y <= 0 + (parseInt(newPos.size)*5*0.5)) {
+                    newPos.speedY = Math.abs(newPos.speedX)
+                }
             }
             newPos.x += parseInt(text.speedX)
             newPos.y += parseInt(text.speedY)

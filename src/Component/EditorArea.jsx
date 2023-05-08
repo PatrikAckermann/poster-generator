@@ -23,7 +23,7 @@ function randomColor() {
 export default function EditorArea(props) {
     function addText(e, speedX=0) {
         props.setData(x => {
-            x.texts.push({id: textAmount += 1, gradientSetting: "element", text: "Text", spinSpeed: 0, offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
+            x.texts.push({bounce: false, id: textAmount += 1, gradientSetting: "element", text: "Text", spinSpeed: 0, offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
             return {...x}
         })
     }
@@ -139,7 +139,8 @@ export default function EditorArea(props) {
                 repeatDistanceX: randomNumber(0, 300), 
                 repeatDistanceY: randomNumber(0, 300), 
                 rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
-                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1
+                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
+                bounce: randomNumber(0, 1) === 1 ? true : false
             })
             return {...x}
         })
@@ -169,7 +170,8 @@ export default function EditorArea(props) {
                 repeatDistanceX: randomNumber(0, 300), 
                 repeatDistanceY: randomNumber(0, 300), 
                 rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
-                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1
+                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
+                bounce: randomNumber(0, 1) === 1 ? true : false
             })
             for(var i in x.shapes[x.shapes.length - 1]) {
                 console.log(`${i}: ${x.shapes[x.shapes.length - 1][i]}`)
@@ -336,7 +338,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
@@ -412,7 +414,11 @@ function ShapesEditor(props) {
 function TextEditor(props) {
     function editText(e) {
         props.setData(x => {
-            x.texts[props.currentlyEditing.id] = {...x.texts[props.currentlyEditing.id], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
+            if (e.target.type === "checkbox") {
+                x.texts[props.currentlyEditing.id] = {...x.texts[props.currentlyEditing.id], [e.target.name]: e.target.checked}
+            } else {
+                x.texts[props.currentlyEditing.id] = {...x.texts[props.currentlyEditing.id], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
+            }
             return {...x}
         })
     }
@@ -495,6 +501,10 @@ function TextEditor(props) {
             <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
             <input type="number" id="spinSpeed" name="spinSpeed" onChange={editText} value={texts.spinSpeed}/>
         </div>
+        <div className="RadioInput">
+            <label htmlFor="bounce">Bounce: </label>
+            <input type="checkbox" id="bounce" name="bounce" onChange={editText} checked={texts.bounce}/>
+        </div>
         <div className="Input">
             <label htmlFor="a">Farbe:</label>
             <ColorPicker gradientSetting onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
@@ -506,7 +516,11 @@ function TextEditor(props) {
 function ShapeEditor(props) {
     function editShape(e) { 
         props.setData(x => {
-            x.shapes[props.currentlyEditing.id] = {...x.shapes[props.currentlyEditing.id], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
+            if (e.target.type === "checkbox") {
+                x.shapes[props.currentlyEditing.id] = {...x.shapes[props.currentlyEditing.id], [e.target.name]: e.target.checked}
+            } else {
+                x.shapes[props.currentlyEditing.id] = {...x.shapes[props.currentlyEditing.id], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
+            }
             return {...x}
         })
     }
@@ -588,6 +602,10 @@ function ShapeEditor(props) {
             <div className="Input">
                 <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
                 <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].spinSpeed}/>
+            </div>
+            <div className="RadioInput">
+                <label htmlFor="bounce">Bounce: </label>
+                <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing.id].bounce}/>
             </div>
             <div className="Input">
                 <label htmlFor="a">Farbe:</label>
