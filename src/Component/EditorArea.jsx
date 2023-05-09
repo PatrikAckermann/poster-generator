@@ -4,7 +4,6 @@ import SortableList from "./SortableList"
 import "../CSS/Editor.css"
 import {randomNumber} from "./CanvasArea"
 
-var textAmount = 0
 var shapeAmount = 0
 
 function translateToHexadecimal(number) {
@@ -21,22 +20,7 @@ function randomColor() {
 }
 
 export default function EditorArea(props) {
-    function addText(e, speedX=0) {
-        props.setData(x => {
-            x.texts.push({bounce: false, id: textAmount += 1, gradientSetting: "element", text: "Text", spinSpeed: 0, offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, x: 100, y: 100, angle: 0, size: 10, font: "Arial", colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, speedX: speedX, speedY: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1})
-            return {...x}
-        })
-    }
-
     function handleChange(e) {
-        if (e.target.name === "pattern") {
-            props.setData(x => {
-                return {...x, texts: [], shapes: []}
-            })
-            if (e.target.value !== "shapes") {
-                addText(e, 10)
-            }
-        } 
         if (e.target.name === "canvasPreset") {
             props.setData(x => {
                 return {...x, canvasSize: {x: 0, y: 0}}
@@ -114,53 +98,22 @@ export default function EditorArea(props) {
         }
     }
 
-    function addRandomText() {
-        var fonts = getFonts()
-        props.setData(x => {
-            x.texts.push({
-                id: textAmount += 1, 
-                gradientSetting: randomNumber(0, 1) === 1 ? "element" : "poster", 
-                text: "Text", 
-                spinSpeed: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                x: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.x : props.data.x * props.data.canvasPpi), 
-                y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
-                angle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                size: randomNumber(1, 100), 
-                font: fonts[randomNumber(0, fonts.length - 1)], 
-                colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
-                color: randomColor(), 
-                color2: randomColor(), 
-                colorAngle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
-                speedX: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                speedY: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                repeatDistanceX: randomNumber(0, 300), 
-                repeatDistanceY: randomNumber(0, 300), 
-                rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
-                columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
-                bounce: randomNumber(0, 1) === 1 ? true : false
-            })
-            return {...x}
-        })
-    }
-
     function addRandomShape() {
+        var fonts = getFonts()
         props.setData(x => {
             x.shapes.push({
                 id: shapeAmount += 1, 
                 gradientSetting: randomNumber(0, 1) === 1 ? "element" : "poster", 
-                name: "Zufällige Form", 
+                name: "Text", 
                 spinSpeed: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(-100, 100) : 0, 
-                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                offsetRangeX: randomNumber(0, 1) === 1 ? randomNumber(0, 100) : 0, 
+                offsetRangeY: randomNumber(0, 1) === 1 ? randomNumber(0, 100) : 0, 
+                angleOffset: randomNumber(0, 1) === 1 ? randomNumber(0, 180) : 0, 
                 x: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.x : props.data.x * props.data.canvasPpi), 
                 y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
-                angle: randomNumber(0, 1) === 1 ? randomNumber(-180, 180) : 0, 
+                angle: randomNumber(0, 1) === 1 ? randomNumber(0, 359) : 0, 
                 size: randomNumber(1, 500), 
-                shape: randomNumber(0, 1) === 1 ? "square" : "circle", 
+                shape: ["square", "circle", "text"][randomNumber(0, 2)], 
                 colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
                 color: randomColor(), 
                 color2: randomColor(), 
@@ -171,12 +124,9 @@ export default function EditorArea(props) {
                 repeatDistanceY: randomNumber(0, 300), 
                 rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
                 columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
-                bounce: randomNumber(0, 1) === 1 ? true : false
+                bounce: randomNumber(0, 1) === 1 ? true : false,
+                font: fonts[randomNumber(0, fonts.length - 1)]
             })
-            for(var i in x.shapes[x.shapes.length - 1]) {
-                console.log(`${i}: ${x.shapes[x.shapes.length - 1][i]}`)
-            }
-            console.log("---------------------------------")
             return {...x}
         })
     }
@@ -184,13 +134,9 @@ export default function EditorArea(props) {
     function createRandomPoster(e) {
         e.preventDefault()
         props.setData(x => {
-            x.texts = []
             x.shapes = []
             return {...x}
         })
-        for (var i = 0; i <= randomNumber(0, 30); i++) {
-            addRandomText()
-        }
         for (var i = 0; i <= randomNumber(0, 30); i++) {
             addRandomShape()
         }
@@ -233,16 +179,7 @@ export default function EditorArea(props) {
                 </div>}
                 <span className="hr"><hr/></span>
                 <div className="Input">
-                    <label htmlFor="pattern">Animation: </label>
-                    <select name="pattern" id="pattern" onChange={handleChange} value={props.data.pattern}>
-                        <option value="shapes">Formen</option>
-                        <option value="left-right">Links-Rechts</option>
-                        <option value="bounce">Bounce</option>
-                        <option value="dvd">DVD</option>
-                    </select>
-                </div>
-                <div className="Input">
-                    {props.data.pattern === "shapes" && <button className="Margin" onClick={createRandomPoster}>Zufälliges Poster generieren</button>}
+                    <button className="Margin" onClick={createRandomPoster}>Zufälliges Poster generieren</button>
                 </div>
 
                 <span className="hr"><hr/></span>
@@ -251,9 +188,7 @@ export default function EditorArea(props) {
                     <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
                 </div>
                 <span className="hr"><hr/></span>
-
-                {["left-right", "bounce", "dvd"].includes(props.data.pattern) && <DefaultEditor onChange={handleChange} data={props.data} setData={props.setData}/>}
-                {props.data.pattern === "shapes" && <ShapesEditor addRandomText={addRandomText} addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData} addText={addText}/>}
+                <ShapesEditor addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData}/>
 
                 <span className="hr"><hr/></span>
                 <button onClick={(e) => changeStopped(e)} className="Margin">{props.data.stopped ? "Start" : "Stop"}</button>
@@ -272,104 +207,36 @@ export default function EditorArea(props) {
     )
 }
 
-function DefaultEditor(props) {
-    function handleChange(e) {
-        props.setData(x => {
-            return {
-                ...x,
-                texts: [
-                    {
-                        ...x.texts[0],
-                        [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value
-                    }
-            ]
-        }})
-    }
-    return (
-        <form className="DefaultEditor">
-            <div className="Input">
-                <label htmlFor="text">Text: </label>
-                <input type="text" id="text" name="text" onChange={handleChange} value={props.data.texts[0].text}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="font">Schrift: </label>
-                <FontSelector fontVar={props.data.texts[0].font} onChange={handleChange}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="fontSize">Schriftgrösse: </label>
-                <input type="number" id="size" name="size" onChange={handleChange} value={props.data.texts[0].size}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="speedY">Geschwindigkeit: </label>
-                <input type="number" id="speedX" name="speedX" onChange={handleChange} value={props.data.texts[0].speedX}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="color">Textfarbe: </label>
-                <ColorPicker onChange={handleChange} data={props.data.texts[0]} colorSetting={props.data.texts[0].color} color={props.data.texts[0].color} color2={props.data.texts[0].color2} name="text"/>
-            </div>
-                
-        </form>
-    )
-}
-
 function ShapesEditor(props) {
-    var [displayTexts, setDisplayTexts] = React.useState(true)
     var [displayShapes, setDisplayShapes] = React.useState(true)
-    var [currentlyEditing, setCurrentlyEditing] = React.useState({type: "none", id: 0})
+    var [currentlyEditing, setCurrentlyEditing] = React.useState(-1)
 
-    function copyElement(type, id) {
-        if (type === "text") {
-            props.setData(x => {
-                x.texts.push(x.texts[id])
-                return {...x}
-            })
-        } else {
-            props.setData(x => {
-                x.shapes.push(x.shapes[id])
-                return {...x}
-            })
-        }
-    }
-
-    function toggleButton(e, div) {
-        e.preventDefault()
-        div === "texts" ? setDisplayTexts(x => !x) : setDisplayShapes(x => !x)
-    }
-
-    function addShape(e) {
+    function copyElement(id) {
         props.setData(x => {
-            x.shapes.push({bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push(x.shapes[id])
             return {...x}
         })
     }
 
-    function removeText(id) {
-        if (currentlyEditing.id === id && currentlyEditing.type === "text") {
-            var newId = 0
-            if (newId !== id && newId < props.data.texts.length) {
-                setCurrentlyEditing({type: "text", id: 0})
-            } else if (props.data.shapes.length >= 1){
-                setCurrentlyEditing({type: "shape", id: 0})
-            } else {
-                setCurrentlyEditing({type: "none", id: 0})
-            }
-        }
-        
+    function toggleButton(e) {
+        e.preventDefault()
+        setDisplayShapes(x => !x)
+    }
+
+    function addShape(e) {
         props.setData(x => {
-            x.texts.splice(id, 1) 
+            x.shapes.push({font: "Arial", bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
 
     function removeShape(id) {
-        if (currentlyEditing.id === id && currentlyEditing.type === "shape") {
+        if (currentlyEditing === id) {
             var newId = 0
-            if (newId !== id && newId < props.data.shapes.length) {
-                setCurrentlyEditing({type: "shape", id: 0})
-            } else if (props.data.texts.length >= 1) {
-                setCurrentlyEditing({type: "text", id: 0})
+            if (newId !== id && newId > props.data.shapes.length) {
+                setCurrentlyEditing(0)
             } else {
-                setCurrentlyEditing({type: "none", id: 0})
+                setCurrentlyEditing(-1)
             }
         }
         
@@ -395,131 +262,23 @@ function ShapesEditor(props) {
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
-            {currentlyEditing.type === "text" && <TextEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
-            {currentlyEditing.type === "shape" && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
+            {currentlyEditing !== -1 && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
 
-            <button onClick={props.addText} className="Margin">Text hinzufügen</button>
-            <button onClick={props.addRandomText} className="Margin">Zufälligen Text hinzufügen</button>
-            <button onClick={(e) => toggleButton(e, "texts")} className="Margin">Texte {displayTexts === true ? "verstecken" : "anzeigen"}</button>
-            {displayTexts && <SortableList copyElement={copyElement} type="text" items={props.data.texts} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "text")} setCurrentlyEditing={setCurrentlyEditing} remove={removeText}/>}
-            <span className="hr"><hr/></span>
             <button onClick={addShape} className="Margin">Form hinzufügen</button>
             <button onClick={props.addRandomShape} className="Margin">Zufällige Form hinzufügen</button>
-            <button onClick={(e) => toggleButton(e, "shapes")} className="Margin">Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
+            <button onClick={(e) => toggleButton(e)} className="Margin">Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
             {displayShapes && <SortableList copyElement={copyElement} type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
         </div>
     )
 }
- 
-function TextEditor(props) {
-    function editText(e) {
-        props.setData(x => {
-            if (e.target.type === "checkbox") {
-                x.texts[props.currentlyEditing.id] = {...x.texts[props.currentlyEditing.id], [e.target.name]: e.target.checked}
-            } else {
-                x.texts[props.currentlyEditing.id] = {...x.texts[props.currentlyEditing.id], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
-            }
-            return {...x}
-        })
-    }
-
-    var texts = props.data.texts[props.currentlyEditing.id]
-
-    return (
-    <div style={{display: "flex", flexDirection: "column"}}>
-        <div className="Input">
-            <label htmlFor="text">Text:</label>
-            <input type="text" id="text" name="text" className="text" onChange={editText} value={texts.text}/>
-        </div>
-        <div className="Input">
-            <label htmlFor="font">Schriftart:</label>
-            <FontSelector fontVar={texts.font} onChange={editText}/>
-        </div>
-        <div className="Input">
-            <label htmlFor="size">Schriftgrösse:</label>
-            <input type="number" id="size" name="size" className="text" onChange={editText} value={texts.size}/>
-        </div>
-        <div className="Input">
-            <label htmlFor="angle">Winkel: </label>
-            <input type="number" id="angle" name="angle" className="text" onChange={editText} value={texts.angle}/>
-        </div>
-        <div className="DoubleInput">
-            <div className="Input">
-                <label htmlFor="x">Breite:</label>
-                <input type="number" id="x" name="x" className="text" onChange={editText} value={texts.x}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="y">Höhe:</label>
-                <input type="number" id="y" name="y" className="text" onChange={editText} value={texts.y}/>
-            </div>
-        </div>
-        <div className="DoubleInput">
-            <div className="Input">
-                <label htmlFor="rowRepeat">Reihe wiederholen: </label>
-                <input type="number" id="rowRepeat" name="rowRepeat" onChange={editText} value={texts.rowRepeat}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="repeatDistanceY">Distanz: </label>
-                <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editText} value={texts.repeatDistanceY}/>
-            </div>
-        </div>
-        <div className="DoubleInput">
-            <div className="Input">
-                <label htmlFor="columnRepeat">Spalte wiederholen: </label>
-                <input type="number" id="columnRepeat" name="columnRepeat" onChange={editText} value={texts.columnRepeat}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="repeatDistanceX">Distanz: </label>
-                <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editText} value={texts.repeatDistanceX}/>
-            </div>
-        </div>
-        <div className="DoubleInput">
-            <div className="Input">
-                <label htmlFor="offsetRangeX">Random Offset - Breite: </label>
-                <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editText} value={texts.offsetRangeX}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="offsetRangeY">Höhe: </label>
-                <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editText} value={texts.offsetRangeY}/>
-            </div>
-        </div>
-        <div className="DoubleInput">
-            <div className="Input">
-                <label htmlFor="speedX">Geschwindigkeit - Breite: </label>
-                <input type="number" id="speedX" name="speedX" onChange={editText} value={texts.speedX}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="speedY">Höhe: </label>
-                <input type="number" id="speedY" name="speedY" onChange={editText} value={texts.speedY}/>
-            </div>
-        </div>
-        <div className="Input">
-            <label htmlFor="angleOffset">Winkel Offset: </label>
-            <input type="number" id="angleOffset" name="angleOffset" onChange={editText} value={texts.angleOffset}/>
-        </div>
-        <div className="Input">
-            <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
-            <input type="number" id="spinSpeed" name="spinSpeed" onChange={editText} value={texts.spinSpeed}/>
-        </div>
-        <div className="RadioInput">
-            <label htmlFor="bounce">Bounce: </label>
-            <input type="checkbox" id="bounce" name="bounce" onChange={editText} checked={texts.bounce}/>
-        </div>
-        <div className="Input">
-            <label htmlFor="a">Farbe:</label>
-            <ColorPicker gradientSetting onChange={editText} data={texts} color={texts.color} color2={texts.color2} name="shape"/>
-        </div>
-        <span className="hr"><hr/></span>
-    </div>
-)}
 
 function ShapeEditor(props) {
     function editShape(e) { 
         props.setData(x => {
             if (e.target.type === "checkbox") {
-                x.shapes[props.currentlyEditing.id] = {...x.shapes[props.currentlyEditing.id], [e.target.name]: e.target.checked}
+                x.shapes[props.currentlyEditing] = {...x.shapes[props.currentlyEditing], [e.target.name]: e.target.checked}
             } else {
-                x.shapes[props.currentlyEditing.id] = {...x.shapes[props.currentlyEditing.id], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
+                x.shapes[props.currentlyEditing] = {...x.shapes[props.currentlyEditing], [e.target.type === "radio" ? e.target.attributes.colorname.nodeValue : e.target.name]: e.target.value}
             }
             return {...x}
         })
@@ -528,88 +287,93 @@ function ShapeEditor(props) {
         <div style={{display: "flex", flexDirection: "column"}}>
             <div className="Input">
                 <label htmlFor="name">Name: </label>
-                <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].name}/>
+                <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing].name}/>
             </div>
             <div className="Input">
                 <label htmlFor="shape">Form: </label>
-                <select name="shape" id="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].shape}>
+                <select name="shape" id="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing].shape}>
                     <option value="square">Quadrat</option>
                     <option value="circle">Kreis</option>
+                    <option value="text">Text</option>
                 </select>
             </div>
+            {props.data.shapes[props.currentlyEditing].shape === "text" && <div className="Input">
+                <label htmlFor="font">Schriftart:</label>
+                <FontSelector fontVar={props.data.shapes[props.currentlyEditing].font} onChange={editShape}/>
+            </div>}
             <div className="Input">
                 <label htmlFor="shapeSize">Grösse: </label>
-                <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].size}/>
+                <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing].size}/>
             </div>
             <div className="Input">
                 <label htmlFor="angle">Winkel: </label>
-                <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing.id].angle}/>
+                <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing].angle}/>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="shapePositionWidth">Position - Breite: </label>
-                    <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].x}/>
+                    <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing].x}/>
                 </div>
                 <div className="Input">
                     <label htmlFor="shapePositionHeight">Höhe: </label>
-                    <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].y}/>
+                    <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing].y}/>
                 </div>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="rowRepeat">Reihe wiederholen: </label>
-                    <input type="number" id="rowRepeat" name="rowRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].rowRepeat}/>
+                    <input type="number" id="rowRepeat" name="rowRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing].rowRepeat}/>
                 </div>
                 <div className="Input">
                     <label htmlFor="repeatDistanceY">Distanz: </label>
-                    <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceY}/>
+                    <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceY}/>
                 </div>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="columnRepeat">Spalte wiederholen: </label>
-                    <input type="number" id="columnRepeat" name="columnRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].columnRepeat}/>
+                    <input type="number" id="columnRepeat" name="columnRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing].columnRepeat}/>
                 </div>
                 <div className="Input">
                     <label htmlFor="repeatDistanceX">Distanz: </label>
-                    <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].repeatDistanceX}/>
+                    <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceX}/>
                 </div>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="offsetRangeX">Random Offset - Breite: </label>
-                    <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeX}/>
+                    <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeX}/>
                 </div>
                 <div className="Input">
                     <label htmlFor="offsetRangeY">Höhe: </label>
-                    <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].offsetRangeY}/>
+                    <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
                 </div>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="speedX">Geschwindigkeit - Breite: </label>
-                    <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedX}/>
+                    <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
                 </div>
                 <div className="Input">
                     <label htmlFor="speedY">Höhe: </label>
-                    <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].speedY}/>
+                    <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedY}/>
                 </div>
             </div>
             <div className="Input">
                 <label htmlFor="angleOffset">Winkel Offset: </label>
-                <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].angleOffset}/>
+                <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].angleOffset}/>
             </div>
             <div className="Input">
                 <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>
-                <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing.id].spinSpeed}/>
+                <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing].spinSpeed}/>
             </div>
             <div className="RadioInput">
                 <label htmlFor="bounce">Bounce: </label>
-                <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing.id].bounce}/>
+                <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing].bounce}/>
             </div>
             <div className="Input">
                 <label htmlFor="a">Farbe:</label>
-                <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing.id]} color={props.data.shapes[props.currentlyEditing.id].color} color2={props.data.shapes[props.currentlyEditing.id].color2} name="shape"/>
+                <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing]} color={props.data.shapes[props.currentlyEditing].color} color2={props.data.shapes[props.currentlyEditing].color2} name="shape"/>
             </div>
             <span className="hr"><hr/></span>
         </div>

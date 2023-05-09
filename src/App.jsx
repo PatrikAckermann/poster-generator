@@ -20,8 +20,6 @@ export default function App() {
         colorAngle: 0, 
         stopped: false, 
         speed: 10,
-        pattern: "shapes", 
-        texts: [],
         shapes: []
     })
     
