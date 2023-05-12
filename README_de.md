@@ -50,3 +50,5 @@ Hier sind einige Beispiele, was mit dem Poster Generator möglich ist.
 https://user-images.githubusercontent.com/87939030/235651684-cf7f1b00-3553-4293-88e7-b0398edfbcb0.mp4
 
 https://user-images.githubusercontent.com/87939030/236163740-6e06831d-2e17-4647-a093-b06d36e1abc7.mp4
+
+https://github.com/PatrikAckermann/poster-generator/assets/87939030/045a1502-3b4f-4aa5-9a4f-3d58c4982dd0
