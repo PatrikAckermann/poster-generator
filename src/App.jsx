@@ -25,7 +25,6 @@ export default function App() {
     
     return (
         <div className="App">
-            
             <div className="MainContent">
                 <Split direction="horizontal" className="split">
                     <CanvasArea data={data} setData={setData}/>

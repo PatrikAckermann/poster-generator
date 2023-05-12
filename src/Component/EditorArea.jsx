@@ -125,7 +125,11 @@ export default function EditorArea(props) {
                 rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
                 columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
                 bounce: randomNumber(0, 1) === 1 ? true : false,
-                font: fonts[randomNumber(0, fonts.length - 1)]
+                font: fonts[randomNumber(0, fonts.length - 1)],
+                speedOffsetX: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 0,
+                speedOffsetY: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 0,
+                sizeOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 300) : 0,
+                hidden: false
             })
             return {...x}
         })
@@ -225,7 +229,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({font: "Arial", bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({hidden: false, sizeOffset: 0, speedOffsetX: 0, speedOffsetY: 0, repeatMode: "beginning", font: "Arial", bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
             return {...x}
         })
     }
@@ -260,6 +264,13 @@ function ShapesEditor(props) {
         })
     }
 
+    function toggleHide(id) {
+        props.setData(x => {
+            x.shapes[id].hidden = !x.shapes[id].hidden
+            return {...x}
+        })
+    }
+
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
             {currentlyEditing !== -1 && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
@@ -267,7 +278,7 @@ function ShapesEditor(props) {
             <button onClick={addShape} className="Margin">Form hinzufügen</button>
             <button onClick={props.addRandomShape} className="Margin">Zufällige Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e)} className="Margin">Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
-            {displayShapes && <SortableList copyElement={copyElement} type="shape" items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
+            {displayShapes && <SortableList copyElement={copyElement} type="shape" toggleHide={toggleHide} items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
         </div>
     )
 }
@@ -341,16 +352,6 @@ function ShapeEditor(props) {
             </div>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="offsetRangeX">Random Offset - Breite: </label>
-                    <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeX}/>
-                </div>
-                <div className="Input">
-                    <label htmlFor="offsetRangeY">Höhe: </label>
-                    <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
-                </div>
-            </div>
-            <div className="DoubleInput">
-                <div className="Input">
                     <label htmlFor="speedX">Geschwindigkeit - Breite: </label>
                     <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
                 </div>
@@ -359,9 +360,40 @@ function ShapeEditor(props) {
                     <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedY}/>
                 </div>
             </div>
+            <div className="DoubleInput">
+                <div className="Input">
+                    <label htmlFor="offsetRangeX">Position Offset - Breite: </label>
+                    <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeX}/>
+                </div>
+                <div className="Input">
+                    <label htmlFor="offsetRangeY">Höhe: </label>
+                    <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
+                </div>
+            </div>
+            <div className="RadioInput">
+                <label>Wiederholungsmodus: </label>
+                <input type="radio" name="repeatMode" id="repeatModeOrig" colorname="repeatMode" value="beginning" checked={props.data.shapes[props.currentlyEditing].repeatMode === "beginning"} onChange={editShape}/>
+                <label htmlFor="repeatModeOrig">Ab Anfang</label>
+                <input type="radio" name="repeatMode" id="repeatModeEnd" colorname="repeatMode" value="end" checked={props.data.shapes[props.currentlyEditing].repeatMode === "end"} onChange={editShape}/>
+                <label>Ab Ende</label>
+            </div>
             <div className="Input">
                 <label htmlFor="angleOffset">Winkel Offset: </label>
                 <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].angleOffset}/>
+            </div>
+            <div className="Input">
+                <label htmlFor="sizeOffset">Grösse Offset: </label>
+                <input type="number" id="sizeOffset" name="sizeOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeOffset}/>
+            </div>
+            <div className="DoubleInput">
+                <div className="Input">
+                    <label htmlFor="speedOffsetX">Geschwindigkeit Offset - Breite: </label>
+                    <input type="number" id="speedOffsetX" name="speedOffsetX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetX}/>
+                </div>
+                <div className="Input">
+                    <label htmlFor="speedOffsetY">Höhe: </label>
+                    <input type="number" id="speedOffsetY" name="speedOffsetY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetY}/>
+                </div>
             </div>
             <div className="Input">
                 <label htmlFor="spinSpeed">Drehgeschwindigkeit: </label>

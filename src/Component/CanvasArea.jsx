@@ -2,6 +2,8 @@ import React from "react"
 import Canvas from "./Canvas"
 
 export function randomNumber(min, max) {
+    min = parseInt(min)
+    max = parseInt(max)
     return Math.floor(Math.random() * (max - min + 1) ) + min
 }
 
@@ -47,8 +49,11 @@ function getExtraLength(shape, a) {
     if (angle2 === 45) {angle = 45}
     if (angle2 > 45) {angle = 45 - angle}
 
-    var n = (Math.sqrt(shape.size * shape.size * 2) - shape.size) / 45 * angle
-    return n
+    if (shape.shape === "square") {
+        var n = (Math.sqrt(shape.size * shape.size * 2) - shape.size) / 45 * angle
+        return n
+    }
+    return 0
 }
 
 var shapeList = []
@@ -60,11 +65,11 @@ function shapes(x, frame, props) {
         shapes.forEach((shape, shapeIndex) => {
             var offsetRangeX = parseInt(shape.offsetRangeX)
             var offsetRangeY = parseInt(shape.offsetRangeY)
-            if (shape.y && shape.x) {
+            if (shape.y && shape.x && shape.hidden === false) {
                 for (var i = 0; i < shape.columnRepeat; i++) {
                     shapeList.push([])
                     for (var j = 0; j < shape.rowRepeat; j++) {
-                        shapeList[shapeIndex].push({...shape, angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedY: parseInt(shape.speedY) + randomNumber(-shape.speedOffsetY, shape.speedOffsetY), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffsetX, shape.speedOffsetX), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
