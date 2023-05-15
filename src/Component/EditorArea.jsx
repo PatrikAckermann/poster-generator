@@ -160,11 +160,11 @@ export default function EditorArea(props) {
                 {props.data.sizeMode === "pixels" && <div className="DoubleInput">
                     <div className="Input">
                         <label htmlFor="x">Canvasgrösse - Breite:</label>
-                        <input type="number" name="x" id="x" onChange={handleChange} value={props.data.x}/>
+                        <input type="number" name="x" id="x" max={5000} min={100} onChange={handleChange} value={props.data.x}/>
                     </div>
                     <div className="Input">
                         <label htmlFor="y">Höhe:</label>
-                        <input type="number" name="y" id="y" onChange={handleChange} value={props.data.y}/>
+                        <input type="number" name="y" id="y" max={5000} min={100} onChange={handleChange} value={props.data.y}/>
                     </div>
                 </div>}
                 {props.data.sizeMode === "printing" && <div className="DoubleInputPrintMode">
@@ -176,9 +176,15 @@ export default function EditorArea(props) {
                             <option value={JSON.stringify({x: 5.8, y: 8.3})}>A5</option>
                         </select>
                     </div>
-                    <div className="Input PPI">
+                    <div className="Input Format">
                         <label htmlFor="canvasPpi">PPI:</label>
-                        <input type="number" name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}/>
+                        <select name="canvasPpi" id="canvasPpi" onChange={handleChange} value={props.data.canvasPpi}>
+                            <option value={72}>72</option>
+                            <option value={150}>150</option>
+                            <option value={180}>180</option>
+                            <option value={240}>240</option>
+                            <option value={300}>300</option>
+                        </select>
                     </div>
                 </div>}
                 <span className="hr"><hr/></span>

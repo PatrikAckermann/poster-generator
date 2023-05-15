@@ -32,8 +32,14 @@ var Canvas = props => {
         size = JSON.parse(props.data.canvasSize)
         size.x = size.x * props.data.canvasPpi
         size.y = size.y * props.data.canvasPpi
+    } else {
+        if (size.x > 5000) {size.x = 5000}
+        if (size.x < 100) {size.x = 100}
+        if (size.y > 5000) {size.y = 5000}
+        if (size.y < 100) {size.y = 100}
     }
     var aspectRatio = size.x / size.y
+
     return <canvas ref={canvasRef} className="Canvas" id="PosterCanvas" height={size.y} width={size.x} style={{aspectRatio: aspectRatio}}/>
 }
 
