@@ -370,13 +370,6 @@ function ShapeEditor(props) {
                     <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
                 </div>
             </div>
-            <div className="RadioInput">
-                <label>Wiederholungsmodus: </label>
-                <input type="radio" name="repeatMode" id="repeatModeOrig" colorname="repeatMode" value="beginning" checked={props.data.shapes[props.currentlyEditing].repeatMode === "beginning"} onChange={editShape}/>
-                <label htmlFor="repeatModeOrig">Ab Anfang</label>
-                <input type="radio" name="repeatMode" id="repeatModeEnd" colorname="repeatMode" value="end" checked={props.data.shapes[props.currentlyEditing].repeatMode === "end"} onChange={editShape}/>
-                <label>Ab Ende</label>
-            </div>
             <div className="Input">
                 <label htmlFor="angleOffset">Winkel Offset: </label>
                 <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].angleOffset}/>
