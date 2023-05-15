@@ -56,6 +56,29 @@ function getExtraLength(shape, a) {
     return 0
 }
 
+var template = {
+    name: "Text", 
+    spinSpeed: 0, 
+    offsetRangeX: 0, 
+    offsetRangeY: 0, 
+    angleOffset: 0, 
+    x: 0, 
+    y: 0, 
+    angle: 0, 
+    size: 100,  
+    colorSetting: "1", 
+    colorAngle: 0, 
+    speedX: 0, 
+    speedY: 0, 
+    repeatDistanceX: 0, 
+    repeatDistanceY: 0, 
+    rowRepeat: 1, 
+    columnRepeat: 1,
+    speedOffsetX: 0,
+    speedOffsetY: 0,
+    sizeOffset: 0,
+}
+
 var shapeList = []
 function shapes(x, frame, props) {
     if (frame === 1) {
@@ -65,10 +88,15 @@ function shapes(x, frame, props) {
         shapes.forEach((shape, shapeIndex) => {
             var offsetRangeX = parseInt(shape.offsetRangeX)
             var offsetRangeY = parseInt(shape.offsetRangeY)
-            if (shape.y && shape.x && shape.hidden === false) {
+            if (shape.hidden === false) {
                 for (var i = 0; i < shape.columnRepeat; i++) {
                     shapeList.push([])
                     for (var j = 0; j < shape.rowRepeat; j++) {
+                        for (var key in shape) {
+                            if (shape[key] === "") {
+                                shape[key] = template[key]
+                            }
+                        }
                         shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedY: parseInt(shape.speedY) + randomNumber(-shape.speedOffsetY, shape.speedOffsetY), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffsetX, shape.speedOffsetX), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }

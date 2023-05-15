@@ -217,7 +217,7 @@ function ShapesEditor(props) {
 
     function copyElement(id) {
         props.setData(x => {
-            x.shapes.push(x.shapes[id])
+            x.shapes.push({...x.shapes[id], id: shapeAmount += 1})
             return {...x}
         })
     }
@@ -235,13 +235,10 @@ function ShapesEditor(props) {
     }
 
     function removeShape(id) {
-        if (currentlyEditing === id) {
-            var newId = 0
-            if (newId !== id && newId > props.data.shapes.length) {
-                setCurrentlyEditing(0)
-            } else {
-                setCurrentlyEditing(-1)
-            }
+        if (id === currentlyEditing) {
+            setCurrentlyEditing(-1)
+        } else if (currentlyEditing >= props.data.shapes.length - 1) {
+            setCurrentlyEditing(x => x - 1)
         }
         
         props.setData(x => {
@@ -250,17 +247,29 @@ function ShapesEditor(props) {
         })
     }
 
-    const onSortEnd = (oldIndex, newIndex, type) => {
+    function getShapeIds() {
+        var shapeIds = []
+        props.data.shapes.forEach((x, index) => {
+            shapeIds.push([x.id, index])
+        })
+        return shapeIds
+    }
+
+    const onSortEnd = (oldIndex, newIndex) => {
+        var currEditing = getShapeIds()[currentlyEditing]
+
         props.setData(x => {
-            if (type === "text") {
-                var oldText = x.texts.splice(oldIndex, 1)
-                x.texts.splice(newIndex, 0, oldText[0])
-            }
-            if (type === "shape") {
-                var oldShape = x.shapes.splice(oldIndex, 1)
-                x.shapes.splice(newIndex, 0, oldShape[0])
-            }
+            var oldShape = x.shapes.splice(oldIndex, 1)
+            x.shapes.splice(newIndex, 0, oldShape[0])
             return {...x}
+        })
+
+        var newShapeIds = getShapeIds()
+
+        newShapeIds.forEach((x, index) => {
+            if (x[0] === currEditing[0]) {
+                setCurrentlyEditing(index)
+            }
         })
     }
 
@@ -278,7 +287,7 @@ function ShapesEditor(props) {
             <button onClick={addShape} className="Margin">Form hinzufügen</button>
             <button onClick={props.addRandomShape} className="Margin">Zufällige Form hinzufügen</button>
             <button onClick={(e) => toggleButton(e)} className="Margin">Formen {displayShapes === true ? "verstecken" : "anzeigen"}</button>
-            {displayShapes && <SortableList copyElement={copyElement} type="shape" toggleHide={toggleHide} items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex, "shape")} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
+            {displayShapes && <SortableList currentlyEditing={currentlyEditing} copyElement={copyElement} type="shape" toggleHide={toggleHide} items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex)} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
         </div>
     )
 }
