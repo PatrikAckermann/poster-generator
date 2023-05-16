@@ -136,6 +136,7 @@ export default function EditorArea(props) {
                 sizeOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 300) : 0,
                 hidden: false
             })
+            console.log(x)
             return {...x}
         })
     }

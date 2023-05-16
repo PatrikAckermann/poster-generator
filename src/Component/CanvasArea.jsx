@@ -128,7 +128,7 @@ function shapes(x, frame, props) {
                         gradient.addColorStop(1, shape.color2)
                     } else {
                         gradient.addColorStop(0, shape.color)
-                        gradient.addColorStop(0.5, shape.color2) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
+                        gradient.addColorStop(0.5, shape.color2)
                         gradient.addColorStop(1, shape.color)
                     }
                 }
@@ -136,13 +136,20 @@ function shapes(x, frame, props) {
             } else if (shape.colorSetting === "gradient"){
                 if(shape.gradientSetting === "element") {
                     gradient = x.createLinearGradient(-x.measureText(shape.name).width/2 * Math.cos(colorAngle), -shape.size/2 * Math.sin(colorAngle), x.measureText(shape.name).width/2 * Math.cos(colorAngle), shape.size/2 * Math.sin(colorAngle))
+                    gradient.addColorStop(0, shape.color)
+                    gradient.addColorStop(1, shape.color2)
                 } else {
                     gradient = x.createLinearGradient((x.canvas.width - shape.x)/2 + Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - shape.y)/2 + Math.sin(colorAngle) * (x.canvas.height)/2, (x.canvas.width - shape.x)/2 - Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - shape.y)/2 - Math.sin(colorAngle) * (x.canvas.height)/2)
-                    gradient.addColorStop(0.5, shape.color2) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
-                    gradient.addColorStop(0.5, shape.color)
+                    if (shape.colorAngle <= 90 || shape.colorAngle >= 270) {
+                        gradient.addColorStop(0, shape.color2)
+                        gradient.addColorStop(0.5, shape.color) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
+                        gradient.addColorStop(1, shape.color2)
+                    } else {
+                        gradient.addColorStop(0, shape.color)
+                        gradient.addColorStop(0.5, shape.color2)
+                        gradient.addColorStop(1, shape.color)
+                    }
                 }
-                gradient.addColorStop(0, shape.color)
-                gradient.addColorStop(1, shape.color2)
                 x.fillStyle = x.strokeStyle = gradient
             }
 
@@ -150,7 +157,9 @@ function shapes(x, frame, props) {
                 x.fillRect(-(shape.size/2), -(shape.size/2), shape.size, shape.size)
             } else if (shape.shape === "circle") {
                 x.moveTo(shape.x, shape.y) // To avoid the weird lines between circles
-                x.arc(0, 0, shape.size/2, 0, 2 * Math.PI)
+                if (shape.size >= 0) { // To prevent crash on negative size
+                    x.arc(0, 0, shape.size/2, 0, 2 * Math.PI)
+                }
             } else if (shape.shape === "text") {
                 x.fillText(shape.name, -x.measureText(shape.name).width/2, shape.size/2)
             }
