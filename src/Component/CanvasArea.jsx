@@ -118,13 +118,20 @@ function shapes(x, frame, props) {
                 var fullShapeSize = parseInt(shape.size) + parseInt(getExtraLength(shape, shape.colorAngle))
                 if(shape.gradientSetting === "element") {
                     gradient = x.createLinearGradient(-fullShapeSize/2 * Math.cos(colorAngle), -fullShapeSize/2 * Math.sin(colorAngle), fullShapeSize/2 * Math.cos(colorAngle), fullShapeSize/2 * Math.sin(colorAngle))
+                    gradient.addColorStop(0, shape.color2)
+                    gradient.addColorStop(1, shape.color)
                 } else {
                     gradient = x.createLinearGradient((x.canvas.width - shape.x)/2 + Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - shape.y)/2 + Math.sin(colorAngle) * (x.canvas.height)/2, (x.canvas.width - shape.x)/2 - Math.cos(colorAngle) * (x.canvas.width)/2, (x.canvas.height - shape.y)/2 - Math.sin(colorAngle) * (x.canvas.height)/2)
-                    gradient.addColorStop(0.5, shape.color) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
-                    gradient.addColorStop(0.5, shape.color2)
+                    if (shape.colorAngle <= 90 || shape.colorAngle >= 270) {
+                        gradient.addColorStop(0, shape.color2)
+                        gradient.addColorStop(0.5, shape.color) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
+                        gradient.addColorStop(1, shape.color2)
+                    } else {
+                        gradient.addColorStop(0, shape.color)
+                        gradient.addColorStop(0.5, shape.color2) // These 2 colorstops are needed because the above gradient is twice as big as the canvas
+                        gradient.addColorStop(1, shape.color)
+                    }
                 }
-                gradient.addColorStop(0, shape.color2)
-                gradient.addColorStop(1, shape.color)
                 x.fillStyle = x.strokeStyle = gradient
             } else if (shape.colorSetting === "gradient"){
                 if(shape.gradientSetting === "element") {

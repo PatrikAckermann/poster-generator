@@ -23,6 +23,8 @@ function randomColor() {
 }
 
 export default function EditorArea(props) {
+    var [currentlyEditing, setCurrentlyEditing] = React.useState(-1)
+
     function handleChange(e) {
         if (e.target.name === "canvasPreset") {
             props.setData(x => {
@@ -140,6 +142,7 @@ export default function EditorArea(props) {
 
     function createRandomPoster(e) {
         e.preventDefault()
+        setCurrentlyEditing(-1)
         props.setData(x => {
             x.shapes = []
             return {...x}
@@ -154,11 +157,14 @@ export default function EditorArea(props) {
 
     return (
         <div className="EditorArea">
-            <h1 className="Title">Poster-Generator</h1>
-            <select className="LanguageSelector" name="language" id="language" onChange={handleChange} value={props.data.language}>
-                <option value="german">🇩🇪 {strings.german}</option>
-                <option value="english">🇬🇧 {strings.english}</option>
-            </select>
+            <div className="Header">
+                <h1 className="Title">Poster-Generator</h1>
+                <select className="LanguageSelector" name="language" id="language" onChange={handleChange} value={props.data.language}>
+                    <option value="german">🇩🇪 {strings.german}</option>
+                    <option value="english">🇬🇧 {strings.english}</option>
+                </select>
+            </div>
+            
             <div className="EditorForm">
                 <div className="RadioInput">
                     <label>{strings.posterSize}</label>
@@ -203,12 +209,12 @@ export default function EditorArea(props) {
                 </div>
 
                 <span className="hr"><hr/></span>
-                <div className="Input">
+                <div className="Input BgColor">
                     <label htmlFor="backgroundColor">{strings.bgColor}</label>
                     <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
                 </div>
                 <span className="hr"><hr/></span>
-                <ShapesEditor addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData}/>
+                <ShapesEditor currentlyEditing={currentlyEditing} setCurrentlyEditing={setCurrentlyEditing} addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData}/>
 
                 <span className="hr"><hr/></span>
                 <button onClick={(e) => changeStopped(e)} className="Margin">{props.data.stopped ? "Start" : "Stop"}</button>
@@ -229,7 +235,6 @@ export default function EditorArea(props) {
 
 function ShapesEditor(props) {
     var [displayShapes, setDisplayShapes] = React.useState(true)
-    var [currentlyEditing, setCurrentlyEditing] = React.useState(-1)
 
     function copyElement(id) {
         props.setData(x => {
@@ -251,10 +256,10 @@ function ShapesEditor(props) {
     }
 
     function removeShape(id) {
-        if (id === currentlyEditing) {
-            setCurrentlyEditing(-1)
-        } else if (currentlyEditing >= props.data.shapes.length - 1) {
-            setCurrentlyEditing(x => x - 1)
+        if (id === props.currentlyEditing) {
+            props.setCurrentlyEditing(-1)
+        } else if (props.currentlyEditing >= props.data.shapes.length - 1) {
+            props.setCurrentlyEditing(x => x - 1)
         }
         
         props.setData(x => {
@@ -272,7 +277,7 @@ function ShapesEditor(props) {
     }
 
     const onSortEnd = (oldIndex, newIndex) => {
-        var currEditing = getShapeIds()[currentlyEditing]
+        var currEditing = getShapeIds()[props.currentlyEditing]
 
         props.setData(x => {
             var oldShape = x.shapes.splice(oldIndex, 1)
@@ -284,7 +289,7 @@ function ShapesEditor(props) {
 
         newShapeIds.forEach((x, index) => {
             if (x[0] === currEditing[0]) {
-                setCurrentlyEditing(index)
+                props.setCurrentlyEditing(index)
             }
         })
     }
@@ -298,12 +303,12 @@ function ShapesEditor(props) {
 
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
-            {currentlyEditing !== -1 && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={currentlyEditing}/>}
+            {props.currentlyEditing !== -1 && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={props.currentlyEditing}/>}
 
             <button onClick={addShape} className="Margin">{strings.addShape}</button>
             <button onClick={props.addRandomShape} className="Margin">{strings.addRandomShape}</button>
             <button onClick={(e) => toggleButton(e)} className="Margin">{displayShapes === true ? strings.hideShapes : strings.showShapes}</button>
-            {displayShapes && <SortableList strings={strings} currentlyEditing={currentlyEditing} copyElement={copyElement} type="shape" toggleHide={toggleHide} items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex)} setCurrentlyEditing={setCurrentlyEditing} remove={removeShape}/>}
+            {displayShapes && <SortableList strings={strings} currentlyEditing={props.currentlyEditing} copyElement={copyElement} type="shape" toggleHide={toggleHide} items={props.data.shapes} onSortEnd={({oldIndex, newIndex}) => onSortEnd(oldIndex, newIndex)} setCurrentlyEditing={props.setCurrentlyEditing} remove={removeShape}/>}
         </div>
     )
 }

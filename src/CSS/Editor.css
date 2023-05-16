@@ -1,13 +1,13 @@
+.Header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .Title {
     font-weight: 600;
     font-size: 40px;
     margin-bottom: 10px;
-}
-
-.LanguageSelector {
-    position: fixed;
-    top: 20px;
-    right: 30px;
 }
 
 .EditorArea {
@@ -37,6 +37,10 @@
 .ColorPicker {
     display: flex;
     flex-direction: row;
+}
+
+.BgColor > label {
+    min-width: fit-content;
 }
 
 input, button, select {
