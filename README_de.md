@@ -36,7 +36,7 @@ Form Einstellungen:
 - Offset: Kann Werte wie Grösse, Position, etc. verändern. Wenn du zum Beispiel einen Offset von 10 beim Winkel von 45 wählst, wird der Winkel zufällig auf eine Zahl zwischen 35 und 55 gestellt.
 - Drehgeschwindigkeit: Lässt dich die Form drehen
 - Bounce: Mit dieser Einstellung prallen die Formen am Rand ab, statt auf der anderen Seite wieder zu erscheinen,
-- Farbe: Lässt dich die Farbe einstellen. Unterstützt Farbverläufe, Winkel und verschiedene Modis-
+- Farbe: Lässt dich die Farbe einstellen. Unterstützt Farbverläufe, Winkel und verschiedene Modis.
 
 ## Downloads
 Das Poster kann als Bild oder als Video heruntergeladen werden.

@@ -4,6 +4,12 @@
     margin-bottom: 10px;
 }
 
+.LanguageSelector {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+}
+
 .EditorArea {
     padding: 10px;
     overflow-y: scroll
