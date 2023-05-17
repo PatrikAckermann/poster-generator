@@ -4,6 +4,7 @@ import Split from "react-split"
 
 import CanvasArea from "./Component/CanvasArea"
 import EditorArea from "./Component/EditorArea"
+import {Tooltip} from "react-tooltip"
 
 import german from "./languages/german.json"
 import english from "./languages/english.json"
@@ -45,6 +46,7 @@ export default function App() {
     return (
         <div className="App">
             <div className="MainContent">
+                <Tooltip id="tooltip"/>
                 <Split direction="horizontal" className="split">
                     <CanvasArea data={data} setData={setData}/>
                     <EditorArea data={data} setData={setData} strings={strings}/>

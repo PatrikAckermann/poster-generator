@@ -28,7 +28,8 @@
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-sortable-hoc": "^2.0.0",
-    "react-split": "^2.0.14"
+    "react-split": "^2.0.14",
+    "react-tooltip": "^5.13.0"
   },
   "scripts": {
     "predeploy": "npm run build",

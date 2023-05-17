@@ -4,6 +4,8 @@ import SortableList from "./SortableList"
 import "../CSS/Editor.css"
 import {randomNumber} from "./CanvasArea"
 import german from "../languages/german.json"
+import { Tooltip } from 'react-tooltip'
+import 'react-tooltip/dist/react-tooltip.css'
 
 var shapeAmount = 0
 
@@ -167,11 +169,11 @@ export default function EditorArea(props) {
                 <div className="RadioInput">
                     <label>{strings.posterSize}</label>
                     <input type="radio" name="sizeMode" id="sizeModePixels" colorname="sizeMode" onChange={handleChange} value="pixels" checked={props.data.sizeMode === "pixels"}/>
-                    <label htmlFor="sizeModePixels">{strings.pixel}</label>
+                    <label htmlFor="sizeModePixels" data-tooltip-id="tooltip" data-tooltip-content={strings.ttPosterSizePixel}>{strings.pixel}</label>
                     <input type="radio" name="sizeMode" id="sizeModePrinting" colorname="sizeMode" onChange={handleChange} value="printing" checked={props.data.sizeMode === "printing"}/>
-                    <label htmlFor="sizeModePrinting">{strings.printFormat}</label>
+                    <label htmlFor="sizeModePrinting" data-tooltip-id="tooltip" data-tooltip-content={strings.ttPosterSizePrint}>{strings.printFormat}</label>
                 </div>
-                {props.data.sizeMode === "pixels" && <div className="DoubleInput">
+                {props.data.sizeMode === "pixels" && <div className="DoubleInput"> 
                     <div className="Input">
                         <label htmlFor="x">{strings.canvasSizeX}</label>
                         <input type="number" name="x" id="x" max={5000} min={100} onChange={handleChange} value={props.data.x}/>
@@ -324,11 +326,11 @@ function ShapeEditor(props) {
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
             <div className="Input">
-                <label htmlFor="name">{strings.name}</label>
+                <label htmlFor="name" data-tooltip-id="tooltip" data-tooltip-content={strings.ttName}>{strings.name}</label>
                 <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing].name}/>
             </div>
             <div className="Input">
-                <label htmlFor="shape">{strings.shape}</label>
+                <label htmlFor="shape" data-tooltip-id="tooltip" data-tooltip-content={strings.ttShape}>{strings.shape}</label>
                 <select name="shape" id="shape" onChange={editShape} value={props.data.shapes[props.currentlyEditing].shape}>
                     <option value="square">{strings.square}</option>
                     <option value="circle">{strings.circle}</option>
@@ -336,22 +338,22 @@ function ShapeEditor(props) {
                 </select>
             </div>
             {props.data.shapes[props.currentlyEditing].shape === "text" && <div className="Input">
-                <label htmlFor="font">{strings.font}</label>
+                <label htmlFor="font" data-tooltip-id="tooltip" data-tooltip-content={strings.ttFont}>{strings.font}</label>
                 <FontSelector fontVar={props.data.shapes[props.currentlyEditing].font} onChange={editShape}/>
             </div>}
             <span className="hr"><hr className="grey"/></span>
             <div className="Input">
-                <label htmlFor="shapeSize">{strings.size}</label>
+                <label htmlFor="shapeSize" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSize}>{strings.size}</label>
                 <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing].size}/>
             </div>
             <div className="Input">
-                <label htmlFor="sizeOffset">{strings.sizeOffset}</label>
+                <label htmlFor="sizeOffset" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSizeOffset}>{strings.sizeOffset}</label>
                 <input type="number" id="sizeOffset" name="sizeOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeOffset}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="shapePositionWidth">{strings.shapePositionX}</label>
+                    <label htmlFor="shapePositionWidth" data-tooltip-id="tooltip" data-tooltip-content={strings.ttPositon}>{strings.shapePositionX}</label>
                     <input type="number" id="x" name="x" onChange={editShape} value={props.data.shapes[props.currentlyEditing].x}/>
                 </div>
                 <div className="Input">
@@ -361,7 +363,7 @@ function ShapeEditor(props) {
             </div>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="offsetRangeX">{strings.positionOffsetX}</label>
+                    <label htmlFor="offsetRangeX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttPositionOffset}>{strings.positionOffsetX}</label>
                     <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeX}/>
                 </div>
                 <div className="Input">
@@ -371,21 +373,21 @@ function ShapeEditor(props) {
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="Input">
-                <label htmlFor="angle">{strings.angle}</label>
+                <label htmlFor="angle" data-tooltip-id="tooltip" data-tooltip-content={strings.ttAngle}>{strings.angle}</label>
                 <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing].angle}/>
             </div>
             <div className="Input">
-                <label htmlFor="angleOffset">{strings.angleOffset}</label>
+                <label htmlFor="angleOffset" data-tooltip-id="tooltip" data-tooltip-content={strings.ttAngleOffset}>{strings.angleOffset}</label>
                 <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].angleOffset}/>
             </div>
             <div className="Input">
-                <label htmlFor="spinSpeed">{strings.spinSpeed}</label>
+                <label htmlFor="spinSpeed" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpinSpeed}>{strings.spinSpeed}</label>
                 <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing].spinSpeed}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="speedX">{strings.speedX}</label>
+                    <label htmlFor="speedX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeed}>{strings.speedX}</label>
                     <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
                 </div>
                 <div className="Input">
@@ -395,7 +397,7 @@ function ShapeEditor(props) {
             </div>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="speedOffsetX">{strings.speedOffsetX}</label>
+                    <label htmlFor="speedOffsetX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeedOffset}>{strings.speedOffsetX}</label>
                     <input type="number" id="speedOffsetX" name="speedOffsetX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetX}/>
                 </div>
                 <div className="Input">
@@ -406,32 +408,32 @@ function ShapeEditor(props) {
             <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="rowRepeat">{strings.repeatRow}</label>
+                    <label htmlFor="rowRepeat" data-tooltip-id="tooltip" data-tooltip-content={strings.ttRowRepeat}>{strings.repeatRow}</label>
                     <input type="number" id="rowRepeat" name="rowRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing].rowRepeat}/>
                 </div>
                 <div className="Input">
-                    <label htmlFor="repeatDistanceY">{strings.distance}</label>
+                    <label htmlFor="repeatDistanceY" data-tooltip-id="tooltip" data-tooltip-content={strings.ttDistance}>{strings.distance}</label>
                     <input type="number" id="repeatDistanceY" name="repeatDistanceY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceY}/>
                 </div>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
-                    <label htmlFor="columnRepeat">{strings.repeatColumn}</label>
+                    <label htmlFor="columnRepeat" data-tooltip-id="tooltip" data-tooltip-content={strings.ttColumnRepeat}>{strings.repeatColumn}</label>
                     <input type="number" id="columnRepeat" name="columnRepeat" onChange={editShape} value={props.data.shapes[props.currentlyEditing].columnRepeat}/>
                 </div>
                 <div className="Input">
-                    <label htmlFor="repeatDistanceX">{strings.distance}</label>
+                    <label htmlFor="repeatDistanceX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttDistance}>{strings.distance}</label>
                     <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceX}/>
                 </div>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="RadioInput">
-                <label htmlFor="bounce">{strings.bounce}</label>
+                <label htmlFor="bounce"  data-tooltip-id="tooltip" data-tooltip-content={strings.ttBounce}>{strings.bounce}</label>
                 <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing].bounce}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="Input">
-                <label htmlFor="a">{strings.color}</label>
+                <label htmlFor="a" data-tooltip-id="tooltip" data-tooltip-content={strings.ttColor}>{strings.color}</label>
                 <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing]} color={props.data.shapes[props.currentlyEditing].color} color2={props.data.shapes[props.currentlyEditing].color2} name="shape"/>
             </div>
             <span className="hr"><hr/></span>
@@ -442,18 +444,18 @@ function ColorPicker(props) {
     return <div className="ColorPicker">
         <div className="RadioInput">
             <input colorname="colorSetting" type="radio" id={props.name + "color1"} name={props.name + "colorSetting"} value="1" onChange={props.onChange} checked={props.data.colorSetting === "1"} />
-            <label htmlFor={props.name + "color1"}>{strings.color1}</label>
+            <label htmlFor={props.name + "color1"} data-tooltip-id="tooltip" data-tooltip-content={strings.ttColor1}>{strings.color1}</label>
             <input colorname="colorSetting" type="radio" id={props.name + "colorGradient"} name={props.name + "colorSetting"} value="gradient" onChange={props.onChange} checked={props.data.colorSetting === "gradient"}/>
-            <label htmlFor={props.name + "colorGradient"}>{strings.gradient}</label>
+            <label htmlFor={props.name + "colorGradient"} data-tooltip-id="tooltip" data-tooltip-content={strings.ttColorGradient}>{strings.gradient}</label>
         </div>
         <input type="color" id="color" name="color" className="Picker" onChange={props.onChange} value={props.color}/>
         {props.data.colorSetting === "gradient" && <input type="color" id="color2" name="color2" className="Picker" onChange={props.onChange} value={props.color2}/>}
         {props.data.colorSetting === "gradient" && <input type="number" min="0" max="359" id="colorAngle" name="colorAngle" className="ColorAngle" onChange={props.onChange} value={props.data.colorAngle}/>}
         {props.gradientSetting && props.data.colorSetting === "gradient" && <div className="RadioInput">
             <input colorname="gradientSetting" type="radio" id={props.name + "Element"} name={props.name + "gradientSetting"} value="element" onChange={props.onChange} checked={props.data.gradientSetting === "element"} />
-            <label htmlFor={props.name + "Element"}>{strings.element}</label>
+            <label htmlFor={props.name + "Element"} data-tooltip-id="tooltip" data-tooltip-content={strings.ttColorShape}>{strings.element}</label>
             <input colorname="gradientSetting" type="radio" id={props.name + "Page"} name={props.name + "gradientSetting"} value="page" onChange={props.onChange} checked={props.data.gradientSetting === "page"}/>
-            <label htmlFor={props.name + "Page"}>{strings.poster}</label>
+            <label htmlFor={props.name + "Page"} data-tooltip-id="tooltip" data-tooltip-content={strings.ttColorPoster}>{strings.poster}</label>
         </div>}
     </div>
 }
