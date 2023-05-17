@@ -3,7 +3,7 @@ import { getFonts } from "./FontDetector"
 import SortableList from "./SortableList"
 import "../CSS/Editor.css"
 import {randomNumber} from "./CanvasArea"
-import german from "../languages/de_de.json"
+import german from "../languages/german.json"
 
 var shapeAmount = 0
 
@@ -63,7 +63,6 @@ export default function EditorArea(props) {
 
         var videoStream = canvas.captureStream(30)
         var mediaRecorder = new MediaRecorder(videoStream, {videoBitsPerSecond: 80000000})
-        console.log(mediaRecorder.videoBitsPerSecond)
 
         var chunks = []
         mediaRecorder.ondataavailable = function(e) {
@@ -83,7 +82,6 @@ export default function EditorArea(props) {
 
         mediaRecorder.start()
         setTimeout(() => {
-            console.log(chunks)
             mediaRecorder.stop()
         }, props.data.videoLength * 1000)
     }
@@ -136,7 +134,6 @@ export default function EditorArea(props) {
                 sizeOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 300) : 0,
                 hidden: false
             })
-            console.log(x)
             return {...x}
         })
     }
@@ -348,8 +345,8 @@ function ShapeEditor(props) {
                 <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing].size}/>
             </div>
             <div className="Input">
-                <label htmlFor="angle">{strings.angle}</label>
-                <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing].angle}/>
+                <label htmlFor="sizeOffset">{strings.sizeOffset}</label>
+                <input type="number" id="sizeOffset" name="sizeOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeOffset}/>
             </div>
             <div className="DoubleInput">
                 <div className="Input">
@@ -359,6 +356,48 @@ function ShapeEditor(props) {
                 <div className="Input">
                     <label htmlFor="shapePositionHeight">{strings.shapePositionY}</label>
                     <input type="number" id="y" name="y" onChange={editShape} value={props.data.shapes[props.currentlyEditing].y}/>
+                </div>
+            </div>
+            <div className="DoubleInput">
+                <div className="Input">
+                    <label htmlFor="offsetRangeX">{strings.positionOffsetX}</label>
+                    <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeX}/>
+                </div>
+                <div className="Input">
+                    <label htmlFor="offsetRangeY">{strings.positionOffsetY}</label>
+                    <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
+                </div>
+            </div>
+            <div className="Input">
+                <label htmlFor="angle">{strings.angle}</label>
+                <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing].angle}/>
+            </div>
+            <div className="Input">
+                <label htmlFor="angleOffset">{strings.angleOffset}</label>
+                <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].angleOffset}/>
+            </div>
+            <div className="Input">
+                <label htmlFor="spinSpeed">{strings.spinSpeed}</label>
+                <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing].spinSpeed}/>
+            </div>
+            <div className="DoubleInput">
+                <div className="Input">
+                    <label htmlFor="speedX">{strings.speedX}</label>
+                    <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
+                </div>
+                <div className="Input">
+                    <label htmlFor="speedY">{strings.speedY}</label>
+                    <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedY}/>
+                </div>
+            </div>
+            <div className="DoubleInput">
+                <div className="Input">
+                    <label htmlFor="speedOffsetX">{strings.speedOffsetX}</label>
+                    <input type="number" id="speedOffsetX" name="speedOffsetX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetX}/>
+                </div>
+                <div className="Input">
+                    <label htmlFor="speedOffsetY">{strings.speedOffsetY}</label>
+                    <input type="number" id="speedOffsetY" name="speedOffsetY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetY}/>
                 </div>
             </div>
             <div className="DoubleInput">
@@ -380,48 +419,6 @@ function ShapeEditor(props) {
                     <label htmlFor="repeatDistanceX">{strings.distance}</label>
                     <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceX}/>
                 </div>
-            </div>
-            <div className="DoubleInput">
-                <div className="Input">
-                    <label htmlFor="speedX">{strings.speedX}</label>
-                    <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
-                </div>
-                <div className="Input">
-                    <label htmlFor="speedY">{strings.speedY}</label>
-                    <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedY}/>
-                </div>
-            </div>
-            <div className="DoubleInput">
-                <div className="Input">
-                    <label htmlFor="offsetRangeX">{strings.positionOffsetX}</label>
-                    <input type="number" id="offsetRangeX" name="offsetRangeX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeX}/>
-                </div>
-                <div className="Input">
-                    <label htmlFor="offsetRangeY">{strings.positionOffsetY}</label>
-                    <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
-                </div>
-            </div>
-            <div className="Input">
-                <label htmlFor="angleOffset">{strings.angleOffset}</label>
-                <input type="number" id="angleOffset" name="angleOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].angleOffset}/>
-            </div>
-            <div className="Input">
-                <label htmlFor="sizeOffset">{strings.sizeOffset}</label>
-                <input type="number" id="sizeOffset" name="sizeOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeOffset}/>
-            </div>
-            <div className="DoubleInput">
-                <div className="Input">
-                    <label htmlFor="speedOffsetX">{strings.speedOffsetX}</label>
-                    <input type="number" id="speedOffsetX" name="speedOffsetX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetX}/>
-                </div>
-                <div className="Input">
-                    <label htmlFor="speedOffsetY">{strings.speedOffsetY}</label>
-                    <input type="number" id="speedOffsetY" name="speedOffsetY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetY}/>
-                </div>
-            </div>
-            <div className="Input">
-                <label htmlFor="spinSpeed">{strings.spinSpeed}</label>
-                <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing].spinSpeed}/>
             </div>
             <div className="RadioInput">
                 <label htmlFor="bounce">{strings.bounce}</label>

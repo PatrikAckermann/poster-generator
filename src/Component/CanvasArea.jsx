@@ -48,9 +48,11 @@ function getExtraLength(shape, a) {
 
     if (angle2 === 45) {angle = 45}
     if (angle2 > 45) {angle = 45 - angle}
+    if (angle2 <= -45) {angle = -45 - angle}
 
     if (shape.shape === "square") {
         var n = (Math.sqrt(shape.size * shape.size * 2) - shape.size) / 45 * angle
+        if (n < 0) {n = -n}
         return n
     }
     return 0

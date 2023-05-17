@@ -5,8 +5,8 @@ import Split from "react-split"
 import CanvasArea from "./Component/CanvasArea"
 import EditorArea from "./Component/EditorArea"
 
-import german from "./languages/de_de.json"
-import english from "./languages/en_us.json"
+import german from "./languages/german.json"
+import english from "./languages/english.json"
 
 export default function App() {
     var [data, setData] = React.useState({
