@@ -20,6 +20,10 @@
     margin-bottom: 6px;
 }
 
+.grey {
+    color: #444444;
+}
+
 .EditorForm {
     display: flex;
     flex-direction: column;

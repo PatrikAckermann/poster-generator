@@ -121,8 +121,8 @@ export default function EditorArea(props) {
                 color: randomColor(), 
                 color2: randomColor(), 
                 colorAngle: randomNumber(0, 1) === 1 ? randomNumber(0, 359) : 0, 
-                speedX: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
-                speedY: randomNumber(0, 1) === 1 ? randomNumber(-30, 30) : 0, 
+                speedX: randomNumber(0, 1) === 1 ? randomNumber(-10, 10) : 0, 
+                speedY: randomNumber(0, 1) === 1 ? randomNumber(-10, 10) : 0, 
                 repeatDistanceX: randomNumber(0, 300), 
                 repeatDistanceY: randomNumber(0, 300), 
                 rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
@@ -201,12 +201,11 @@ export default function EditorArea(props) {
                         </select>
                     </div>
                 </div>}
-                <span className="hr"><hr/></span>
+                <span className="hr"><hr className="grey"/></span>
                 <div className="Input">
                     <button className="Margin" onClick={createRandomPoster}>{strings.randomPoster}</button>
                 </div>
-
-                <span className="hr"><hr/></span>
+                <span className="hr"><hr className="grey"/></span>
                 <div className="Input BgColor">
                     <label htmlFor="backgroundColor">{strings.bgColor}</label>
                     <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
@@ -216,7 +215,7 @@ export default function EditorArea(props) {
 
                 <span className="hr"><hr/></span>
                 <button onClick={(e) => changeStopped(e)} className="Margin">{props.data.stopped ? "Start" : "Stop"}</button>
-                
+                <span className="hr"><hr className="grey"/></span>
                 <div className="Input">
                     <select name="fileFormat" id="fileFormat" onChange={handleChange} value={props.data.fileFormat}>
                         <option value="png">png</option>
@@ -340,6 +339,7 @@ function ShapeEditor(props) {
                 <label htmlFor="font">{strings.font}</label>
                 <FontSelector fontVar={props.data.shapes[props.currentlyEditing].font} onChange={editShape}/>
             </div>}
+            <span className="hr"><hr className="grey"/></span>
             <div className="Input">
                 <label htmlFor="shapeSize">{strings.size}</label>
                 <input type="number" id="size" name="size" onChange={editShape} value={props.data.shapes[props.currentlyEditing].size}/>
@@ -348,6 +348,7 @@ function ShapeEditor(props) {
                 <label htmlFor="sizeOffset">{strings.sizeOffset}</label>
                 <input type="number" id="sizeOffset" name="sizeOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeOffset}/>
             </div>
+            <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="shapePositionWidth">{strings.shapePositionX}</label>
@@ -368,6 +369,7 @@ function ShapeEditor(props) {
                     <input type="number" id="offsetRangeY" name="offsetRangeY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].offsetRangeY}/>
                 </div>
             </div>
+            <span className="hr"><hr className="grey"/></span>
             <div className="Input">
                 <label htmlFor="angle">{strings.angle}</label>
                 <input type="number" id="angle" name="angle" onChange={editShape} min={0} max={360} value={props.data.shapes[props.currentlyEditing].angle}/>
@@ -380,6 +382,7 @@ function ShapeEditor(props) {
                 <label htmlFor="spinSpeed">{strings.spinSpeed}</label>
                 <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing].spinSpeed}/>
             </div>
+            <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="speedX">{strings.speedX}</label>
@@ -400,6 +403,7 @@ function ShapeEditor(props) {
                     <input type="number" id="speedOffsetY" name="speedOffsetY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetY}/>
                 </div>
             </div>
+            <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
                     <label htmlFor="rowRepeat">{strings.repeatRow}</label>
@@ -420,10 +424,12 @@ function ShapeEditor(props) {
                     <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceX}/>
                 </div>
             </div>
+            <span className="hr"><hr className="grey"/></span>
             <div className="RadioInput">
                 <label htmlFor="bounce">{strings.bounce}</label>
                 <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing].bounce}/>
             </div>
+            <span className="hr"><hr className="grey"/></span>
             <div className="Input">
                 <label htmlFor="a">{strings.color}</label>
                 <ColorPicker gradientSetting onChange={editShape} data={props.data.shapes[props.currentlyEditing]} color={props.data.shapes[props.currentlyEditing].color} color2={props.data.shapes[props.currentlyEditing].color2} name="shape"/>
