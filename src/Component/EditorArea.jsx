@@ -237,7 +237,30 @@ function ShapesEditor(props) {
 
     function copyElement(id) {
         props.setData(x => {
-            x.shapes.push({...x.shapes[id], id: shapeAmount += 1})
+            var newName = x.shapes[id].name.replace(/ [0-9]$/, "")
+            var count = 1
+
+            var found = true
+            var testName = newName
+            while (found === true) {
+                found = false
+                x.shapes.forEach(y => {
+                    if (y.name === testName) {
+                        found = true
+                    }
+                })
+                if (found == false) {
+                    if (count != 1) {
+                        newName = `${newName} ${count}`
+                    }
+                } else {
+                    count += 1
+                    testName = `${newName} ${count}`
+                }
+            }
+
+            var newShape = {...x.shapes[id], name: newName, id: shapeAmount += 1}
+            x.shapes.push(newShape)
             return {...x}
         })
     }
