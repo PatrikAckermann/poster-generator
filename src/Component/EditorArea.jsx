@@ -124,17 +124,19 @@ export default function EditorArea(props) {
                 color2: randomColor(), 
                 colorAngle: randomNumber(0, 1) === 1 ? randomNumber(0, 359) : 0, 
                 speedX: randomNumber(0, 1) === 1 ? randomNumber(-10, 10) : 0, 
-                speedY: randomNumber(0, 1) === 1 ? randomNumber(-10, 10) : 0, 
+                movementAngle: randomNumber(0, 359),
+                movementSpin: randomNumber(0, 1) === 1 ? randomNumber(0, 10) : 0, 
                 repeatDistanceX: randomNumber(0, 300), 
                 repeatDistanceY: randomNumber(0, 300), 
                 rowRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1, 
                 columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
                 bounce: randomNumber(0, 1) === 1 ? true : false,
                 font: fonts[randomNumber(0, fonts.length - 1)],
-                speedOffsetX: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 0,
-                speedOffsetY: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 0,
+                speedOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 0,
                 sizeOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 300) : 0,
-                hidden: false
+                hidden: false,
+                invertX: false,
+                invertY: false
             })
             return {...x}
         })
@@ -272,7 +274,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({hidden: false, sizeOffset: 0, speedOffsetX: 0, speedOffsetY: 0, repeatMode: "beginning", font: "Arial", bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, speedY: 0})
+            x.shapes.push({hidden: false, sizeOffset: 0, speedOffset: 0, repeatMode: "beginning", font: "Arial", bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, movementAngle: 0, movementSpin: 0, invertX: false, invertY: false})
             return {...x}
         })
     }
@@ -408,25 +410,21 @@ function ShapeEditor(props) {
                 <input type="number" id="spinSpeed" name="spinSpeed" onChange={editShape} value={props.data.shapes[props.currentlyEditing].spinSpeed}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
-            <div className="DoubleInput">
-                <div className="Input">
-                    <label htmlFor="speedX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeed}>{strings.speedX}</label>
-                    <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
-                </div>
-                <div className="Input">
-                    <label htmlFor="speedY">{strings.speedY}</label>
-                    <input type="number" id="speedY" name="speedY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedY}/>
-                </div>
+            <div className="Input">
+                <label htmlFor="speedX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeed}>{strings.speedX}</label>
+                <input type="number" id="speedX" name="speedX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedX}/>
             </div>
-            <div className="DoubleInput">
-                <div className="Input">
-                    <label htmlFor="speedOffsetX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeedOffset}>{strings.speedOffsetX}</label>
-                    <input type="number" id="speedOffsetX" name="speedOffsetX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetX}/>
-                </div>
-                <div className="Input">
-                    <label htmlFor="speedOffsetY">{strings.speedOffsetY}</label>
-                    <input type="number" id="speedOffsetY" name="speedOffsetY" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffsetY}/>
-                </div>
+            <div className="Input">
+                <label htmlFor="movementAngle" data-tooltip-id="tooltip" data-tooltip-content={strings.ttMovementAngle}>{strings.movementAngle}</label>
+                <input type="number" id="movementAngle" name="movementAngle" onChange={editShape} value={props.data.shapes[props.currentlyEditing].movementAngle}/>
+            </div>
+            <div className="Input">
+                <label htmlFor="movementSpin" data-tooltip-id="tooltip" data-tooltip-content={strings.ttMovementSpin}>{strings.movementSpin}</label>
+                <input type="number" id="movementSpin" name="movementSpin" onChange={editShape} value={props.data.shapes[props.currentlyEditing].movementSpin}/>
+            </div>
+            <div className="Input">
+                <label htmlFor="speedOffset" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeedOffset}>{strings.speedOffset}</label>
+                <input type="number" id="speedOffset" name="speedOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffset}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">

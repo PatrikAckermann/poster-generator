@@ -71,14 +71,16 @@ var template = {
     colorSetting: "1", 
     colorAngle: 0, 
     speedX: 0, 
-    speedY: 0, 
+    movementAngle: 0,
+    movementSpin: 0,
     repeatDistanceX: 0, 
     repeatDistanceY: 0, 
     rowRepeat: 1, 
     columnRepeat: 1,
-    speedOffsetX: 0,
-    speedOffsetY: 0,
+    speedOffset: 0,
     sizeOffset: 0,
+    invertX: false,
+    invertY: false
 }
 
 var shapeList = []
@@ -99,7 +101,8 @@ function shapes(x, frame, props) {
                                 shape[key] = template[key]
                             }
                         }
-                        shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedY: parseInt(shape.speedY) + randomNumber(-shape.speedOffsetY, shape.speedOffsetY), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffsetX, shape.speedOffsetX), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        console.log(shape)
+                        shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffset, shape.speedOffset), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -189,6 +192,7 @@ function shapes(x, frame, props) {
                         newPos.y = x.canvas.height + fullShapeSize
                     }
                 } else {
+                    /*
                     if (newPos.x > x.canvas.width - fullShapeSize) {
                         newPos.speedX = -Math.abs(newPos.speedX)
                     }
@@ -196,10 +200,29 @@ function shapes(x, frame, props) {
                         newPos.speedX = Math.abs(newPos.speedX)
                     }
                     if (newPos.y > x.canvas.height - fullShapeSize) {
-                        newPos.speedY = -Math.abs(newPos.speedY)
+                        newPos.speedX = -Math.abs(newPos.speedY)
+                        console.log("ABC")
                     }
                     if (newPos.y < 0 + extraLength/2) {
-                        newPos.speedY = Math.abs(newPos.speedY)
+                        newPos.speedX = Math.abs(newPos.speedY)
+                        console.log("XYZ")
+                    }*/
+                    
+                    if (newPos.x > x.canvas.width - fullShapeSize) {
+                        //newPos.invertX = true
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
+                    }
+                    if (newPos.x < 0 + extraLength/2) {
+                        //newPos.invertX = false
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
+                    }
+                    if (newPos.y > x.canvas.height - fullShapeSize) {
+                        //newPos.invertY = true
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
+                    }
+                    if (newPos.y < 0 + extraLength/2) {
+                        //newPos.invertY = false
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                 }
             } else {
@@ -219,21 +242,49 @@ function shapes(x, frame, props) {
                     }
                 } else {
                     if(newPos.x >= x.canvas.width - x.measureText(newPos.name).width) {
-                        newPos.speedX = -Math.abs(newPos.speedX)
+                        //newPos.speedX = -Math.abs(newPos.speedX)
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                     if(newPos.x <= 0) {
-                        newPos.speedX = Math.abs(newPos.speedX)
+                        //newPos.speedX = Math.abs(newPos.speedX)
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                     if(newPos.y >= x.canvas.height - newPos.size) {
-                        newPos.speedY = -Math.abs(newPos.speedX)
+                        //newPos.speedY = -Math.abs(newPos.speedX)
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                     if(newPos.y <= 0 + (parseInt(newPos.size)*0.5)) {
-                        newPos.speedY = Math.abs(newPos.speedX)
+                        //newPos.speedY = Math.abs(newPos.speedX)
+                        newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                 }
             }
-            newPos.x += parseInt(shape.speedX)
-            newPos.y += parseInt(shape.speedY)
+            
+            var angle = parseInt(shape.movementAngle)
+            var angle2 = angle % 180
+            var angle360 = angle % 360
+            angle = angle % 90
+
+            
+            if (angle2 === 90) {angle = 90}
+            if (angle2 > 90) {angle = 90 - angle}
+            if (angle2 <= -90) {angle = -90 - angle}
+
+            var speedX = parseInt(shape.speedX) * angle / 90
+            var speedY = parseInt(shape.speedX) - (parseInt(shape.speedX) * angle / 90)
+
+            if (angle360 === angle || angle360 > 270) {
+                speedY = -speedY
+            }
+            if (angle360 !== angle2) {
+                speedX = -speedX
+            }
+
+            console.log(newPos.invertY)
+            newPos.x += newPos.invertX ? -speedX : speedX
+            newPos.y += newPos.invertY ? -speedY : speedY
+            
+            newPos.movementAngle = parseInt(newPos.movementAngle) + parseInt(shape.movementSpin)
             newPos.angle += parseInt(shape.spinSpeed) / 10
             return newPos
         })
