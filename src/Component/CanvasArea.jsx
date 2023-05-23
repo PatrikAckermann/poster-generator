@@ -190,24 +190,7 @@ function shapes(x, frame, props) {
                     if (newPos.y < 0 - fullShapeSize) {
                         newPos.y = x.canvas.height + fullShapeSize
                     }
-                } else {
-                    /*
-                    if (newPos.x > x.canvas.width - fullShapeSize) {
-                        newPos.speedX = -Math.abs(newPos.speedX)
-                    }
-                    if (newPos.x < 0 + extraLength/2) {
-                        newPos.speedX = Math.abs(newPos.speedX)
-                    }
-                    if (newPos.y > x.canvas.height - fullShapeSize) {
-                        newPos.speedX = -Math.abs(newPos.speedY)
-                        console.log("ABC")
-                    }
-                    if (newPos.y < 0 + extraLength/2) {
-                        newPos.speedX = Math.abs(newPos.speedY)
-                        console.log("XYZ")
-                    }*/
-                    
-                    console.log(newPos.movementAngle)
+                } else {            
                     if (newPos.x > x.canvas.width - fullShapeSize && newPos.movementAngle <= 180) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
