@@ -101,7 +101,6 @@ function shapes(x, frame, props) {
                                 shape[key] = template[key]
                             }
                         }
-                        console.log(shape)
                         shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffset, shape.speedOffset), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
@@ -208,20 +207,17 @@ function shapes(x, frame, props) {
                         console.log("XYZ")
                     }*/
                     
-                    if (newPos.x > x.canvas.width - fullShapeSize) {
-                        //newPos.invertX = true
+                    console.log(newPos.movementAngle)
+                    if (newPos.x > x.canvas.width - fullShapeSize && newPos.movementAngle <= 180) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
-                    if (newPos.x < 0 + extraLength/2) {
-                        //newPos.invertX = false
+                    if (newPos.x < 0 + extraLength/2 && newPos.movementAngle >= 180) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
-                    if (newPos.y > x.canvas.height - fullShapeSize) {
-                        //newPos.invertY = true
+                    if (newPos.y > x.canvas.height - fullShapeSize && newPos.movementAngle >= 90 && newPos.movementAngle <= 270) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
-                    if (newPos.y < 0 + extraLength/2) {
-                        //newPos.invertY = false
+                    if (newPos.y < 0 + extraLength/2 && (newPos.movementAngle <= 90 || newPos.movementAngle >= 270)) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                 }
@@ -241,20 +237,16 @@ function shapes(x, frame, props) {
                         newPos.y = x.canvas.height + newPos.size
                     }
                 } else {
-                    if(newPos.x >= x.canvas.width - x.measureText(newPos.name).width) {
-                        //newPos.speedX = -Math.abs(newPos.speedX)
+                    if(newPos.x >= x.canvas.width - x.measureText(newPos.name).width && newPos.movementAngle <= 180) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
-                    if(newPos.x <= 0) {
-                        //newPos.speedX = Math.abs(newPos.speedX)
+                    if(newPos.x <= 0 && newPos.movementAngle >= 180) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
-                    if(newPos.y >= x.canvas.height - newPos.size) {
-                        //newPos.speedY = -Math.abs(newPos.speedX)
+                    if(newPos.y >= x.canvas.height - newPos.size && newPos.movementAngle >= 90 && newPos.movementAngle <= 270) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
-                    if(newPos.y <= 0 + (parseInt(newPos.size)*0.5)) {
-                        //newPos.speedY = Math.abs(newPos.speedX)
+                    if(newPos.y <= 0 + (parseInt(newPos.size)*0.5) && (newPos.movementAngle <= 90 || newPos.movementAngle >= 270)) {
                         newPos.movementAngle = (newPos.movementAngle + 180) % 360
                     }
                 }
@@ -280,12 +272,15 @@ function shapes(x, frame, props) {
                 speedX = -speedX
             }
 
-            console.log(newPos.invertY)
-            newPos.x += newPos.invertX ? -speedX : speedX
-            newPos.y += newPos.invertY ? -speedY : speedY
+            newPos.x += speedX
+            newPos.y += speedY
             
             newPos.movementAngle = parseInt(newPos.movementAngle) + parseInt(shape.movementSpin)
             newPos.angle += parseInt(shape.spinSpeed) / 10
+
+            if (newPos.movementAngle >= 360) {
+                newPos.movementAngle -= 360
+            }
             return newPos
         })
     })
