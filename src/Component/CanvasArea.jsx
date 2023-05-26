@@ -165,7 +165,30 @@ function shapes(x, frame, props) {
                     x.arc(0, 0, shape.size/2, 0, 2 * Math.PI)
                 }
             } else if (shape.shape === "text") {
-                x.fillText(shape.name, -x.measureText(shape.name).width/2, shape.size/2)
+                var remainingWidth = x.canvas.width - shape.x
+                if (shape.textWrap === false || parseInt(shape.speedX) !== 0 || x.measureText("W").width > remainingWidth ) {
+                    x.fillText(shape.name, -x.measureText(shape.name).width/2, shape.size/2)
+                } else {
+                    var rows = [shape.name]
+                    var currentRow = 0
+                    while (x.measureText(rows[rows.length - 1]).width > remainingWidth) {
+
+                        rows.push("")
+                        console.log(rows)
+
+                        while (x.measureText(rows[rows.length - 2]).width > remainingWidth) { 
+                            console.log(rows[rows.length - 2].slice(-1) + rows[rows.length - 1])
+                            rows[rows.length - 1] = rows[rows.length - 2].slice(-1) + rows[rows.length - 1]
+                            rows[rows.length - 2] = rows[rows.length - 2].substring(0, rows[rows.length - 2].length - 1)
+                        }
+
+                    }
+                    //console.log(rows)
+                    rows.forEach((row, index) => {
+                        x.fillText(row, -x.measureText(shape.name).width/2, shape.size/2 + (index * shape.size))
+                    })
+                }
+
             }
 
             x.fill()

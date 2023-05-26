@@ -150,3 +150,12 @@ input:active, button:active {
 .Picker {
     flex: 1;
 }
+
+.FontPicker {
+    display: flex;
+    flex-direction: row;
+}
+
+.FontPicker > * {
+    margin-right: 5px;
+}

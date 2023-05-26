@@ -9,7 +9,7 @@
     "canvasSizeX": "Breite:",
     "canvasSizeY": "Höhe:",
     "randomPoster": "Zufälliges Poster generieren",
-    "clearPoster": "Poster löschen",
+    "clearPoster": "Poster zurücksetzen",
     "color": "Farbe:",
     "bgColor": "Hintergrundfarbe:",
     "color1": "1 Farbe",
@@ -19,6 +19,7 @@
     "testString": "Das ist ein Test String",
     "noChromiumError": "In deinem Browser können nicht alle Schriftarten erkannt werden. Ein Chromium-basierter Browser wird empfohlen. Du kannst installierte Schriften hier manuell eingeben:",
     "weight": "Gewicht: ",
+    "textWrap": "Textumbruch",
 
     "titlePosterSettings": "Postereinstellungen",
     "titleShapeSettings": "Formeinstellungen",

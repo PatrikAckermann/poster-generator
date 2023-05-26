@@ -19,6 +19,7 @@
     "testString": "This is a test string",
     "noChromiumError": "Fonts can't be detected in your browser. A chromium based browser is recommended. You can manually enter the name of an installed font here:",
     "weight": "Weight: ",
+    "textWrap": "Text-Wrap",
 
     "titlePosterSettings": "Poster Settings",
     "titleShapeSettings": "Shape Settings",
