@@ -111,7 +111,7 @@ function shapes(x, frame, props) {
     shapeList.forEach((repeatedShapes) => {
         repeatedShapes.forEach((shape) => {
             x.save()
-            x.font = `${shape.size}px ${shape.font}`
+            x.font = `${shape.fontWeight} ${shape.size}px ${shape.font}`
             shape.shape !== "text" ? x.translate(shape.x + shape.size/2, shape.y + shape.size/2) : x.translate(shape.x + x.measureText(shape.name).width/2, shape.y + shape.size/2)    
             x.rotate(parseInt(shape.angle) * (Math.PI / 180))
 
@@ -205,7 +205,7 @@ function shapes(x, frame, props) {
                     }
                 }
             } else {
-                x.font = `${newPos.size}px ${newPos.font}`
+                x.font = `${shape.fontWeight} ${newPos.size}px ${newPos.font}`
                 if (newPos.bounce === false) {
                     if(newPos.x > x.canvas.width + x.measureText(newPos.name).width) {
                         newPos.x = 0 - x.measureText(newPos.name).width

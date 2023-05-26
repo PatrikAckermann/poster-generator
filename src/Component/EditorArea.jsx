@@ -131,6 +131,7 @@ export default function EditorArea(props) {
                 columnRepeat: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 1,
                 bounce: randomNumber(0, 1) === 1 ? true : false,
                 font: fonts[randomNumber(0, fonts.length - 1)],
+                fontWeight: randomNumber(100, 900),
                 speedOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 10) : 0,
                 sizeOffset: randomNumber(0, 1) === 1 ? randomNumber(1, 300) : 0,
                 hidden: false,
@@ -141,16 +142,19 @@ export default function EditorArea(props) {
         })
     }
 
-    function createRandomPoster(e) {
-        e.preventDefault()
+    function createRandomPoster() {
+        clearPoster()
+        for (var i = 0; i <= randomNumber(0, 30); i++) {
+            addRandomShape()
+        }
+    }
+
+    function clearPoster() {
         setCurrentlyEditing(-1)
         props.setData(x => {
             x.shapes = []
             return {...x}
         })
-        for (var i = 0; i <= randomNumber(0, 30); i++) {
-            addRandomShape()
-        }
     }
 
     if(props.strings !== undefined) {strings = props.strings}
@@ -214,6 +218,9 @@ export default function EditorArea(props) {
                 <div className="Input">
                     <button className="Margin" onClick={createRandomPoster}>{strings.randomPoster}</button>
                 </div>
+                <div className="Input">
+                    <button className="Margin" onClick={clearPoster}>{strings.clearPoster}</button>
+                </div>
                 <span className="hr"><hr/></span>
                 <ShapesEditor currentlyEditing={currentlyEditing} setCurrentlyEditing={setCurrentlyEditing} addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData}/>
 
@@ -275,7 +282,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({hidden: false, sizeOffset: 0, speedOffset: 0, repeatMode: "beginning", font: "Arial", bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, movementAngle: 0, movementSpin: 0, invertX: false, invertY: false})
+            x.shapes.push({hidden: false, sizeOffset: 0, speedOffset: 0, repeatMode: "beginning", font: "Arial", fontWeight: 400, bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, movementAngle: 0, movementSpin: 0, invertX: false, invertY: false})
             return {...x}
         })
     }
@@ -367,7 +374,7 @@ function ShapeEditor(props) {
             </div>
             {props.data.shapes[props.currentlyEditing].shape === "text" && <div className="Input">
                 <label htmlFor="font" data-tooltip-id="tooltip" data-tooltip-content={strings.ttFont}>{strings.font}</label>
-                <FontSelector fontVar={props.data.shapes[props.currentlyEditing].font} onChange={editShape}/>
+                <FontSelector fontVar={props.data.shapes[props.currentlyEditing].font} fontWeight={props.data.shapes[props.currentlyEditing].fontWeight} onChange={editShape}/>
             </div>}
             <span className="hr"><hr className="grey"/></span>
             <div className="Input">
@@ -495,6 +502,18 @@ function FontSelector(props) {
         <div>
             <select name="font" id="font" onChange={props.onChange} value={props.fontVar}>
                 {fontOptions.map(x => <option value={x} key={x}>{x}</option>)}
+            </select>
+            <label htmlFor="fontWeight">{strings.weight}</label>
+            <select name="fontWeight" id="fontWeight" onChange={props.onChange} value={props.fontWeight}>
+                <option value="100" key="100">100</option>
+                <option value="200" key="200">200</option>
+                <option value="300" key="300">300</option>
+                <option value="400" key="400">400</option>
+                <option value="500" key="500">500</option>
+                <option value="600" key="600">600</option>
+                <option value="700" key="700">700</option>
+                <option value="800" key="800">800</option>
+                <option value="900" key="900">900</option>
             </select>
             {typeof queryLocalFonts == "undefined" && <div><p>{strings.noChromiumError}</p><input type="text" value={props.fontVar} onChange={props.onChange} name="font" id="font"/></div>}
         </div>

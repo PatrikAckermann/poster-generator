@@ -9,6 +9,7 @@
     "canvasSizeX": "Width:",
     "canvasSizeY": "Height:",
     "randomPoster": "Generate Random Poster",
+    "clearPoster": "Clear Poster",
     "color": "Farbe",
     "bgColor": "Background Color:",
     "color1": "1 Color",
@@ -17,6 +18,7 @@
     "poster": "Poster",
     "testString": "This is a test string",
     "noChromiumError": "Fonts can't be detected in your browser. A chromium based browser is recommended. You can manually enter the name of an installed font here:",
+    "weight": "Weight: ",
 
     "titlePosterSettings": "Poster Settings",
     "titleShapeSettings": "Shape Settings",
