@@ -10,6 +10,11 @@
     margin-bottom: 10px;
 }
 
+.SubTitle {
+    font-size: 20px;
+    font-weight: 500;
+}
+
 .EditorArea {
     padding: 10px;
     overflow-y: scroll

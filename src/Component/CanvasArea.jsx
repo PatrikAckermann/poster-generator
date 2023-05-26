@@ -78,13 +78,12 @@ var template = {
     rowRepeat: 1, 
     columnRepeat: 1,
     speedOffset: 0,
-    sizeOffset: 0,
-    invertX: false,
-    invertY: false
+    sizeOffset: 0
 }
 
 var shapeList = []
 function shapes(x, frame, props) {
+
     if (frame === 1) {
         shapeList = []
         var shapes = [...props.data.shapes]
@@ -99,6 +98,7 @@ function shapes(x, frame, props) {
                         for (var key in shape) {
                             if (shape[key] === "") {
                                 shape[key] = template[key]
+                                console.log(shape[key])
                             }
                         }
                         shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffset, shape.speedOffset), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})

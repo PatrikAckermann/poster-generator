@@ -4,7 +4,6 @@ import SortableList from "./SortableList"
 import "../CSS/Editor.css"
 import {randomNumber} from "./CanvasArea"
 import german from "../languages/german.json"
-import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 
 var shapeAmount = 0
@@ -168,6 +167,7 @@ export default function EditorArea(props) {
             </div>
             
             <div className="EditorForm">
+                <h2 className="SubTitle">{strings.titlePosterSettings}</h2>
                 <div className="RadioInput">
                     <label>{strings.posterSize}</label>
                     <input type="radio" name="sizeMode" id="sizeModePixels" colorname="sizeMode" onChange={handleChange} value="pixels" checked={props.data.sizeMode === "pixels"}/>
@@ -206,18 +206,19 @@ export default function EditorArea(props) {
                     </div>
                 </div>}
                 <span className="hr"><hr className="grey"/></span>
-                <div className="Input">
-                    <button className="Margin" onClick={createRandomPoster}>{strings.randomPoster}</button>
-                </div>
-                <span className="hr"><hr className="grey"/></span>
                 <div className="Input BgColor">
                     <label htmlFor="backgroundColor">{strings.bgColor}</label>
                     <ColorPicker name="background" onChange={handleChange} data={props.data} colorSetting={props.data.colorSetting} color={props.data.color} color2={props.data.color2}/>
+                </div>
+                <span className="hr"><hr className="grey"/></span>
+                <div className="Input">
+                    <button className="Margin" onClick={createRandomPoster}>{strings.randomPoster}</button>
                 </div>
                 <span className="hr"><hr/></span>
                 <ShapesEditor currentlyEditing={currentlyEditing} setCurrentlyEditing={setCurrentlyEditing} addRandomShape={addRandomShape} onChange={handleChange} data={props.data} setData={props.setData}/>
 
                 <span className="hr"><hr/></span>
+                <h2 className="SubTitle">{strings.titleControlsDownloads}</h2>
                 <button onClick={(e) => changeStopped(e)} className="Margin">{props.data.stopped ? "Start" : "Stop"}</button>
                 <span className="hr"><hr className="grey"/></span>
                 <div className="Input">
@@ -251,8 +252,8 @@ function ShapesEditor(props) {
                         found = true
                     }
                 })
-                if (found == false) {
-                    if (count != 1) {
+                if (found === false) {
+                    if (count !== 1) {
                         newName = `${newName} ${count}`
                     }
                 } else {
@@ -329,6 +330,7 @@ function ShapesEditor(props) {
         <div style={{display: "flex", flexDirection: "column"}}>
             {props.currentlyEditing !== -1 && <ShapeEditor data={props.data} setData={props.setData} currentlyEditing={props.currentlyEditing}/>}
 
+            <h2 className="SubTitle">{strings.titleShapeList}</h2>
             <button onClick={addShape} className="Margin">{strings.addShape}</button>
             <button onClick={props.addRandomShape} className="Margin">{strings.addRandomShape}</button>
             <button onClick={(e) => toggleButton(e)} className="Margin">{displayShapes === true ? strings.hideShapes : strings.showShapes}</button>
@@ -350,8 +352,9 @@ function ShapeEditor(props) {
     }
     return (
         <div style={{display: "flex", flexDirection: "column"}}>
+            <h2 className="SubTitle">{strings.titleShapeSettings}</h2>
             <div className="Input">
-                <label htmlFor="name" data-tooltip-id="tooltip" data-tooltip-content={strings.ttName}>{strings.name}</label>
+                <label htmlFor="name" data-tooltip-id="tooltip" data-tooltip-content={strings.ttName}>{props.data.shapes[props.currentlyEditing].shape === "text" ? strings.textLabel : strings.name}</label>
                 <input type="text" id="name" name="name" onChange={editShape} value={props.data.shapes[props.currentlyEditing].name}/>
             </div>
             <div className="Input">
@@ -426,6 +429,10 @@ function ShapeEditor(props) {
                 <label htmlFor="speedOffset" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSpeedOffset}>{strings.speedOffset}</label>
                 <input type="number" id="speedOffset" name="speedOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].speedOffset}/>
             </div>
+            <div className="RadioInput">
+                <label htmlFor="bounce"  data-tooltip-id="tooltip" data-tooltip-content={strings.ttBounce}>{strings.bounce}</label>
+                <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing].bounce}/>
+            </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
                 <div className="Input">
@@ -446,11 +453,6 @@ function ShapeEditor(props) {
                     <label htmlFor="repeatDistanceX" data-tooltip-id="tooltip" data-tooltip-content={strings.ttDistance}>{strings.distance}</label>
                     <input type="number" id="repeatDistanceX" name="repeatDistanceX" onChange={editShape} value={props.data.shapes[props.currentlyEditing].repeatDistanceX}/>
                 </div>
-            </div>
-            <span className="hr"><hr className="grey"/></span>
-            <div className="RadioInput">
-                <label htmlFor="bounce"  data-tooltip-id="tooltip" data-tooltip-content={strings.ttBounce}>{strings.bounce}</label>
-                <input type="checkbox" id="bounce" name="bounce" onChange={editShape} checked={props.data.shapes[props.currentlyEditing].bounce}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="Input">
@@ -494,7 +496,7 @@ function FontSelector(props) {
             <select name="font" id="font" onChange={props.onChange} value={props.fontVar}>
                 {fontOptions.map(x => <option value={x} key={x}>{x}</option>)}
             </select>
-            {typeof queryLocalFonts == "undefined" && <p>In deinem Browser können nicht alle Schriftarten erkannt werden. Ein Chromium-basierter Browser wird empfohlen.</p>}
+            {typeof queryLocalFonts == "undefined" && <div><p>{strings.noChromiumError}</p><input type="text" value={props.fontVar} onChange={props.onChange} name="font" id="font"/></div>}
         </div>
     )
 }
