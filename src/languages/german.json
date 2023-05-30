@@ -49,6 +49,7 @@
     "text": "Text",
     "font": "Schriftart:",
     "size": "Grösse:",
+    "sizeAnimation": "Grössenanimation:",
     "angle": "Winkel:",
     "shapePositionX": "Position - Breite:",
     "shapePositionY": "Höhe:",

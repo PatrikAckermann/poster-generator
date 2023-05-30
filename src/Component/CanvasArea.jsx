@@ -68,6 +68,7 @@ var template = {
     y: 0, 
     angle: 0, 
     size: 100,  
+    sizeAnimation: 0,
     colorSetting: "1", 
     colorAngle: 0, 
     speedX: 0, 
@@ -98,10 +99,10 @@ function shapes(x, frame, props) {
                         for (var key in shape) {
                             if (shape[key] === "") {
                                 shape[key] = template[key]
-                                console.log(shape[key])
                             }
                         }
-                        shapeList[shapeIndex].push({...shape, size: parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset), speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffset, shape.speedOffset), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
+                        var size = parseInt(shape.size) + randomNumber(-shape.sizeOffset, shape.sizeOffset)
+                        shapeList[shapeIndex].push({...shape, size: size, origSize: size, speedX: parseInt(shape.speedX) + randomNumber(-shape.speedOffset, shape.speedOffset), angle: parseInt(shape.angle) + randomNumber(-shape.angleOffset, shape.angleOffset), x: parseInt(shape.x) + shape.repeatDistanceX * i + randomNumber(-offsetRangeX, offsetRangeX), y: parseInt(shape.y) + shape.repeatDistanceY * j + randomNumber(-offsetRangeY, offsetRangeY)})
                     }
                 }
             }
@@ -166,7 +167,7 @@ function shapes(x, frame, props) {
                 }
             } else if (shape.shape === "text") {
                 var remainingWidth = x.canvas.width - shape.x
-                if (shape.textWrap === false || parseInt(shape.speedX) !== 0 || x.measureText("W").width > remainingWidth ) {
+                if (shape.textWrap === false || parseInt(shape.speedX) !== 0 || x.measureText("W").width > remainingWidth || parseInt(shape.spinSpeed) != 0 ) {
                     x.fillText(shape.name, -x.measureText(shape.name).width/2, shape.size/2)
                 } else {
                     var rows = [shape.name]
@@ -174,16 +175,13 @@ function shapes(x, frame, props) {
                     while (x.measureText(rows[rows.length - 1]).width > remainingWidth) {
 
                         rows.push("")
-                        console.log(rows)
 
                         while (x.measureText(rows[rows.length - 2]).width > remainingWidth) { 
-                            console.log(rows[rows.length - 2].slice(-1) + rows[rows.length - 1])
                             rows[rows.length - 1] = rows[rows.length - 2].slice(-1) + rows[rows.length - 1]
                             rows[rows.length - 2] = rows[rows.length - 2].substring(0, rows[rows.length - 2].length - 1)
                         }
 
                     }
-                    //console.log(rows)
                     rows.forEach((row, index) => {
                         x.fillText(row, -x.measureText(shape.name).width/2, shape.size/2 + (index * shape.size))
                     })
@@ -283,6 +281,10 @@ function shapes(x, frame, props) {
             
             newPos.movementAngle = parseInt(newPos.movementAngle) + parseInt(shape.movementSpin)
             newPos.angle += parseInt(shape.spinSpeed) / 10
+
+            if (parseInt(newPos.sizeAnimation) !== 0) {
+                newPos.size = (newPos.origSize/2 * Math.cos(frame * 0.05 * newPos.sizeAnimation) + newPos.origSize/2)
+            }
 
             if (newPos.movementAngle >= 360) {
                 newPos.movementAngle -= 360

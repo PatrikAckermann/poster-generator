@@ -117,6 +117,7 @@ export default function EditorArea(props) {
                 y: randomNumber(0, props.data.sizeMode === "pixels" ? props.data.y : props.data.y * props.data.canvasPpi), 
                 angle: randomNumber(0, 1) === 1 ? randomNumber(0, 359) : 0, 
                 size: randomNumber(1, 500), 
+                sizeAnimation: randomNumber(0, 5), 
                 shape: ["square", "circle", "text"][randomNumber(0, 2)], 
                 colorSetting: randomNumber(0, 1) === 1 ? "1" : "gradient", 
                 color: randomColor(), 
@@ -281,7 +282,7 @@ function ShapesEditor(props) {
 
     function addShape(e) {
         props.setData(x => {
-            x.shapes.push({hidden: false, sizeOffset: 0, speedOffset: 0, repeatMode: "beginning", font: "Arial", fontWeight: 400, textWrap: false, bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, movementAngle: 0, movementSpin: 0, invertX: false, invertY: false})
+            x.shapes.push({hidden: false, sizeOffset: 0, sizeAnimation: 0, speedOffset: 0, repeatMode: "beginning", font: "Arial", fontWeight: 400, textWrap: false, bounce: false, id: shapeAmount += 1, spinSpeed: 0, gradientSetting: "element", offsetRangeX: 0, offsetRangeY: 0, angleOffset: 0, name: "Name", shape: "square", x: 100, y: 100, angle: 0, size: 100, colorSetting: "1", color: "#000000", color2: "#000000", colorAngle: 0, repeatDistanceX: 0, repeatDistanceY: 0, rowRepeat: 1, columnRepeat: 1, speedX: 0, movementAngle: 0, movementSpin: 0, invertX: false, invertY: false})
             return {...x}
         })
     }
@@ -383,6 +384,10 @@ function ShapeEditor(props) {
             <div className="Input">
                 <label htmlFor="sizeOffset" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSizeOffset}>{strings.sizeOffset}</label>
                 <input type="number" id="sizeOffset" name="sizeOffset" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeOffset}/>
+            </div>
+            <div className="Input">
+                <label htmlFor="sizeAnimation" data-tooltip-id="tooltip" data-tooltip-content={strings.ttSizeAnimation}>{strings.sizeAnimation}</label>
+                <input type="number" id="sizeAnimation" name="sizeAnimation" onChange={editShape} value={props.data.shapes[props.currentlyEditing].sizeAnimation}/>
             </div>
             <span className="hr"><hr className="grey"/></span>
             <div className="DoubleInput">
